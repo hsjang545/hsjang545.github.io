@@ -16,12 +16,14 @@
 ## 명령
 
 ```bash
-npm ci          # 처음 한 번
-npm run sync    # cv.yaml에서 공개 항목만 가져오기
-npm test        # 빌드 후 검사
+node tools/check.mjs          # 빌드 후 검사
+node tools/check.mjs --sync   # cv.yaml에서 공개 항목을 가져온 뒤 빌드 후 검사
+git add -A && git commit -m "내용" && git push   # 배포
 ```
 
 `main`에 올리면 GitHub Actions가 검사를 통과한 경우에만 배포한다.
+
+이 폴더는 구글드라이브에 있다. 드라이브 안에서는 `npm ci`가 실패하고 `node_modules`를 동기화할 이유도 없으므로, `check.mjs`가 `%LOCALAPPDATA%\hsjang545-site`에 복사해 실행한다. 이 폴더에서 `npm ci`를 직접 실행하지 않는다. `.git`도 드라이브로 동기화되므로 한 번에 PC 한 대에서만 작업한다.
 
 ## 공개하지 않는 것
 
