@@ -18,8 +18,6 @@ const T = {
     researchLead: '주제별로 무엇을 연구했고 어떤 과제와 결과로 이어졌는지 정리했습니다.',
     projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제',
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
-    pubsLead: '논문 원문은 각 출판사에서 볼 수 있도록 DOI로 연결했습니다.',
-    etcLead: '수상, 장학, 교육, 학회 참석, 전시회 참석, 봉사 기록입니다.',
     award: '수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
     cats: { intl_journal: 'SCIE', intl_conf: '국제 학술대회', dom_journal: '국내 학술지', dom_conf: '국내 학술대회' },
@@ -30,13 +28,11 @@ const T = {
     home: 'About', research: 'Research & Projects', pubs: 'Publications & Patents', cv: 'CV', etc: 'Other',
     other: '한국어', otherLang: 'ko', email: 'Email', expertise: 'Expertise', career: 'Experience', edu: 'Education',
     nProjects: 'projects', nPubs: 'publications', nPatents: 'patents', nAwards: 'awards', now: 'Present',
-    deck: 'Introduction slides', deckNote: 'The slides are in Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
+    deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
     flow: 'Research so far',flowKey: 'Yellow lanes are ongoing.', featured: 'Featured research',
     researchLead: 'What I studied in each area, and the projects and results it led to.',
     projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related project',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
-    pubsLead: 'Full papers are available from each publisher through the DOI links.',
-    etcLead: 'Awards, scholarships, training, conferences, exhibitions and volunteering.',
     award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
     cats: { intl_journal: 'SCIE', intl_conf: 'International conferences', dom_journal: 'Domestic journals', dom_conf: 'Domestic conferences' },
@@ -139,15 +135,12 @@ const pages = {
     const t = T[l];
     const k = cv.experience[0];
     const stat = (n, label) => `<li><b>${n}</b>${label}</li>`;
-    // 넓은 칸을 먼저 놓아 격자에 빈 자리가 생기지 않게 한다.
-    const featured = site.research.filter((r) => r.featured).sort((a, b) => (b.featured === 'wide') - (a.featured === 'wide'));
     return `
 <section class="hero"><div class="wrap hero-grid">
   <div>
     <h1>${esc(cv.profile.name[l])}</h1>
     <p class="role">${esc(site.intro.role[l])}</p>
     <p class="headline">${esc(site.intro.headline[l])}</p>
-    <p class="lede">${esc(site.intro.body[l])}</p>
     <p class="contact">${t.email} ${esc(cv.profile.email)}<br><a href="https://orcid.org/${cv.profile.orcid}">ORCID ${cv.profile.orcid}</a></p>
   </div>
   <img src="${up}assets/photo.jpg" alt="${esc(cv.profile.name[l])}" width="496" height="638">
@@ -155,9 +148,7 @@ const pages = {
 ${road(l)}
 <div class="wrap">
 <section class="block"><ul class="tally">${stat(projects.length, t.nProjects)}${stat(pubs.length, t.nPubs)}${stat(patents.length, t.nPatents)}${stat(awards.length + pubAwards.length, t.nAwards)}</ul></section>
-<section class="block"><h2>${t.expertise}</h2><div class="expertise">${site.expertise.map((e) => `<div><h3>${esc(e.title[l])}</h3><p>${esc(e.text[l])}</p></div>`).join('')}</div></section>
 ${deckViewer(l, up)}
-<section class="block"><h2>${t.featured}</h2><div class="tiles">${featured.map((r) => `<a class="tile${r.featured === 'wide' ? ' wide' : ''}" href="research.html#${r.id}"><img src="${up}assets/figures/${esc(r.figures[0].file)}" alt="${esc(r.figures[0].caption[l])}"><span>${esc(r.title[l])}</span></a>`).join('')}</div></section>
 <section class="block two">
   <div><h2>${t.career}</h2><ul class="dated">${k.positions.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(k.org[l])}</p><p class="meta">${esc(p.dept[l])}, ${esc(p.title[l])}</p></div></li>`).join('')}</ul></div>
   <div><h2>${t.edu}</h2><ul class="dated">${cv.education.map((e) => `<li><span class="when">${range(e.start, e.end, t)}</span><div><p class="title">${esc(e.school[l])}</p><p class="meta">${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}</p></div></li>`).join('')}</ul></div>
@@ -182,7 +173,7 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
       return `<article class="topic${figures.length ? '' : ' solo'}" id="${r.id}">${text}${figures.length ? `<div>${figures.map((f) => figure(f, l, up)).join('')}</div>` : ''}</article>`;
     };
     // 목록이나 다른 곳에서 특정 과제로 들어오면 그 과제를 펼친다.
-    return `${head(t.research, t.researchLead, toc)}<div class="wrap">${site.research.map(topic).join('')}</div>
+    return `${head(t.research, '', toc)}<div class="wrap">${site.research.map(topic).join('')}</div>
 <script>function o(){var e=location.hash&&document.getElementById(location.hash.slice(1));if(e&&e.tagName==='DETAILS'){e.open=true;e.scrollIntoView()}}addEventListener('hashchange',o);o();</script>`;
   },
   publications(l) {
@@ -191,7 +182,7 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
       const g = pubs.filter((p) => p.category === c);
       return g.length ? `<div class="sheet-row"><h2>${t.cats[c]} (${g.length})</h2><ul class="biblio">${g.map((p) => pubItem(p, l)).join('')}</ul></div>` : '';
     }).join('');
-    return `${head(t.pubs, t.pubsLead)}<div class="wrap sheet">${groups}<div class="sheet-row"><h2>${t.patTitle} (${patents.length})</h2><ul class="biblio">${patents.map((p) => patentItem(p, l)).join('')}</ul></div></div>`;
+    return `${head(t.pubs, '')}<div class="wrap sheet">${groups}<div class="sheet-row"><h2>${t.patTitle} (${patents.length})</h2><ul class="biblio">${patents.map((p) => patentItem(p, l)).join('')}</ul></div></div>`;
   },
   cv(l) {
     const t = T[l];
@@ -214,7 +205,7 @@ ${row(t.skills, `<p>${cv.skills.programming.map(esc).join(', ')}</p><p>${t.lang}
     const t = T[l];
     const pa = pubAwards.map((p) => ({ date: p.date, title: p.award, org: p.title }));
     const sec = (title, items) => (items.length ? `<div class="sheet-row"><h2>${title}</h2>${simpleList(items, l)}</div>` : '');
-    return `${head(t.etc, t.etcLead)}<div class="wrap sheet">
+    return `${head(t.etc, '')}<div class="wrap sheet">
 ${sec(t.award, awards)}${sec(t.pubAward, pa)}${sec(t.scholar, cv.scholarships)}${sec(t.review, site.reviews)}${sec(t.train, training)}
 ${sec(t.seminar, [...site.seminars].sort(byDateDesc))}${sec(t.expo, [...site.exhibitions].sort(byDateDesc))}${sec(t.service, site.service)}</div>`;
   },
