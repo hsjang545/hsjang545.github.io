@@ -2,7 +2,9 @@
 
 intro:
   headline: {ko: "ADAS 실차 검증, 프리크래시 통합안전", en: "ADAS vehicle validation, pre-crash integrated safety"}
-  role: {ko: 한국자동차연구원 데이터플랫폼연구센터 연구원, en: "Researcher, Data Platform R&D Center, Korea Automotive Technology Institute (KATECH)"}
+  role: {ko: "한국자동차연구원 자율주행기술연구소 빅데이터·AIDV연구본부 데이터플랫폼연구센터 연구원", en: "Researcher, Data Platform R&D Center, Big Data & AIDV R&D Division, Autonomous Driving Technology R&D Laboratory, Korea Automotive Technology Institute (KATECH)"}
+  # 구글 스칼라 프로필 주소. 값을 넣으면 소개 페이지에 표시된다.
+  scholar: ""
 
 research:
   - id: adas-validation
@@ -79,6 +81,16 @@ research:
     publications: [pub-kiise-2023, pub-ksc-2021]
     patents: []
 
+# 공개·등록 특허의 도면. 공개 전 출원은 넣지 않는다.
+patent_figures:
+  pat-avoidance-path:
+    - {file: pat-avoidance-1.jpg, caption: {ko: 도면 1, en: Drawing 1}}
+    - {file: pat-avoidance-2.jpg, caption: {ko: 도면 2, en: Drawing 2}}
+  pat-traffic-flow-kr:
+    - {file: pat-traffic-1.jpg, caption: {ko: 도면 1, en: Drawing 1}}
+    - {file: pat-traffic-2.jpg, caption: {ko: 도면 2, en: Drawing 2}}
+    - {file: pat-traffic-3.jpg, caption: {ko: 도면 3, en: Drawing 3}}
+
 # cv.yaml에 없는 수상. 형식은 cv.yaml의 awards와 같다.
 extra_awards:
   - key: aw-gist-literature
@@ -103,6 +115,11 @@ extra_training:
 # 리뷰어 활동. 항목을 추가하면 기타 페이지에 자동으로 나타난다.
 # 형식: - {date: "2022", title: {ko: 학술지명, en: Journal name}}
 reviews: []
+
+consulting:
+  - date: 2026-09-23
+    title: {ko: "기술애로분석 1건: 차량 CAN-FD 신호 자동 해석·검증 프로그램 검토", en: "Technical consulting (1 case): review of an automatic vehicle CAN-FD signal analysis program"}
+    org: {ko: "소재부품장비 융합혁신지원단, (주)HRC테크놀로지", en: "Materials, Parts and Equipment Convergence Innovation Support Group, HRC Technology"}
 
 seminars:
   - date: 2025-11-25

@@ -16,7 +16,7 @@ const T = {
     deck: '소개 자료', deckNote: '', prev: '이전', next: '다음', full: '전체 화면',
     projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제',
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
-    award: '수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
+    consult: '기술 자문', award: '수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
     cats: { intl_journal: 'SCIE', intl_conf: '국제 학술대회', dom_journal: '국내 학술지', dom_conf: '국내 학술대회' },
     kinds: { kr_registered: '국내 등록', kr_application: '국내 출원', pct: '해외 출원 (PCT)' },
@@ -29,7 +29,7 @@ const T = {
     deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
     projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related project',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
-    award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
+    consult: 'Technical consulting', award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
     cats: { intl_journal: 'SCIE', intl_conf: 'International conferences', dom_journal: 'Domestic journals', dom_conf: 'Domestic conferences' },
     kinds: { kr_registered: 'KR registered', kr_application: 'KR application', pct: 'PCT application' },
@@ -72,14 +72,16 @@ function pubItem(p, l) {
   return `<li id="${p.key}"><p class="title">${esc(p.title[il])} ${award}</p><p class="meta">${authors(p.authors, il)}</p><p class="meta">${meta}${doi}</p></li>`;
 }
 
-function patentItem(p, l) {
+function patentItem(p, l, up = '') {
   const t = T[l];
   const il = itemLang(p, l);
+  const figs = site.patent_figures?.[p.key] ?? [];
+  const drawings = up !== null && figs.length ? `<div class="drawings">${figs.map((f) => `<figure><img src="${up}assets/figures/${esc(f.file)}" alt="${esc(`${p.title[il]} ${f.caption[l]}`)}" loading="lazy"><figcaption>${esc(f.caption[l])}</figcaption></figure>`).join('')}</div>` : '';
   const parts = [];
   if (p.registration) parts.push(`${t.registered} ${esc(p.registration.no)} (${dot(p.registration.date)})`);
   if (p.publication) parts.push(`${t.published} ${esc(p.publication.no)} (${dot(p.publication.date)})`);
   parts.push(`${t.applied} ${p.application.no ? `${esc(p.application.no)} ` : ''}(${dot(p.application.date)})${p.application.no ? '' : `, ${t.pending}`}`);
-  return `<li id="${p.key}"><p class="title">${esc(p.title[il])} <span class="tag">${t.kinds[p.kind]}</span></p><p class="meta">${authors(p.inventors, il)}</p><p class="meta">${parts.join(', ')}</p></li>`;
+  return `<li id="${p.key}"><p class="title">${esc(p.title[il])} <span class="tag">${t.kinds[p.kind]}</span></p><p class="meta">${authors(p.inventors, il)}</p><p class="meta">${parts.join(', ')}</p>${drawings}</li>`;
 }
 
 const simpleList = (items, l) => `<ul class="dated">${items.map((a) => `<li><span class="when">${esc(a.period ?? dot(a.date).slice(0, 7))}</span><div><p class="title">${esc(a.title[l])}</p>${a.org || a.description ? `<p class="meta">${[a.org?.[l], a.description?.[l]].filter(Boolean).map(esc).join(', ')}</p>` : ''}</div></li>`).join('')}</ul>`;
@@ -116,7 +118,7 @@ const pages = {
     <h1>${esc(cv.profile.name[l])}</h1>
     <p class="role">${esc(site.intro.role[l])}</p>
     <p class="headline">${esc(site.intro.headline[l])}</p>
-    <p class="contact">${t.email} ${esc(cv.profile.email)}<br><a href="https://orcid.org/${cv.profile.orcid}">ORCID ${cv.profile.orcid}</a></p>
+    <p class="contact">${t.email} ${esc(cv.profile.email)}<br><a href="https://orcid.org/${cv.profile.orcid}">ORCID ${cv.profile.orcid}</a>${site.intro.scholar ? `<br><a href="${esc(site.intro.scholar)}">Google Scholar</a>` : ''}</p>
   </div>
   <img src="${up}assets/photo.jpg" alt="${esc(cv.profile.name[l])}" width="496" height="638">
 </div></section>
@@ -150,13 +152,13 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
     return `${head(t.research, '', toc)}<div class="wrap">${site.research.map(topic).join('')}</div>
 <script>function o(){var e=location.hash&&document.getElementById(location.hash.slice(1));if(e&&e.tagName==='DETAILS'){e.open=true;e.scrollIntoView()}}addEventListener('hashchange',o);o();</script>`;
   },
-  publications(l) {
+  publications(l, up) {
     const t = T[l];
     const groups = CAT_ORDER.map((c) => {
       const g = pubs.filter((p) => p.category === c);
       return g.length ? `<div class="sheet-row"><h2>${t.cats[c]} (${g.length})</h2><ul class="biblio">${g.map((p) => pubItem(p, l)).join('')}</ul></div>` : '';
     }).join('');
-    return `${head(t.pubs, '')}<div class="wrap sheet">${groups}<div class="sheet-row"><h2>${t.patTitle} (${patents.length})</h2><ul class="biblio">${patents.map((p) => patentItem(p, l)).join('')}</ul></div></div>`;
+    return `${head(t.pubs, '')}<div class="wrap sheet">${groups}<div class="sheet-row"><h2>${t.patTitle} (${patents.length})</h2><ul class="biblio">${patents.map((p) => patentItem(p, l, up)).join('')}</ul></div></div>`;
   },
   cv(l) {
     const t = T[l];
@@ -168,7 +170,7 @@ ${row(t.edu, `<ul class="dated">${cv.education.map((e) => `<li><span class="when
 ${row(t.career, `<ul class="dated">${k.positions.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(k.org[l])}, ${esc(p.title[l])}</p><p class="meta">${esc(p.dept[l])}</p></div></li>`).join('')}</ul>`)}
 ${row(t.projects, `<ul class="dated">${projects.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(p.title[l])}</p><p class="meta">${esc(p.sponsor[l])}</p></div></li>`).join('')}</ul>`)}
 ${row(t.pubTitle, `<ul class="biblio">${CAT_ORDER.flatMap((c) => pubs.filter((p) => p.category === c)).map((p) => pubItem(p, l)).join('')}</ul>`)}
-${row(t.patTitle, `<ul class="biblio">${patents.map((p) => patentItem(p, l)).join('')}</ul>`)}
+${row(t.patTitle, `<ul class="biblio">${patents.map((p) => patentItem(p, l, null)).join('')}</ul>`)}
 ${row(t.award, simpleList(awards, l))}
 ${row(t.scholar, simpleList(cv.scholarships, l))}
 ${row(t.skills, `<p>${cv.skills.programming.map(esc).join(', ')}</p><p>${t.lang}: ${cv.skills.languages.map((s) => `${esc(s.test)} ${esc(s.score)} (${dot(s.date)})`).join(', ')}</p>`)}
@@ -180,7 +182,7 @@ ${row(t.skills, `<p>${cv.skills.programming.map(esc).join(', ')}</p><p>${t.lang}
     const pa = pubAwards.map((p) => ({ date: p.date, title: p.award, org: p.title }));
     const sec = (title, items) => (items.length ? `<div class="sheet-row"><h2>${title}</h2>${simpleList(items, l)}</div>` : '');
     return `${head(t.etc, '')}<div class="wrap sheet">
-${sec(t.award, awards)}${sec(t.pubAward, pa)}${sec(t.scholar, cv.scholarships)}${sec(t.review, site.reviews)}${sec(t.train, training)}
+${sec(t.award, awards)}${sec(t.pubAward, pa)}${sec(t.scholar, cv.scholarships)}${sec(t.review, site.reviews)}${sec(t.consult, site.consulting)}${sec(t.train, training)}
 ${sec(t.seminar, [...site.seminars].sort(byDateDesc))}${sec(t.expo, [...site.exhibitions].sort(byDateDesc))}${sec(t.service, site.service)}</div>`;
   },
 };

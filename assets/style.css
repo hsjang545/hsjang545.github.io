@@ -85,6 +85,9 @@ ul.dated li { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 1
 .meta strong { color: var(--fg); font-weight: 800; }
 ul.biblio li { padding-block: 16px; border-top: 1px solid var(--line); }
 ul.biblio li:first-child { border-top: 0; padding-top: 0; }
+.drawings { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; }
+.drawings figure { margin: 0; width: 200px; max-width: 100%; }
+.drawings img { background: #fff; border: 1px solid var(--line); height: 240px; width: 100%; object-fit: contain; padding: 6px; }
 .tag { display: inline-block; font-size: .78rem; font-weight: 700; line-height: 1.6; padding: 0 7px; background: var(--tag-bg); color: var(--tag-fg); white-space: nowrap; vertical-align: 1px; }
 .page-head { background: var(--asphalt); color: var(--paint-white); padding-block: 36px 34px; }
 .page-head p { color: var(--on-asphalt-muted); margin: 10px 0 0; max-width: 42em; }

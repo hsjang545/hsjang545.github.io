@@ -117,6 +117,16 @@ test('기타 페이지에 봉사 기간과 내역이 나온다', () => {
   }
 });
 
+test('공개·등록 특허에만 도면이 있고 기술 자문이 기타에 나온다', () => {
+  const ko = raw(join(SITE, 'publications.html'));
+  const item = (key) => ko.match(new RegExp(`<li id="${key}">.*?</li>`))[0];
+  assert.ok(item('pat-avoidance-path').includes('pat-avoidance-2.jpg'));
+  assert.ok(item('pat-traffic-flow-kr').includes('pat-traffic-3.jpg'));
+  for (const k of ['pat-occupant-restraint', 'pat-semiconductor-comm', 'pat-traffic-flow-pct']) assert.ok(!item(k).includes('<figure'), k);
+  assert.ok(raw(join(SITE, 'etc.html')).includes('(주)HRC테크놀로지'));
+  assert.ok(raw(join(SITE, 'index.html')).includes('빅데이터·AIDV연구본부'));
+});
+
 test('의뢰·이직 제안 문구가 없다', () => {
   for (const f of htmlFiles) assert.ok(!/의뢰|이직|채용 문의|hire me|open to/i.test(raw(f)), f);
 });
