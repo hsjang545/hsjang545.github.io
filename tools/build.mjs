@@ -10,10 +10,16 @@ const OUT = new URL('_site/', root);
 
 const T = {
   ko: {
-    home: '소개', research: '연구', projects: '프로젝트', pubs: '논문·특허', cv: 'CV', etc: '기타',
+    home: '소개', research: '연구·프로젝트', pubs: '논문·특허', cv: 'CV', etc: '기타',
     other: 'English', otherLang: 'en', email: '이메일', expertise: '전문분야', career: '경력', edu: '학력',
-    nProjects: '연구과제', nPubs: '논문', nPatents: '특허', nAwards: '수상', now: '현재', related: '관련 자료',
-    timeline: '과제 기간', role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '논문', gpa: '학점',
+    nProjects: '연구과제', nPubs: '논문', nPatents: '특허', nAwards: '수상', now: '현재',
+    deck: '소개 자료', deckNote: '', prev: '이전', next: '다음', full: '전체 화면',
+    flow: '걸어온 연구',flowKey: '노란 차선은 진행 중인 연구입니다.', featured: '대표 연구',
+    researchLead: '주제별로 무엇을 연구했고 어떤 과제와 결과로 이어졌는지 정리했습니다.',
+    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제',
+    role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
+    pubsLead: '논문 원문은 각 출판사에서 볼 수 있도록 DOI로 연결했습니다.',
+    etcLead: '수상, 장학, 교육, 학회 참석, 전시회 참석, 봉사 기록입니다.',
     award: '수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
     cats: { intl_journal: 'SCIE', intl_conf: '국제 학술대회', dom_journal: '국내 학술지', dom_conf: '국내 학술대회' },
@@ -21,11 +27,17 @@ const T = {
     updated: '최종 수정', titleSuffix: '장현수',
   },
   en: {
-    home: 'About', research: 'Research', projects: 'Projects', pubs: 'Publications & Patents', cv: 'CV', etc: 'Other',
+    home: 'About', research: 'Research & Projects', pubs: 'Publications & Patents', cv: 'CV', etc: 'Other',
     other: '한국어', otherLang: 'ko', email: 'Email', expertise: 'Expertise', career: 'Experience', edu: 'Education',
-    nProjects: 'Projects', nPubs: 'Publications', nPatents: 'Patents', nAwards: 'Awards', now: 'Present', related: 'Related work',
-    timeline: 'Project timeline', role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
-    award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars & conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
+    nProjects: 'projects', nPubs: 'publications', nPatents: 'patents', nAwards: 'awards', now: 'Present',
+    deck: 'Introduction slides', deckNote: 'The slides are in Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
+    flow: 'Research so far',flowKey: 'Yellow lanes are ongoing.', featured: 'Featured research',
+    researchLead: 'What I studied in each area, and the projects and results it led to.',
+    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related project',
+    role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
+    pubsLead: 'Full papers are available from each publisher through the DOI links.',
+    etcLead: 'Awards, scholarships, training, conferences, exhibitions and volunteering.',
+    award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
     cats: { intl_journal: 'SCIE', intl_conf: 'International conferences', dom_journal: 'Domestic journals', dom_conf: 'Domestic conferences' },
     kinds: { kr_registered: 'KR registered', kr_application: 'KR application', pct: 'PCT application' },
@@ -62,7 +74,7 @@ function authors(list, l) {
 
 function pubItem(p, l) {
   const il = itemLang(p, l);
-  const meta = [p.venue[il], p.volume, p.pages, dot(p.date).slice(0, 7), p.index].filter(Boolean).map(esc).join(' · ');
+  const meta = [p.venue[il], p.volume, p.pages, dot(p.date).slice(0, 7), p.index].filter(Boolean).map(esc).join(', ');
   const doi = p.doi ? ` <a href="https://doi.org/${esc(p.doi)}">DOI</a>` : '';
   const award = p.award ? `<span class="tag">${esc(p.award[l])}</span>` : '';
   return `<li id="${p.key}"><p class="title">${esc(p.title[il])} ${award}</p><p class="meta">${authors(p.authors, il)}</p><p class="meta">${meta}${doi}</p></li>`;
@@ -74,117 +86,148 @@ function patentItem(p, l) {
   const parts = [];
   if (p.registration) parts.push(`${t.registered} ${esc(p.registration.no)} (${dot(p.registration.date)})`);
   if (p.publication) parts.push(`${t.published} ${esc(p.publication.no)} (${dot(p.publication.date)})`);
-  parts.push(`${t.applied} ${p.application.no ? `${esc(p.application.no)} ` : ''}(${dot(p.application.date)})${p.application.no ? '' : ` · ${t.pending}`}`);
-  return `<li id="${p.key}"><p class="title">${esc(p.title[il])} <span class="tag">${t.kinds[p.kind]}</span></p><p class="meta">${authors(p.inventors, il)}</p><p class="meta">${parts.join(' · ')}</p></li>`;
+  parts.push(`${t.applied} ${p.application.no ? `${esc(p.application.no)} ` : ''}(${dot(p.application.date)})${p.application.no ? '' : `, ${t.pending}`}`);
+  return `<li id="${p.key}"><p class="title">${esc(p.title[il])} <span class="tag">${t.kinds[p.kind]}</span></p><p class="meta">${authors(p.inventors, il)}</p><p class="meta">${parts.join(', ')}</p></li>`;
 }
 
-const simpleList = (items, l) => `<ul class="dated">${items.map((a) => `<li><span class="when">${esc(a.period ?? dot(a.date).slice(0, 7))}</span><div><p class="title">${esc(a.title[l])}</p>${a.org || a.description ? `<p class="meta">${[a.org?.[l], a.description?.[l]].filter(Boolean).map(esc).join(' · ')}</p>` : ''}</div></li>`).join('')}</ul>`;
+const simpleList = (items, l) => `<ul class="dated">${items.map((a) => `<li><span class="when">${esc(a.period ?? dot(a.date).slice(0, 7))}</span><div><p class="title">${esc(a.title[l])}</p>${a.org || a.description ? `<p class="meta">${[a.org?.[l], a.description?.[l]].filter(Boolean).map(esc).join(', ')}</p>` : ''}</div></li>`).join('')}</ul>`;
 
-function timeline(l) {
-  const startY = 2022;
-  const endY = new Date().getFullYear() + 1;
+// 연구 주제를 도로의 차로처럼 그린다. 막대 위치는 모두 같은 시간 축에서 계산한다.
+function road(l) {
+  const t = T[l];
+  const now = new Date();
+  const startY = 2019;
+  const endY = now.getFullYear() + 1;
   const months = (endY - startY) * 12;
   const pos = (d) => {
-    const now = new Date();
-    const [y, m] = d === 'present' ? [now.getFullYear(), now.getMonth() + 2] : String(d).split('-').map(Number);
+    const [y, m] = d === 'present' ? [now.getFullYear(), now.getMonth() + 1] : String(d).split('-').map(Number);
     return ((y - startY) * 12 + (m - 1)) / months * 100;
   };
   const years = Array.from({ length: endY - startY }, (_, i) => `<span>${startY + i}</span>`).join('');
-  const rows = projects.map((p) => {
-    const left = pos(p.start);
-    // 종료월의 끝까지 막대를 그린다.
-    const right = p.end === 'present' ? pos('present') : pos(p.end) + 100 / months;
-    return `<a class="bar-row" href="#${p.key}" aria-label="${esc(p.title[l])} ${range(p.start, p.end, T[l])}"><span class="track"><span class="bar" style="left:${left.toFixed(2)}%;width:${(right - left).toFixed(2)}%"></span></span></a>`;
+  const lanes = [...site.research].reverse().map((r) => {
+    const [a, b] = r.span;
+    const left = pos(a);
+    const right = pos(b) + 100 / months;
+    return `<div class="lane"><a class="name" href="research.html#${r.id}">${esc(r.short[l])}</a><div class="track"><span class="bar${b === 'present' ? ' now' : ''}" style="left:${left.toFixed(2)}%;width:${(right - left).toFixed(2)}%" title="${esc(`${dot(a)} – ${b === 'present' ? t.now : dot(b)}`)}"></span></div></div>`;
   }).join('');
-  return `<div class="gantt" aria-hidden="false"><div class="years" style="grid-template-columns:repeat(${endY - startY},1fr)">${years}</div>${rows}</div>`;
+  return `<section class="road" aria-label="${esc(t.flow)}"><div class="wrap"><div class="road-scroll"><div class="lanes"><div class="road-years"><span></span><div class="ticks" style="grid-template-columns:repeat(${endY - startY},1fr)">${years}</div></div>${lanes}</div></div><p class="road-key"><i></i>${esc(t.flowKey)}</p></div></section>`;
 }
 
+// 소개 자료 뷰어. 슬라이드 이미지만 싣고 PPT 원본은 올리지 않는다.
+function deckViewer(l, up) {
+  const t = T[l];
+  const slides = read('data/deck.yaml');
+  const n = slides.length;
+  const imgs = slides.map((s, i) => `<img src="${up}assets/deck/${esc(s.file)}" alt="${esc(`${i + 1}/${n}: ${s.title}`)}" width="1600" height="900" loading="${i < 2 ? 'eager' : 'lazy'}"${i ? ' hidden' : ''}>`).join('');
+  return `<section class="block" id="deck"><h2>${t.deck}</h2>${l === 'en' ? `<p class="note deck-note">${t.deckNote}</p>` : ''}
+<div class="deck" tabindex="0" role="group" aria-roledescription="${esc(t.deck)}" aria-label="${esc(t.deck)}"><div class="deck-stage">${imgs}</div>
+<div class="deck-bar"><button type="button" class="deck-prev">${t.prev}</button><span class="deck-count" aria-live="polite">1 / ${n}</span><button type="button" class="deck-next">${t.next}</button><button type="button" class="deck-full">${t.full}</button></div></div>
+<script>(function(){var d=document.querySelector('.deck'),im=d.querySelectorAll('img'),c=d.querySelector('.deck-count'),p=d.querySelector('.deck-prev'),x=d.querySelector('.deck-next'),i=0,sx=null;
+function go(k){i=Math.max(0,Math.min(im.length-1,k));im.forEach(function(m,j){m.hidden=j!==i});if(im[i+1])im[i+1].loading='eager';c.textContent=(i+1)+' / '+im.length;p.disabled=i===0;x.disabled=i===im.length-1}
+p.addEventListener('click',function(){go(i-1)});x.addEventListener('click',function(){go(i+1)});
+d.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){go(i-1);e.preventDefault()}if(e.key==='ArrowRight'){go(i+1);e.preventDefault()}});
+var s=d.querySelector('.deck-stage');s.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});s.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)go(i+(dx<0?1:-1));sx=null});
+s.addEventListener('click',function(e){var r=s.getBoundingClientRect();go(i+(e.clientX-r.left>r.width/2?1:-1))});
+d.querySelector('.deck-full').addEventListener('click',function(){if(document.fullscreenElement)document.exitFullscreen();else if(d.requestFullscreen)d.requestFullscreen()});go(0)})();</script></section>`;
+}
+
+const figure = (f, l, up) => `<figure><img src="${up}assets/figures/${esc(f.file)}" alt="${esc(f.caption[l])}" loading="lazy"><figcaption>${esc(f.caption[l])}</figcaption></figure>`;
+const head = (title, lead, extra = '') => `<section class="page-head"><div class="wrap"><h1>${esc(title)}</h1>${lead ? `<p>${esc(lead)}</p>` : ''}${extra}</div></section>`;
+
 const pages = {
-  index(l) {
+  index(l, up) {
     const t = T[l];
     const k = cv.experience[0];
-    const stat = (n, label) => `<div><strong>${n}</strong><span>${label}</span></div>`;
+    const stat = (n, label) => `<li><b>${n}</b>${label}</li>`;
+    // 넓은 칸을 먼저 놓아 격자에 빈 자리가 생기지 않게 한다.
+    const featured = site.research.filter((r) => r.featured).sort((a, b) => (b.featured === 'wide') - (a.featured === 'wide'));
     return `
-<section class="hero">
-  <img src="${l === 'ko' ? '' : '../'}assets/photo.jpg" alt="${esc(cv.profile.name[l])}" width="170" height="219">
+<section class="hero"><div class="wrap hero-grid">
   <div>
     <h1>${esc(cv.profile.name[l])}</h1>
     <p class="role">${esc(site.intro.role[l])}</p>
     <p class="headline">${esc(site.intro.headline[l])}</p>
-    <p>${esc(site.intro.body[l])}</p>
-    <p class="links">${t.email} ${esc(cv.profile.email)} · <a href="https://orcid.org/${cv.profile.orcid}">ORCID ${cv.profile.orcid}</a></p>
+    <p class="lede">${esc(site.intro.body[l])}</p>
+    <p class="contact">${t.email} ${esc(cv.profile.email)}<br><a href="https://orcid.org/${cv.profile.orcid}">ORCID ${cv.profile.orcid}</a></p>
   </div>
+  <img src="${up}assets/photo.jpg" alt="${esc(cv.profile.name[l])}" width="496" height="638">
+</div></section>
+${road(l)}
+<div class="wrap">
+<section class="block"><ul class="tally">${stat(projects.length, t.nProjects)}${stat(pubs.length, t.nPubs)}${stat(patents.length, t.nPatents)}${stat(awards.length + pubAwards.length, t.nAwards)}</ul></section>
+<section class="block"><h2>${t.expertise}</h2><div class="expertise">${site.expertise.map((e) => `<div><h3>${esc(e.title[l])}</h3><p>${esc(e.text[l])}</p></div>`).join('')}</div></section>
+${deckViewer(l, up)}
+<section class="block"><h2>${t.featured}</h2><div class="tiles">${featured.map((r) => `<a class="tile${r.featured === 'wide' ? ' wide' : ''}" href="research.html#${r.id}"><img src="${up}assets/figures/${esc(r.figures[0].file)}" alt="${esc(r.figures[0].caption[l])}"><span>${esc(r.title[l])}</span></a>`).join('')}</div></section>
+<section class="block two">
+  <div><h2>${t.career}</h2><ul class="dated">${k.positions.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(k.org[l])}</p><p class="meta">${esc(p.dept[l])}, ${esc(p.title[l])}</p></div></li>`).join('')}</ul></div>
+  <div><h2>${t.edu}</h2><ul class="dated">${cv.education.map((e) => `<li><span class="when">${range(e.start, e.end, t)}</span><div><p class="title">${esc(e.school[l])}</p><p class="meta">${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}</p></div></li>`).join('')}</ul></div>
 </section>
-<div class="stats">${stat(projects.length, t.nProjects)}${stat(pubs.length, t.nPubs)}${stat(patents.length, t.nPatents)}${stat(awards.length + pubAwards.length, t.nAwards)}</div>
-<h2>${t.expertise}</h2>
-<div class="cols">${site.expertise.map((e) => `<div><h3>${esc(e.title[l])}</h3><p>${esc(e.text[l])}</p></div>`).join('')}</div>
-<h2>${t.career}</h2>
-<ul class="dated">${k.positions.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(k.org[l])}</p><p class="meta">${esc(p.dept[l])} · ${esc(p.title[l])}</p></div></li>`).join('')}</ul>
-<h2>${t.edu}</h2>
-<ul class="dated">${cv.education.map((e) => `<li><span class="when">${range(e.start, e.end, t)}</span><div><p class="title">${esc(e.school[l])}</p><p class="meta">${esc(e.major[l])} · ${esc(e.degree[l])}${e.honors ? ` · ${esc(e.honors[l])}` : ''}</p></div></li>`).join('')}</ul>`;
+</div>`;
   },
-  research(l) {
+  research(l, up) {
     const t = T[l];
-    const refs = (r) => {
-      const a = [
-        ...r.projects.map((k) => `<li><a href="projects.html#${k}">${esc(byKey(cv.projects, k, 'project').title[l])}</a></li>`),
-        ...r.publications.map((k) => { const p = byKey(cv.publications, k, 'publication'); return `<li><a href="publications.html#${k}">${esc(p.title[itemLang(p, l)])}</a></li>`; }),
-        ...r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent'); return `<li><a href="publications.html#${k}">${esc(p.title[itemLang(p, l)])}</a></li>`; }),
-      ];
-      return a.length ? `<details><summary>${t.related} (${a.length})</summary><ul>${a.join('')}</ul></details>` : '';
+    const project = (k) => {
+      const p = byKey(cv.projects, k, 'project');
+      return `<details class="project" id="${p.key}"><summary>${esc(p.title[l])}<small>${range(p.start, p.end, t)}, ${t.sponsor} ${esc(p.sponsor[l])}${p.agency ? `, ${esc(p.agency[l])}` : ''}, ${esc(p.role[l])}</small></summary><ul>${p.summary.map((s) => `<li>${esc(s[l])}</li>`).join('')}</ul></details>`;
     };
-    return `<h1>${t.research}</h1>${site.research.map((r) => `<article class="topic" id="${r.id}"><h2>${esc(r.title[l])}</h2><p class="meta">${esc(r.period)}</p><p>${esc(r.body[l])}</p>${refs(r)}</article>`).join('')}`;
-  },
-  projects(l) {
-    const t = T[l];
-    return `<h1>${t.projects}</h1><h2>${t.timeline}</h2>
-<div class="gantt-wrap"><ol class="gantt-labels">${projects.map((p) => `<li><a href="#${p.key}">${esc(p.title[l])}</a></li>`).join('')}</ol>${timeline(l)}</div>
-${projects.map((p) => `<article class="topic" id="${p.key}"><h2>${esc(p.title[l])}</h2>
-<p class="meta">${range(p.start, p.end, t)} · ${t.sponsor}: ${esc(p.sponsor[l])}${p.agency ? `, ${esc(p.agency[l])}` : ''} · ${t.role}: ${esc(p.role[l])}</p>
-<ul>${p.summary.map((s) => `<li>${esc(s[l])}</li>`).join('')}</ul></article>`).join('')}`;
+    const refs = (title, items) => (items.length ? `<div class="outputs"><h3>${title}</h3><ul class="plain">${items.join('')}</ul></div>` : '');
+    const toc = `<ul class="topics">${site.research.map((r) => `<li><a href="#${r.id}">${esc(r.short[l])}</a></li>`).join('')}</ul>`;
+    const topic = (r) => {
+      const figures = r.figures ?? [];
+      const text = `<div><h2>${esc(r.title[l])}</h2><p class="span">${esc(r.period)}</p><p>${esc(r.body[l])}</p>
+${r.projects.map(project).join('')}
+${refs(t.relatedProject, (r.project_links ?? []).map((k) => `<li><a href="#${k}">${esc(byKey(cv.projects, k, 'project').title[l])}</a></li>`))}
+${refs(t.pubOut, r.publications.map((k) => { const p = byKey(cv.publications, k, 'publication'); return `<li><a href="publications.html#${k}">${esc(p.title[itemLang(p, l)])}</a></li>`; }))}
+${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent'); return `<li><a href="publications.html#${k}">${esc(p.title[itemLang(p, l)])}</a></li>`; }))}</div>`;
+      return `<article class="topic${figures.length ? '' : ' solo'}" id="${r.id}">${text}${figures.length ? `<div>${figures.map((f) => figure(f, l, up)).join('')}</div>` : ''}</article>`;
+    };
+    // 목록이나 다른 곳에서 특정 과제로 들어오면 그 과제를 펼친다.
+    return `${head(t.research, t.researchLead, toc)}<div class="wrap">${site.research.map(topic).join('')}</div>
+<script>function o(){var e=location.hash&&document.getElementById(location.hash.slice(1));if(e&&e.tagName==='DETAILS'){e.open=true;e.scrollIntoView()}}addEventListener('hashchange',o);o();</script>`;
   },
   publications(l) {
     const t = T[l];
     const groups = CAT_ORDER.map((c) => {
       const g = pubs.filter((p) => p.category === c);
-      return g.length ? `<h3>${t.cats[c]} (${g.length})</h3><ul class="biblio">${g.map((p) => pubItem(p, l)).join('')}</ul>` : '';
+      return g.length ? `<div class="sheet-row"><h2>${t.cats[c]} (${g.length})</h2><ul class="biblio">${g.map((p) => pubItem(p, l)).join('')}</ul></div>` : '';
     }).join('');
-    return `<h1>${t.pubs}</h1><h2>${t.pubTitle} (${pubs.length})</h2>${groups}<h2>${t.patTitle} (${patents.length})</h2><ul class="biblio">${patents.map((p) => patentItem(p, l)).join('')}</ul>`;
+    return `${head(t.pubs, t.pubsLead)}<div class="wrap sheet">${groups}<div class="sheet-row"><h2>${t.patTitle} (${patents.length})</h2><ul class="biblio">${patents.map((p) => patentItem(p, l)).join('')}</ul></div></div>`;
   },
   cv(l) {
     const t = T[l];
     const k = cv.experience[0];
-    return `<h1>${esc(cv.profile.name[l])} · CV</h1>
-<p class="links">${esc(cv.profile.email)} · ORCID ${cv.profile.orcid} <button type="button" id="print-cv" class="no-print">${t.print}</button></p>
-<h2>${t.edu}</h2><ul class="dated">${cv.education.map((e) => `<li><span class="when">${range(e.start, e.end, t)}</span><div><p class="title">${esc(e.school[l])}, ${esc(e.degree[l])}</p><p class="meta">${esc(e.major[l])} · ${t.gpa} ${esc(e.gpa)}${e.honors ? ` · ${esc(e.honors[l])}` : ''}</p><p class="meta">${esc(e.lab[l])} · ${t.advisor}: ${esc(e.advisor[l])} · ${t.thesis}: ${esc(e.thesis[l])}</p></div></li>`).join('')}</ul>
-<h2>${t.career}</h2><ul class="dated">${k.positions.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(k.org[l])}, ${esc(p.title[l])}</p><p class="meta">${esc(p.dept[l])}</p></div></li>`).join('')}</ul>
-<h2>${t.projects}</h2><ul class="dated">${projects.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(p.title[l])}</p><p class="meta">${esc(p.sponsor[l])}</p></div></li>`).join('')}</ul>
-<h2>${t.pubTitle}</h2><ul class="biblio">${CAT_ORDER.flatMap((c) => pubs.filter((p) => p.category === c)).map((p) => pubItem(p, l)).join('')}</ul>
-<h2>${t.patTitle}</h2><ul class="biblio">${patents.map((p) => patentItem(p, l)).join('')}</ul>
-<h2>${t.award}</h2>${simpleList(awards, l)}
-<h2>${t.scholar}</h2>${simpleList(cv.scholarships, l)}
-<h2>${t.skills}</h2><p>${cv.skills.programming.map(esc).join(', ')}</p>
-<p>${t.lang}: ${cv.skills.languages.map((s) => `${esc(s.test)} ${esc(s.score)} (${dot(s.date)})`).join(', ')}</p>
+    const row = (title, html) => `<div class="sheet-row"><h2>${title}</h2><div>${html}</div></div>`;
+    return `${head(`${cv.profile.name[l]} CV`, '', `<p>${esc(cv.profile.email)}, ORCID ${cv.profile.orcid} <button type="button" id="print-cv" class="no-print">${t.print}</button></p>`)}
+<div class="wrap sheet">
+${row(t.edu, `<ul class="dated">${cv.education.map((e) => `<li><span class="when">${range(e.start, e.end, t)}</span><div><p class="title">${esc(e.school[l])}, ${esc(e.degree[l])}</p><p class="meta">${esc(e.major[l])}, ${t.gpa} ${esc(e.gpa)}${e.honors ? `, ${esc(e.honors[l])}` : ''}</p><p class="meta">${esc(e.lab[l])}, ${t.advisor}: ${esc(e.advisor[l])}</p><p class="meta">${t.thesis}: ${esc(e.thesis[l])}</p></div></li>`).join('')}</ul>`)}
+${row(t.career, `<ul class="dated">${k.positions.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(k.org[l])}, ${esc(p.title[l])}</p><p class="meta">${esc(p.dept[l])}</p></div></li>`).join('')}</ul>`)}
+${row(t.projects, `<ul class="dated">${projects.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(p.title[l])}</p><p class="meta">${esc(p.sponsor[l])}</p></div></li>`).join('')}</ul>`)}
+${row(t.pubTitle, `<ul class="biblio">${CAT_ORDER.flatMap((c) => pubs.filter((p) => p.category === c)).map((p) => pubItem(p, l)).join('')}</ul>`)}
+${row(t.patTitle, `<ul class="biblio">${patents.map((p) => patentItem(p, l)).join('')}</ul>`)}
+${row(t.award, simpleList(awards, l))}
+${row(t.scholar, simpleList(cv.scholarships, l))}
+${row(t.skills, `<p>${cv.skills.programming.map(esc).join(', ')}</p><p>${t.lang}: ${cv.skills.languages.map((s) => `${esc(s.test)} ${esc(s.score)} (${dot(s.date)})`).join(', ')}</p>`)}
+</div>
 <script>document.getElementById('print-cv').addEventListener('click',function(){window.print()});</script>`;
   },
   etc(l) {
     const t = T[l];
     const pa = pubAwards.map((p) => ({ date: p.date, title: p.award, org: p.title }));
-    const sec = (title, items) => (items.length ? `<h2>${title}</h2>${simpleList(items, l)}` : '');
-    return `<h1>${t.etc}</h1>
+    const sec = (title, items) => (items.length ? `<div class="sheet-row"><h2>${title}</h2>${simpleList(items, l)}</div>` : '');
+    return `${head(t.etc, t.etcLead)}<div class="wrap sheet">
 ${sec(t.award, awards)}${sec(t.pubAward, pa)}${sec(t.scholar, cv.scholarships)}${sec(t.review, site.reviews)}${sec(t.train, training)}
-${sec(t.seminar, [...site.seminars].sort(byDateDesc))}${sec(t.expo, [...site.exhibitions].sort(byDateDesc))}${sec(t.service, site.service)}`;
+${sec(t.seminar, [...site.seminars].sort(byDateDesc))}${sec(t.expo, [...site.exhibitions].sort(byDateDesc))}${sec(t.service, site.service)}</div>`;
   },
 };
 
-const NAV = [['index', 'home'], ['research', 'research'], ['projects', 'projects'], ['publications', 'pubs'], ['cv', 'cv'], ['etc', 'etc']];
+const NAV = [['index', 'home'], ['research', 'research'], ['publications', 'pubs'], ['cv', 'cv'], ['etc', 'etc']];
 
 function layout(page, l, body) {
   const t = T[l];
   const up = l === 'ko' ? '' : '../';
   const otherHref = l === 'ko' ? `en/${page}.html` : `../${page}.html`;
   const label = NAV.find(([p]) => p === page)[1];
-  const title = page === 'index' ? t.titleSuffix : `${t[label]} · ${t.titleSuffix}`;
+  const title = page === 'index' ? t.titleSuffix : `${t[label]}, ${t.titleSuffix}`;
   return `<!doctype html>
 <html lang="${l}">
 <head>
@@ -194,6 +237,9 @@ function layout(page, l, body) {
 <meta name="description" content="${esc(site.intro.headline[l])}">
 <link rel="icon" href="data:,">
 <link rel="alternate" hreflang="${t.otherLang}" href="${otherHref}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="${up}assets/style.css">
 </head>
@@ -202,20 +248,24 @@ function layout(page, l, body) {
 <a class="brand" href="index.html">${esc(cv.profile.name[l])}</a>
 <nav aria-label="${l === 'ko' ? '주 메뉴' : 'Main'}">${NAV.map(([p, key]) => `<a href="${p}.html"${p === page ? ' aria-current="page"' : ''}>${t[key]}</a>`).join('')}<a class="lang" href="${otherHref}" lang="${t.otherLang}">${t.other}</a></nav>
 </div></header>
-<main class="wrap">${body}</main>
-<footer class="wrap"><p>${esc(cv.profile.name[l])} · ${t.updated} ${new Date().toISOString().slice(0, 10)}</p></footer>
+<main>${body}</main>
+<footer class="wrap"><p>${esc(cv.profile.name[l])}, ${t.updated} ${new Date().toISOString().slice(0, 10)}</p></footer>
 </body>
 </html>
 `;
 }
 
+// 이전 주소로 들어와도 연구·프로젝트 페이지로 이동한다.
+const redirect = `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=research.html"><link rel="canonical" href="research.html"><title>Research</title></head><body><a href="research.html">research.html</a></body></html>\n`;
+
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(new URL('en/', OUT), { recursive: true });
 cpSync(new URL('assets/', root), new URL('assets/', OUT), { recursive: true });
 for (const l of ['ko', 'en']) {
+  const dir = l === 'ko' ? '' : 'en/';
   for (const [page] of NAV) {
-    const file = new URL(`${l === 'ko' ? '' : 'en/'}${page}.html`, OUT);
-    writeFileSync(file, layout(page, l, pages[page](l)));
+    writeFileSync(new URL(`${dir}${page}.html`, OUT), layout(page, l, pages[page](l, l === 'ko' ? '' : '../')));
   }
+  writeFileSync(new URL(`${dir}projects.html`, OUT), redirect);
 }
 console.log(`_site 생성: 페이지 ${NAV.length * 2}개`);

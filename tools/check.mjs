@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 const project = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const work = join(process.env.LOCALAPPDATA ?? join(homedir(), '.cache'), 'hsjang545-site');
-const EXCLUDED = new Set(['.git', 'node_modules', '_site']);
+const EXCLUDED = new Set(['.git', 'node_modules', '_site', '_초안']);
 const run = (cmd) => execSync(cmd, { cwd: work, stdio: 'inherit' });
 
 mkdirSync(work, { recursive: true });

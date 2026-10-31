@@ -44,8 +44,30 @@ test('sanitize가 내부 필드를 제거한다', () => {
   assert.equal(out.patents[1].application.no, '2');
 });
 
-test('국문·영문 6개 페이지가 모두 생성된다', () => {
-  for (const p of ['index', 'research', 'projects', 'publications', 'cv', 'etc']) {
+test('논문 원문 같은 PDF가 사이트와 저장 자료에 없다', () => {
+  const files = [...walk(SITE), ...walk('assets'), ...walk('data')];
+  for (const f of files) assert.ok(!/\.pdf$/i.test(f), f);
+  for (const f of htmlFiles) assert.ok(!/(?:href|src)="[^"]*\.pdf/i.test(raw(f)), f);
+});
+
+test('소개 자료를 슬라이드 이미지로 넘겨 볼 수 있고 PPT 원본은 없다', () => {
+  const slides = parse(raw('data/deck.yaml'));
+  for (const f of ['index.html', join('en', 'index.html')]) {
+    const page = raw(join(SITE, f));
+    assert.equal(page.split('assets/deck/').length - 1, slides.length, f);
+    for (const c of ['deck-prev', 'deck-next', 'deck-count']) assert.ok(page.includes(c), c);
+  }
+  assert.ok(!walk(SITE).some((f) => /\.pptx?$/i.test(f)));
+});
+
+test('연구와 프로젝트가 한 탭으로 합쳐지고 이전 주소는 이동한다', () => {
+  for (const f of htmlFiles.filter((x) => !/projects\.html$/.test(x))) assert.ok(!raw(f).includes('href="projects.html"'), f);
+  assert.ok(raw(join(SITE, 'projects.html')).includes('url=research.html'));
+  assert.ok(raw(join(SITE, 'en', 'projects.html')).includes('url=research.html'));
+});
+
+test('국문·영문 5개 페이지가 모두 생성된다', () => {
+  for (const p of ['index', 'research', 'publications', 'cv', 'etc']) {
     assert.ok(existsSync(join(SITE, `${p}.html`)), p);
     assert.ok(existsSync(join(SITE, 'en', `${p}.html`)), `en/${p}`);
   }
@@ -67,8 +89,8 @@ test('모든 공개 항목이 페이지에 나온다', () => {
   const cv = parse(raw('data/cv.yaml'));
   const pubs = raw(join(SITE, 'publications.html'));
   for (const p of [...cv.publications, ...cv.patents]) assert.ok(pubs.includes(`id="${p.key}"`), p.key);
-  const projects = raw(join(SITE, 'projects.html'));
-  for (const p of cv.projects) assert.ok(projects.includes(`id="${p.key}"`), p.key);
+  const research = raw(join(SITE, 'research.html'));
+  for (const p of cv.projects) assert.equal(research.split(`id="${p.key}"`).length, 2, p.key);
 });
 
 test('국문 페이지도 국제 실적은 영어로, 본인 이름은 굵게 표기한다', () => {
