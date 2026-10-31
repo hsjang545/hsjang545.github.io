@@ -100,7 +100,7 @@ projects:
     role:
       ko: 참여연구원
       en: Participating Researcher
-    start: 2026-10
+    start: 2026-09
     end: present
     summary:
       - ko: 시험 시나리오 기반 실차 데이터 취득
@@ -143,7 +143,7 @@ projects:
     role:
       ko: 참여연구원
       en: Participating Researcher
-    start: 2025-07
+    start: 2026-09
     end: present
     summary:
       - ko: RGB·열화상·온습도·CAN 동기 데이터 취득
@@ -888,6 +888,54 @@ scholarships:
     org:
       ko: 한국산업기술대학교
       en: Tech University of Korea
+  - key: sc-national-1
+    date: 2020-09
+    period: 2015–2020
+    title:
+      ko: 국가장학금 1유형
+      en: National Scholarship Type 1
+    org:
+      ko: 한국장학재단
+      en: Korea Student Aid Foundation
+    description:
+      ko: 2015년 1·2학기, 2016년 1학기, 2018년 2학기, 2019년 1·2학기, 2020년 1·2학기
+      en: Spring and Fall 2015, Spring 2016, Fall 2018, Spring and Fall 2019, Spring and Fall 2020
+  - key: sc-national-2
+    date: 2016-03
+    period: 2015–2016
+    title:
+      ko: 국가장학금 2유형
+      en: National Scholarship Type 2
+    org:
+      ko: 한국장학재단
+      en: Korea Student Aid Foundation
+    description:
+      ko: 2015년 1·2학기, 2016년 1학기
+      en: Spring and Fall 2015, Spring 2016
+  - key: sc-welfare
+    date: 2020-03
+    period: 2015–2020
+    title:
+      ko: 생활복지장학금 C
+      en: Financial Need Scholarship C
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+    description:
+      ko: 2015년 2학기, 2018년 2학기, 2019년 1·2학기, 2020년 1학기
+      en: Fall 2015, Fall 2018, Spring and Fall 2019, Spring 2020
+  - key: sc-blue-lighthouse
+    date: 2020-09
+    period: 2020
+    title:
+      ko: 푸른등대 기부장학금
+      en: Blue Lighthouse Donation Scholarship
+    org:
+      ko: 한국장학재단
+      en: Korea Student Aid Foundation
+    description:
+      ko: 2020년 1·2학기
+      en: Spring and Fall 2020
 training:
   - key: tr-vibe-coding
     date: 2026-09-30

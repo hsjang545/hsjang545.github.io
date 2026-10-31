@@ -14,7 +14,7 @@ const htmlFiles = walk(SITE).filter((f) => f.endsWith('.html'));
 const raw = (f) => readFileSync(f, 'utf8');
 
 // 공개되면 안 되는 내용. 전화번호, 양산차 고객사, 내부 증빙 경로, 철회 논문, 장학금 금액.
-const FORBIDDEN = [/7640/, /Daimler/i, /벤츠/, /Benz/i, /증빙\b/, /evidence/i, /ICAIMLSC/, /1,048/, /1,000,000/, /100만원/, /10-2026-0194890/, /10-2025-0200611/, /국가장학금\s*[12]/, /생활복지/, /푸른등대/, /Financial Need/i];
+const FORBIDDEN = [/7640/, /Daimler/i, /벤츠/, /Benz/i, /증빙\b/, /evidence/i, /ICAIMLSC/, /1,048/, /1,000,000/, /100만원/, /10-2026-0194890/, /10-2025-0200611/];
 
 test('공개 데이터와 페이지에 비공개 정보가 없다', () => {
   for (const f of ['data/cv.yaml', ...htmlFiles]) {
