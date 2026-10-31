@@ -120,6 +120,11 @@ details.project li { margin-block: 5px; }
 .sheet-row:first-child { border-top: 0; padding-top: 0; }
 .sheet-row > h2 { font-size: 1.2rem; margin: 0; }
 .sheet-row > h2 small { display: block; color: var(--muted); font-size: .9rem; font-weight: 500; }
+.minors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 40px; font-size: .86rem; line-height: 1.55; color: var(--muted); }
+.minor h3 { font-size: .9rem; font-weight: 600; color: var(--fg); margin-bottom: 5px; }
+.minor ul { list-style: none; margin: 0; padding: 0; }
+.minor li { padding-block: 2px; }
+.minor .when { font-size: inherit; padding: 0; margin-right: 4px; }
 .note { color: var(--muted); font-size: .92rem; margin: 26px 0 0; }
 
 button { font: inherit; font-size: .9rem; padding: 4px 12px; margin-left: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
@@ -129,7 +134,7 @@ footer { margin-top: 72px; padding-block: 22px 40px; color: var(--muted); font-s
   body { font-size: 16px; }
   .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .hero img { width: 150px; grid-row: 1; }
-  .two, .topic, .sheet-row { grid-template-columns: minmax(0, 1fr); }
+  .two, .topic, .sheet-row, .minors { grid-template-columns: minmax(0, 1fr); }
   ul.dated li { grid-template-columns: minmax(0, 1fr); gap: 0; }
   nav .lang { margin-left: 0; }
   .deck-bar { flex-wrap: wrap; gap: 8px; }
