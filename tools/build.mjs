@@ -78,7 +78,7 @@ function patentItem(p, l) {
   return `<li id="${p.key}"><p class="title">${esc(p.title[il])} <span class="tag">${t.kinds[p.kind]}</span></p><p class="meta">${authors(p.inventors, il)}</p><p class="meta">${parts.join(' · ')}</p></li>`;
 }
 
-const simpleList = (items, l) => `<ul class="dated">${items.map((a) => `<li><span class="when">${esc(dot(a.date).slice(0, 7))}</span><div><p class="title">${esc(a.title[l])}</p>${a.org || a.description ? `<p class="meta">${[a.org?.[l], a.description?.[l]].filter(Boolean).map(esc).join(' · ')}</p>` : ''}</div></li>`).join('')}</ul>`;
+const simpleList = (items, l) => `<ul class="dated">${items.map((a) => `<li><span class="when">${esc(a.period ?? dot(a.date).slice(0, 7))}</span><div><p class="title">${esc(a.title[l])}</p>${a.org || a.description ? `<p class="meta">${[a.org?.[l], a.description?.[l]].filter(Boolean).map(esc).join(' · ')}</p>` : ''}</div></li>`).join('')}</ul>`;
 
 function timeline(l) {
   const startY = 2022;

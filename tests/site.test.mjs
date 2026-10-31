@@ -88,6 +88,13 @@ test('국문 페이지도 국제 실적은 영어로, 본인 이름은 굵게 �
   }
 });
 
+test('기타 페이지에 봉사 기간과 내역이 나온다', () => {
+  const etc = raw(join(SITE, 'etc.html'));
+  for (const s of ['2016.10 – 2019.12', '자원봉사 총 122시간', '시흥에코센터', '고운지역아동센터', '충인지역아동센터']) {
+    assert.ok(etc.includes(s), s);
+  }
+});
+
 test('의뢰·이직 제안 문구가 없다', () => {
   for (const f of htmlFiles) assert.ok(!/의뢰|이직|채용 문의|hire me|open to/i.test(raw(f)), f);
 });
