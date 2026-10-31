@@ -28,7 +28,7 @@ test('sanitize가 내부 필드를 제거한다', () => {
     profile: { phone: 'x', photo: 'y', email: 'e' },
     projects: [{ key: 'p', evidence: ['a'], translated: 'ko', hidden: false }],
     publications: [{ key: 'h', hidden: true }, { key: 'v' }],
-    scholarships: [{ key: 's', description: 'money' }],
+    scholarships: [{ key: 's', description: { ko: '장학금 100만원', en: 'KRW 1' } }, { key: 't', description: { ko: '4개 학기' } }],
     patents: [
       { kind: 'kr_application', application: { no: '1', date: 'd' } },
       { kind: 'kr_application', application: { no: '2', date: 'd' }, publication: { no: '3' } },
@@ -39,6 +39,7 @@ test('sanitize가 내부 필드를 제거한다', () => {
   assert.equal(out.projects[0].translated, undefined);
   assert.deepEqual(out.publications.map((p) => p.key), ['v']);
   assert.equal(out.scholarships[0].description, undefined);
+  assert.deepEqual(out.scholarships[1].description, { ko: '4개 학기' });
   assert.equal(out.patents[0].application.no, undefined);
   assert.equal(out.patents[1].application.no, '2');
 });
@@ -68,6 +69,23 @@ test('모든 공개 항목이 페이지에 나온다', () => {
   for (const p of [...cv.publications, ...cv.patents]) assert.ok(pubs.includes(`id="${p.key}"`), p.key);
   const projects = raw(join(SITE, 'projects.html'));
   for (const p of cv.projects) assert.ok(projects.includes(`id="${p.key}"`), p.key);
+});
+
+test('국문 페이지도 국제 실적은 영어로, 본인 이름은 굵게 표기한다', () => {
+  const ko = raw(join(SITE, 'publications.html'));
+  const item = (key) => ko.match(new RegExp(`<li id="${key}">.*?</li>`))[0];
+  assert.ok(ko.includes('>SCIE (1)<') && !ko.includes('국제 학술지'));
+  assert.ok(item('pub-access-2025').includes('<strong>Jang, H.</strong>') && !/[가-힣]/.test(item('pub-access-2025')));
+  assert.ok(item('pub-iccad-2023').includes('<strong>Jang, H.</strong>') && !/[가-힣]/.test(item('pub-iccad-2023')));
+  assert.ok(item('pat-traffic-flow-pct').includes('Apparatus for Generating') && item('pat-traffic-flow-pct').includes('해외 출원'));
+  assert.ok(item('pub-ksae-2023-rules').includes('<strong>장현수</strong>'));
+  const cv = parse(raw('data/cv.yaml'));
+  for (const l of ['', 'en/']) {
+    const page = raw(join(SITE, `${l}publications.html`));
+    for (const p of [...cv.publications, ...cv.patents]) {
+      assert.ok(page.match(new RegExp(`<li id="${p.key}">.*?</li>`))[0].includes('<strong>'), `${l}${p.key}`);
+    }
+  }
 });
 
 test('의뢰·이직 제안 문구가 없다', () => {

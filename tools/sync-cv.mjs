@@ -28,8 +28,10 @@ export function sanitize(source) {
   delete cv.profile.phone;
   delete cv.profile.photo;
 
-  // 장학금 금액은 공개하지 않는다.
-  for (const s of cv.scholarships ?? []) delete s.description;
+  // 장학금 금액은 공개하지 않는다. 수혜 기간 같은 설명은 둔다.
+  for (const s of cv.scholarships ?? []) {
+    if (/\d\s*(만\s*)?원|KRW/.test(JSON.stringify(s.description ?? ''))) delete s.description;
+  }
 
   // 고객사 양산차 정보는 공개하지 않는다.
   const mpc = cv.projects.find((p) => p.key === 'proj-mpc55-adas');

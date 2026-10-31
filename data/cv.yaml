@@ -685,15 +685,18 @@ awards:
       en: Tech University of Korea
 scholarships:
   - key: sc-gist
-    date: 2021-02
+    date: 2021-02-24
     title:
       ko: 국비장학생 (석사과정, 입학전형 선발)
-      en: Government-funded Scholarship (M.S. program, selected at admission)
+      en: Government Support Scholarship (M.S. program, selected at admission)
     org:
       ko: 광주과학기술원
       en: GIST
+    description:
+      ko: 2021년 1학기 ~ 2022년 2학기 (4개 학기) 수혜
+      en: Received for 4 semesters, Spring 2021 to Fall 2022
   - key: sc-ibk
-    date: 2020-05
+    date: 2020-05-15
     title:
       ko: IBK기업은행 장학금 (학업우수)
       en: IBK Scholarship for Academic Excellence
@@ -701,7 +704,7 @@ scholarships:
       ko: IBK기업은행
       en: Industrial Bank of Korea
   - key: sc-national-ste
-    date: 2019-08
+    date: 2019-08-14
     title:
       ko: 국가우수장학금 (이공계)
       en: National Scholarship for Science and Engineering
