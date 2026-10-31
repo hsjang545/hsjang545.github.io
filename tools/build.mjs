@@ -55,6 +55,7 @@ const projects = [...cv.projects].sort((a, b) => String(b.start).localeCompare(S
 const awards = [...cv.awards, ...site.extra_awards].sort(byDateDesc);
 const training = [...cv.training, ...site.extra_training].sort(byDateDesc);
 const pubAwards = pubs.filter((p) => p.award);
+const scholarships = [...cv.scholarships].sort(byDateDesc);
 const kindOf = (key, t) => {
   if (site.project_kinds.national.includes(key)) return t.national;
   if (site.project_kinds.contract.includes(key)) return t.contract;
@@ -123,7 +124,7 @@ const pages = {
     <h1>${esc(cv.profile.name[l])}</h1>
     <p class="role">${esc(site.intro.role[l])}</p>
     <p class="headline">${esc(site.intro.headline[l])}</p>
-    <p class="contact">${t.email} ${esc(cv.profile.email)}<br><a href="https://orcid.org/${cv.profile.orcid}">ORCID ${cv.profile.orcid}</a>${site.intro.scholar ? `<br><a href="${esc(site.intro.scholar)}">Google Scholar</a>` : ''}</p>
+    <p class="contact">${t.email} ${esc(cv.profile.email)}<br><a href="https://orcid.org/${cv.profile.orcid}">ORCID ${cv.profile.orcid}</a><br><a href="${up}assets/cv/CV_HyeonsooJang_${l === 'ko' ? 'KR' : 'EN'}.pdf" download>CV (PDF)</a>${site.intro.scholar ? `<br><a href="${esc(site.intro.scholar)}">Google Scholar</a>` : ''}</p>
   </div>
   <img src="${up}assets/photo.jpg" alt="${esc(cv.profile.name[l])}" width="496" height="638">
 </div></section>
@@ -167,23 +168,6 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
     }).join('');
     return `${head(t.pubs, '')}<div class="wrap sheet">${groups}<div class="sheet-row"><h2>${t.patTitle} (${patents.length})</h2><ul class="biblio">${patents.map((p) => patentItem(p, l, up)).join('')}</ul></div></div>`;
   },
-  cv(l) {
-    const t = T[l];
-    const k = cv.experience[0];
-    const row = (title, html) => `<div class="sheet-row"><h2>${title}</h2><div>${html}</div></div>`;
-    return `${head(`${cv.profile.name[l]} CV`, '', `<p>${esc(cv.profile.email)}, ORCID ${cv.profile.orcid} <button type="button" id="print-cv" class="no-print">${t.print}</button></p>`)}
-<div class="wrap sheet">
-${row(t.edu, `<ul class="dated">${cv.education.map((e) => `<li><span class="when">${range(e.start, e.end, t)}</span><div><p class="title">${esc(e.school[l])}, ${esc(e.degree[l])}</p><p class="meta">${esc(e.major[l])}, ${t.gpa} ${esc(e.gpa)}${e.honors ? `, ${esc(e.honors[l])}` : ''}</p><p class="meta">${esc(e.lab[l])}, ${t.advisor}: ${esc(e.advisor[l])}</p><p class="meta">${t.thesis}: ${esc(e.thesis[l])}</p></div></li>`).join('')}</ul>`)}
-${row(t.career, `<ul class="dated">${k.positions.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(k.org[l])}, ${esc(p.title[l])}</p><p class="meta">${esc(p.dept[l])}</p></div></li>`).join('')}</ul>`)}
-${row(t.projects, `<ul class="dated">${projects.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(p.title[l])}</p><p class="meta">${kindOf(p.key, t)}, ${esc(p.sponsor[l])}</p></div></li>`).join('')}</ul>`)}
-${row(t.pubTitle, `<ul class="biblio">${CAT_ORDER.flatMap((c) => pubs.filter((p) => p.category === c)).map((p) => pubItem(p, l)).join('')}</ul>`)}
-${row(t.patTitle, `<ul class="biblio">${patents.map((p) => patentItem(p, l, null)).join('')}</ul>`)}
-${row(t.award, simpleList(awards, l))}
-${row(t.scholar, simpleList(cv.scholarships, l))}
-${row(t.skills, `<p>${cv.skills.programming.map(esc).join(', ')}</p><p>${t.lang}: ${cv.skills.languages.map((s) => `${esc(s.test)} ${esc(s.score)} (${dot(s.date)})`).join(', ')}</p>`)}
-</div>
-<script>document.getElementById('print-cv').addEventListener('click',function(){window.print()});</script>`;
-  },
   etc(l) {
     const t = T[l];
     const pa = pubAwards.map((p) => ({ date: p.date, title: p.award, org: p.title }));
@@ -198,12 +182,13 @@ ${row(t.skills, `<p>${cv.skills.programming.map(esc).join(', ')}</p><p>${t.lang}
       minor(t.service, site.service),
     ].join('');
     return `${head(t.etc, '')}<div class="wrap sheet">
-${sec(t.award, awards)}${sec(t.pubAward, pa)}${sec(t.scholar, cv.scholarships)}${sec(t.review, site.reviews)}${sec(t.consult, site.consulting)}
+${sec(t.award, awards)}${sec(t.pubAward, pa)}${sec(t.scholar, scholarships)}${sec(t.review, site.reviews)}${sec(t.consult, site.consulting)}
 <div class="sheet-row"><h2>${t.otherAct}</h2><div class="minors">${others}</div></div></div>`;
   },
 };
 
-const NAV = [['index', 'home'], ['research', 'research'], ['publications', 'pubs'], ['cv', 'cv'], ['etc', 'etc']];
+// 이전 주소 cv.html은 소개 페이지로 이동한다. CV는 소개 페이지의 PDF로 내려받는다.
+const NAV = [['index', 'home'], ['research', 'research'], ['publications', 'pubs'], ['etc', 'etc']];
 
 function layout(page, l, body) {
   const t = T[l];
@@ -235,7 +220,7 @@ function layout(page, l, body) {
 }
 
 // 이전 주소로 들어와도 연구·프로젝트 페이지로 이동한다.
-const redirect = `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=research.html"><link rel="canonical" href="research.html"><title>Research</title></head><body><a href="research.html">research.html</a></body></html>\n`;
+const redirect = (to) => `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=${to}"><link rel="canonical" href="${to}"><title>${to}</title></head><body><a href="${to}">${to}</a></body></html>\n`;
 
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(new URL('en/', OUT), { recursive: true });
@@ -245,6 +230,7 @@ for (const l of ['ko', 'en']) {
   for (const [page] of NAV) {
     writeFileSync(new URL(`${dir}${page}.html`, OUT), layout(page, l, pages[page](l, l === 'ko' ? '' : '../')));
   }
-  writeFileSync(new URL(`${dir}projects.html`, OUT), redirect);
+  writeFileSync(new URL(`${dir}projects.html`, OUT), redirect('research.html'));
+  writeFileSync(new URL(`${dir}cv.html`, OUT), redirect('index.html'));
 }
 console.log(`_site 생성: 페이지 ${NAV.length * 2}개`);

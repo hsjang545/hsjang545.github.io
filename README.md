@@ -14,7 +14,7 @@
 | 소개 자료 슬라이드 | `_초안/`의 PPT를 고친 뒤 `assets/deck/slide-NN.jpg`로 다시 내보내고 `data/deck.yaml` 갱신 |
 | 연구 페이지 그림 | `assets/figures/`, 설명은 `data/site.yaml`의 `figures` |
 
-`data/cv.yaml`은 자동 생성 파일이므로 직접 고치지 않는다. 논문 원문 PDF와 PPT 원본은 올리지 않으며 테스트가 이를 검사한다.
+`data/cv.yaml`은 자동 생성 파일이므로 직접 고치지 않는다. 논문 원문 PDF와 PPT 원본은 올리지 않으며 테스트가 이를 검사한다. 공개 PDF는 `assets/cv/`의 공개용 CV뿐이다. `_비공개/`(증빙, 원본 CV 출력)는 Git에서 제외되며 올리면 안 된다. CV를 고치면 `node tools/check.mjs --sync` 후 `%LOCALAPPDATA%\cv-build\venv\Scripts\python.exe tools/public_cv.py`를 실행한다.
 
 ## 명령
 

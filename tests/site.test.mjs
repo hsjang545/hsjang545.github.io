@@ -14,7 +14,7 @@ const htmlFiles = walk(SITE).filter((f) => f.endsWith('.html'));
 const raw = (f) => readFileSync(f, 'utf8');
 
 // 공개되면 안 되는 내용. 전화번호, 양산차 고객사, 내부 증빙 경로, 철회 논문, 장학금 금액.
-const FORBIDDEN = [/7640/, /Daimler/i, /벤츠/, /Benz/i, /증빙\b/, /evidence/i, /ICAIMLSC/, /1,048/, /1,000,000/, /100만원/, /10-2026-0194890/, /10-2025-0200611/];
+const FORBIDDEN = [/7640/, /Daimler/i, /벤츠/, /Benz/i, /증빙\b/, /evidence/i, /ICAIMLSC/, /1,048/, /1,000,000/, /100만원/, /10-2026-0194890/, /10-2025-0200611/, /국가장학금\s*[12]/, /생활복지/, /푸른등대/, /Financial Need/i];
 
 test('공개 데이터와 페이지에 비공개 정보가 없다', () => {
   for (const f of ['data/cv.yaml', ...htmlFiles]) {
@@ -44,10 +44,15 @@ test('sanitize가 내부 필드를 제거한다', () => {
   assert.equal(out.patents[1].application.no, '2');
 });
 
-test('논문 원문 같은 PDF가 사이트와 저장 자료에 없다', () => {
+test('공개 CV 외의 PDF가 사이트와 저장 자료에 없다', () => {
+  const allowed = /assets[\\/]cv[\\/]CV_HyeonsooJang_(KR|EN)\.pdf$/;
   const files = [...walk(SITE), ...walk('assets'), ...walk('data')];
-  for (const f of files) assert.ok(!/\.pdf$/i.test(f), f);
-  for (const f of htmlFiles) assert.ok(!/(?:href|src)="[^"]*\.pdf/i.test(raw(f)), f);
+  for (const f of files) assert.ok(!/\.pdf$/i.test(f) || allowed.test(f), f);
+  for (const f of htmlFiles) {
+    for (const [, u] of raw(f).matchAll(/(?:href|src)="([^"]*\.pdf)/gi)) assert.ok(allowed.test(u), `${f}: ${u}`);
+  }
+  assert.ok(raw(join(SITE, 'index.html')).includes('href="assets/cv/CV_HyeonsooJang_KR.pdf" download'));
+  assert.ok(raw(join(SITE, 'en', 'index.html')).includes('href="../assets/cv/CV_HyeonsooJang_EN.pdf" download'));
 });
 
 test('소개 자료를 슬라이드 이미지로 넘겨 볼 수 있고 PPT 원본은 없다', () => {
@@ -66,8 +71,10 @@ test('연구와 프로젝트가 한 탭으로 합쳐지고 이전 주소는 이�
   assert.ok(raw(join(SITE, 'en', 'projects.html')).includes('url=research.html'));
 });
 
-test('국문·영문 5개 페이지가 모두 생성된다', () => {
-  for (const p of ['index', 'research', 'publications', 'cv', 'etc']) {
+test('국문·영문 4개 페이지가 모두 생성되고 CV 탭은 없다', () => {
+  assert.ok(!raw(join(SITE, 'index.html')).includes('href="cv.html"'));
+  assert.ok(raw(join(SITE, 'cv.html')).includes('url=index.html'));
+  for (const p of ['index', 'research', 'publications', 'etc']) {
     assert.ok(existsSync(join(SITE, `${p}.html`)), p);
     assert.ok(existsSync(join(SITE, 'en', `${p}.html`)), `en/${p}`);
   }

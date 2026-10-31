@@ -87,6 +87,24 @@ experience:
         start: 2023-02
         end: 2025-07
 projects:
+  - key: proj-camera-5m
+    title:
+      ko: 실시간 인지 및 녹화 기능을 갖는 5M 이상 통합 카메라 시스템 개발
+      en: Integrated 5M+ Camera System with Real-time Perception and Recording
+    sponsor:
+      ko: 산업통상부
+      en: Ministry of Trade, Industry and Resources
+    agency:
+      ko: 한국산업기술평가관리원
+      en: Korea Evaluation Institute of Industrial Technology (KEIT)
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2026-10
+    end: present
+    summary:
+      - ko: 시험 시나리오 기반 실차 데이터 취득
+        en: Scenario-based vehicle data acquisition
   - key: proj-occupant-msb
     title:
       ko: 승탑자 안전도 향상을 위한 능·수동 연계 통합 안전제어 및 다단계 안전벨트 제어 기술
@@ -776,6 +794,100 @@ scholarships:
     org:
       ko: 과학기술정보통신부
       en: Ministry of Science and ICT
+    period: 2019–2020
+    description:
+      ko: 2019·2020년 각 1, 2학기
+      en: Spring and fall semesters, 2019 and 2020
+  - key: sc-gist-ra
+    date: 2021-03
+    period: 2021–2023
+    title:
+      ko: GIST RA 장학금
+      en: GIST Research Assistant Scholarship
+    org:
+      ko: 광주과학기술원
+      en: GIST
+  - key: sc-president
+    date: 2020-03
+    period: 2015–2020
+    title:
+      ko: 총장장학생
+      en: President's Scholarship
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+    description:
+      ko: 2015년 2학기, 2018년 2학기, 2019년 1·2학기, 2020년 1학기
+      en: Fall 2015, Fall 2018, Spring and Fall 2019, Spring 2020
+  - key: sc-merit-a
+    date: 2020-09
+    period: 2016–2020
+    title:
+      ko: 성적우수장학금 A
+      en: Academic Achievement Scholarship A
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+    description:
+      ko: 2016년 1학기, 2020년 2학기
+      en: Spring 2016, Fall 2020
+  - key: sc-tip
+    date: 2020-09
+    period: 2018–2020
+    title:
+      ko: T.I.P point 장학금
+      en: T.I.P Point Scholarship
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+    description:
+      ko: 2018·2019·2020년 2학기
+      en: Fall 2018, 2019 and 2020
+  - key: sc-specialization
+    date: 2020-09
+    period: 2020.09
+    title:
+      ko: 학부(과) 특성화장학금
+      en: Department Specialization Scholarship
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+  - key: sc-language
+    date: 2020-09
+    period: 2020.09
+    title:
+      ko: 어학우수장학금
+      en: Language Excellence Scholarship
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+  - key: sc-covid
+    date: 2020-09
+    period: 2020.09
+    title:
+      ko: 코로나19 특별장학금
+      en: COVID-19 Special Scholarship
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+  - key: sc-dream
+    date: 2019-09
+    period: 2019.09
+    title:
+      ko: 꿈지원장학금
+      en: Dream Support Scholarship
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+  - key: sc-field
+    date: 2018-09
+    period: 2018
+    title:
+      ko: 현장교육장려금
+      en: Field Education Incentive
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
 training:
   - key: tr-vibe-coding
     date: 2026-09-30
