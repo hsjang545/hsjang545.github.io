@@ -7,32 +7,29 @@ intro:
 research:
   - id: adas-validation
     short: {ko: ADAS 실차 검증, en: ADAS validation}
-    span: [2023-02, present]
-    figures:
-      - file: aeb.jpg
-        caption: {ko: "AEB 실험 환경 (KSAE 2025)", en: "AEB test setup (KSAE 2025)"}
     title: {ko: ADAS 실차 검증, en: ADAS vehicle validation}
     period: 2023 –
     body:
       ko: 법규, NCAP, 완성차 요구사항 기반 양산 ADAS 시험장 검증.
       en: Proving ground validation of production ADAS against regulations, NCAP and OEM requirements.
     projects: [proj-multicore-soc, proj-pmaps, proj-mpc55-adas]
-    publications: [pub-ksae-2025-edgecase]
+    publications: []
     patents: []
   - id: integrated-safety
     short: {ko: 프리크래시 통합안전, en: Pre-crash integrated safety}
-    span: [2025-02, present]
+    figures:
+      - file: aeb.jpg
+        caption: {ko: "AEB 실험 환경 (KSAE 2025)", en: "AEB test setup (KSAE 2025)"}
     title: {ko: 프리크래시 통합안전, en: Pre-crash integrated safety}
     period: 2025 –
     body:
       ko: 능동·수동 안전을 잇는 충돌 예측, 탑승자 거동 모니터링, 다단계 안전벨트 제어.
       en: Collision prediction, occupant monitoring and multi-stage seat belt control, connecting active and passive safety.
     projects: [proj-occupant-msb, proj-precrash]
-    publications: []
+    publications: [pub-ksae-2025-edgecase]
     patents: [pat-occupant-restraint]
   - id: data-acquisition
     short: {ko: 실차 데이터 취득, en: Vehicle data acquisition}
-    span: [2025-02, present]
     project_links: [proj-precrash]
     title: {ko: 실차 멀티모달 데이터 취득, en: Multi-modal vehicle data acquisition}
     period: 2025 –
@@ -44,7 +41,6 @@ research:
     patents: []
   - id: coordination
     short: {ko: 돌발상황 경로조율, en: Incident coordination}
-    span: [2023-02, 2025-05]
     figures:
       - file: trajectory.jpg
         caption: {ko: "실제 궤적(노랑)과 증강 궤적(파랑). IEEE Access 2025, CC BY 4.0", en: "Real (yellow) and augmented (blue) trajectories. IEEE Access 2025, CC BY 4.0"}
@@ -58,7 +54,6 @@ research:
     patents: [pat-avoidance-path, pat-traffic-flow-pct, pat-traffic-flow-kr]
   - id: semiconductor
     short: {ko: 차량용 반도체 검증, en: Semiconductor verification}
-    span: [2023-04, 2025-12]
     figures:
       - file: can.jpg
         caption: {ko: "CAN-FD 오류 주입 파형 (KSAE 2025)", en: "CAN-FD fault injection waveforms (KSAE 2025)"}
@@ -72,7 +67,6 @@ research:
     patents: [pat-semiconductor-comm]
   - id: slam
     short: {ko: "석사: SLAM, 센서 융합", en: "M.S.: SLAM, sensor fusion"}
-    span: [2021-03, 2023-02]
     figures:
       - file: slam.jpg
         caption: {ko: "SLAM 시스템 구조", en: "SLAM system structure"}
@@ -83,20 +77,6 @@ research:
       en: Continual learning SLAM fusing LiDAR, RGB and IMU.
     projects: [proj-reading-robot]
     publications: [pub-kiise-2023, pub-ksc-2021]
-    patents: []
-  - id: undergraduate
-    short: {ko: "학부: 스마트 소방 헬멧", en: "B.S.: Smart fire helmet"}
-    span: [2019-09, 2021-02]
-    figures:
-      - file: helmet.jpg
-        caption: {ko: "헬멧 착용 모습 (KICS 2020)", en: "Helmet in use (KICS 2020)"}
-    title: {ko: 학부 연구 - 스마트 소방 헬멧과 자율주행, en: "Undergraduate research: smart fire helmet and autonomous driving"}
-    period: 2019 – 2021
-    body:
-      ko: 열화상 카메라와 증강현실을 적용한 스마트 소방 헬멧 개발.
-      en: Smart fire-fighting helmet with a thermal camera and augmented reality.
-    projects: []
-    publications: [pub-kics-2020-helmet, pub-ksae-2020-filter]
     patents: []
 
 # cv.yaml에 없는 수상. 형식은 cv.yaml의 awards와 같다.

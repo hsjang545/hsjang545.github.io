@@ -14,7 +14,6 @@ const T = {
     other: 'English', otherLang: 'en', email: '이메일', expertise: '전문분야', career: '경력', edu: '학력',
     nProjects: '연구과제', nPubs: '논문', nPatents: '특허', nAwards: '수상', now: '현재',
     deck: '소개 자료', deckNote: '', prev: '이전', next: '다음', full: '전체 화면',
-    flow: '연구 이력', flowKey: '진행 중',
     projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제',
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
     award: '수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
@@ -28,7 +27,6 @@ const T = {
     other: '한국어', otherLang: 'ko', email: 'Email', expertise: 'Expertise', career: 'Experience', edu: 'Education',
     nProjects: 'projects', nPubs: 'publications', nPatents: 'patents', nAwards: 'awards', now: 'Present',
     deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
-    flow: 'Research timeline', flowKey: 'Ongoing',
     projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related project',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
     award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
@@ -86,27 +84,6 @@ function patentItem(p, l) {
 
 const simpleList = (items, l) => `<ul class="dated">${items.map((a) => `<li><span class="when">${esc(a.period ?? dot(a.date).slice(0, 7))}</span><div><p class="title">${esc(a.title[l])}</p>${a.org || a.description ? `<p class="meta">${[a.org?.[l], a.description?.[l]].filter(Boolean).map(esc).join(', ')}</p>` : ''}</div></li>`).join('')}</ul>`;
 
-// 연구 주제를 도로의 차로처럼 그린다. 막대 위치는 모두 같은 시간 축에서 계산한다.
-function road(l) {
-  const t = T[l];
-  const now = new Date();
-  const startY = 2019;
-  const endY = now.getFullYear() + 1;
-  const months = (endY - startY) * 12;
-  const pos = (d) => {
-    const [y, m] = d === 'present' ? [now.getFullYear(), now.getMonth() + 1] : String(d).split('-').map(Number);
-    return ((y - startY) * 12 + (m - 1)) / months * 100;
-  };
-  const years = Array.from({ length: endY - startY }, (_, i) => `<span>${startY + i}</span>`).join('');
-  const lanes = [...site.research].reverse().map((r) => {
-    const [a, b] = r.span;
-    const left = pos(a);
-    const right = pos(b) + 100 / months;
-    return `<div class="lane"><a class="name" href="research.html#${r.id}">${esc(r.short[l])}</a><div class="track"><span class="bar${b === 'present' ? ' now' : ''}" style="left:${left.toFixed(2)}%;width:${(right - left).toFixed(2)}%" title="${esc(`${dot(a)} – ${b === 'present' ? t.now : dot(b)}`)}"></span></div></div>`;
-  }).join('');
-  return `<section class="road" aria-label="${esc(t.flow)}"><div class="wrap"><div class="road-scroll"><div class="lanes"><div class="road-years"><span></span><div class="ticks" style="grid-template-columns:repeat(${endY - startY},1fr)">${years}</div></div>${lanes}</div></div><p class="road-key"><i></i>${esc(t.flowKey)}</p></div></section>`;
-}
-
 // 소개 자료 뷰어. 슬라이드 이미지만 싣고 PPT 원본은 올리지 않는다.
 function deckViewer(l, up) {
   const t = T[l];
@@ -143,7 +120,6 @@ const pages = {
   </div>
   <img src="${up}assets/photo.jpg" alt="${esc(cv.profile.name[l])}" width="496" height="638">
 </div></section>
-${road(l)}
 <div class="wrap">
 <section class="block"><ul class="tally">${stat(projects.length, t.nProjects)}${stat(pubs.length, t.nPubs)}${stat(patents.length, t.nPatents)}${stat(awards.length + pubAwards.length, t.nAwards)}</ul></section>
 ${deckViewer(l, up)}
@@ -226,15 +202,11 @@ function layout(page, l, body) {
 <meta name="description" content="${esc(site.intro.headline[l])}">
 <link rel="icon" href="data:,">
 <link rel="alternate" hreflang="${t.otherLang}" href="${otherHref}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="${up}assets/style.css">
 </head>
 <body>
 <header class="site"><div class="wrap">
-<a class="brand" href="index.html">${esc(cv.profile.name[l])}</a>
 <nav aria-label="${l === 'ko' ? '주 메뉴' : 'Main'}">${NAV.map(([p, key]) => `<a href="${p}.html"${p === page ? ' aria-current="page"' : ''}>${t[key]}</a>`).join('')}<a class="lang" href="${otherHref}" lang="${t.otherLang}">${t.other}</a></nav>
 </div></header>
 <main>${body}</main>
