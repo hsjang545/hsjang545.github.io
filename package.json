@@ -1,0 +1,13 @@
+{
+  "name": "hsjang545.github.io",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "node tools/sync-cv.mjs",
+    "build": "node tools/build.mjs",
+    "test": "node tools/build.mjs && node --test tests/site.test.mjs"
+  },
+  "dependencies": {
+    "yaml": "2.5.1"
+  }
+}

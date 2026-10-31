@@ -1,0 +1,755 @@
+# tools/sync-cv.mjs가 생성한 공개용 데이터. 직접 고치지 말고 원본 cv.yaml을 고친 뒤 npm run sync를 실행한다.
+profile:
+  name:
+    ko: 장현수
+    en: Hyeonsoo Jang
+  title:
+    ko: 연구원
+    en: Researcher
+  affiliation:
+    ko: 한국자동차연구원
+    en: Korea Automotive Technology Institute (KATECH)
+  email: hsjang2@katech.re.kr
+  orcid: 0000-0002-2476-991X
+education:
+  - key: gist-ms
+    school:
+      ko: 광주과학기술원 (GIST)
+      en: Gwangju Institute of Science and Technology (GIST)
+    degree:
+      ko: 공학석사
+      en: M.S.
+    major:
+      ko: 전기전자컴퓨터공학부
+      en: Electrical Engineering and Computer Science
+    start: 2021-03
+    end: 2023-02
+    gpa: 4.21 / 4.5
+    lab:
+      ko: MLV Lab (Machine Learning and Vision Lab)
+      en: MLV Lab (Machine Learning and Vision Lab)
+    thesis:
+      ko: 동시적 위치추정 및 지도작성을 위한 평생 학습
+      en: Continual Learning for Simultaneous Localization and Mapping
+    advisor:
+      ko: 전문구 교수
+      en: Prof. Moongu Jeon
+  - key: tuk-bs
+    school:
+      ko: 한국공학대학교 (구 한국산업기술대학교)
+      en: Tech University of Korea (TUK)
+    degree:
+      ko: 공학학사
+      en: B.S.
+    major:
+      ko: 전자공학전공
+      en: Electronics Engineering
+    start: 2015-03
+    end: 2021-02
+    gpa: 4.46 / 4.5
+    honors:
+      ko: 수석 졸업 (전체 1,218명 중 1위)
+      en: "Valedictorian | Rank: 1st / 1,218 (University)"
+    lab:
+      ko: AES Lab (Autonomous Embedded System Lab)
+      en: AES Lab (Autonomous Embedded System Lab)
+    thesis:
+      ko: 스마트 소방 헬멧
+      en: Smart Fire Helmet
+    advisor:
+      ko: 서석현 교수
+      en: Prof. Sukhyun Seo
+experience:
+  - key: katech
+    org:
+      ko: 한국자동차연구원
+      en: Korea Automotive Technology Institute
+    start: 2023-02
+    end: present
+    summary:
+      ko: ADAS 및 통합안전 연구·검증
+      en: ADAS, Integrated Safety Research & Validation
+    positions:
+      - dept:
+          ko: AI 자율주행기술연구소 빅데이터·SDV연구본부 데이터플랫폼연구센터
+          en: Data Platform R&D Center
+        title:
+          ko: 연구원
+          en: Researcher
+        start: 2025-08
+        end: present
+      - dept:
+          ko: 자율주행기술연구소 빅데이터·SW기술부문
+          en: Big Data & SW Technology Division, Autonomous Driving Technology R&D Laboratory
+        title:
+          ko: 연구원
+          en: Researcher
+        start: 2023-02
+        end: 2025-07
+projects:
+  - key: proj-occupant-msb
+    title:
+      ko: 승탑자 안전도 향상을 위한 능·수동 연계 통합 안전제어 및 다단계 안전벨트 제어 기술
+      en: Integrated Safety Control and Multi-Stage Seat Belt Control for Enhanced Occupant Safety with Active–Passive Integration
+    sponsor:
+      ko: 산업통상부
+      en: Ministry of Trade, Industry and Resources
+    agency:
+      ko: 한국산업기술진흥원
+      en: Korea Institute for Advancement of Technology (KIAT)
+    program:
+      ko: 중견중소기업상생형혁신도약사업
+      en: Win-win R&D Program for Mid-sized and Small Enterprises
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2026-04
+    end: 2026-09
+    summary:
+      - ko: 실시간 프리크래시 안전 적용을 위한 충돌 특성·크래시 펄스 예측 모델 및 최적화 전략 개발
+        en: Developing prediction models for collision characteristics and crash pulses, and optimization strategies for real-time pre-crash safety applications
+      - ko: 급제동·AEB 등 위급 상황에서의 탑승자 거동 모니터링 및 운전자 비상 행동 예측 기법 개발
+        en: Developing occupant motion monitoring and driver emergency behavior prediction methods for critical scenarios, including sudden braking and Autonomous Emergency Braking (AEB)
+      - ko: ADAS·인캐빈 모니터링·다단계 안전벨트(MSB) 제어를 아우르는 통합 안전제어 시스템의 시뮬레이션·실차 검증 프레임워크 설계
+        en: Designing simulation and real-vehicle validation frameworks for integrated safety control systems encompassing ADAS, in-cabin monitoring, and multi-stage seat belt (MSB) control
+  - key: proj-precrash
+    title:
+      ko: 통합안전을 위한 실차 기반 Precrash 평가법 개발
+      en: Development of a real-vehicle-based pre-crash evaluation method for integrated safety
+    sponsor:
+      ko: 현대자동차
+      en: Hyundai Motor Company
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2025-02
+    end: present
+    summary:
+      - ko: GV70 기반 프리크래시 안전 평가용 실차 데이터 취득 플랫폼 구축
+        en: Developed a real-vehicle data acquisition platform using a GV70 for pre-crash safety evaluation.
+      - ko: 카메라·레이더·INS(GPS/IMU)·CAN-FD·RGB/IR 인캐빈 센싱 등 멀티모달 데이터 수집
+        en: Collected multi-modal data including camera, radar, INS (GPS/IMU), CAN-FD, and RGB/IR in-cabin sensing data
+      - ko: ROS 2 기반 다중 센서 동기화 데이터 취득 시스템 개발
+        en: Developed a ROS 2-based synchronized multi-sensor data acquisition system
+      - ko: PG 환경에서 시나리오 기반 프리크래시 실험 수행 (실차 데이터 취득 및 반복 가능한 충돌 관련 시나리오용 시험 장비 운용)
+        en: Conducted scenario-based pre-crash experiments in proving ground (PG) environments, including real-vehicle data acquisition and test equipment operation for repeatable crash-relevant safety scenarios
+  - key: proj-multicore-soc
+    title:
+      ko: 멀티코어 SoC기반 이종 기능 수행을 위한 통합제어기 및 소프트웨어 개발
+      en: Development of Integrated Controller and Software for Performing Heterogeneous Functions based on Multicore SoC
+    sponsor:
+      ko: 산업통상부
+      en: Ministry of Trade, Industry and Resources
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2024-09
+    end: present
+    summary:
+      - ko: 멀티코어 SoC 기반 통합제어기 ADAS 성능 평가를 위한 법·국제 표준·NCAP 기반 사양서 설계
+        en: Defined ADAS performance evaluation specifications for multicore SoC-based integrated controllers, incorporating regulations, safety standards, and NCAP protocols
+      - ko: Proving Ground(PG) 내 실차 기반 ADAS 평가 및 분석
+        en: Conducting ADAS performance evaluation and analysis using vehicle-based testing in a Proving Ground (PG) environment
+  - key: proj-pmaps
+    title:
+      ko: 2025 KNCAP PMAPS 실차검증 평가 기술 개발
+      en: Development of PMAPS System Validation Technology for 2025 KNCAP
+    sponsor:
+      ko: 현대자동차
+      en: Hyundai Motor Company
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2025-06
+    end: 2025-10
+    summary:
+      - ko: KNCAP PMAPS(페달 오조작 방지 시스템) 검증 시험 수행
+        en: Performed KNCAP PMAPS (Pedal Misapplication Prevention System) validation tests
+      - ko: 블랙박스 시험을 위한 고정밀 센서 구성 및 차량 데이터 취득 시스템 운용
+        en: Configured high-precision sensors and operated vehicle data acquisition systems for black-box testing
+  - key: proj-etc-soc
+    title:
+      ko: 전동화 기반의 보안기능을 갖는 차세대 ETC 시스템반도체 개발
+      en: Development of next generation ETC system semiconductor with security function based on electrification
+    sponsor:
+      ko: 산업통상부
+      en: Ministry of Trade, Industry and Resources
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2023-04
+    end: 2025-12
+    summary:
+      - ko: ETC 시스템의 HSM(하드웨어 보안 모듈) 기능 검증
+        en: Verified Hardware Security Module (HSM) functionality for Electronic Toll Collection (ETC) systems
+      - ko: 검증 자동화 소프트웨어 및 시험 절차서(TDP) 설계
+        en: Designed automated validation software and test development procedures (TDP)
+      - ko: NIST CAVP 기반 AES-128·SHA-256 암호 알고리즘 검증
+        en: Validated cryptographic algorithms including AES-128 and SHA-256
+  - key: proj-incident-control
+    title:
+      ko: 돌발상황 및 재난발생 시 도로교통 네트워크 통제를 위한 현장제어 기술 개발
+      en: Development of on-site control technology for road traffic network control in the event of an incident or disaster
+    sponsor:
+      ko: 경찰청
+      en: Korean National Police Agency
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2023-02
+    end: 2024-12
+    summary:
+      - ko: 자율주행차·비자율차 혼재 교통 환경에서의 경로조율(통행조율) 전략 개발
+        en: Developed traffic coordination strategies for mixed traffic environments involving autonomous and human-driven vehicles
+      - ko: I2V 연계 실증 환경 연동 및 통신 안정성 향상을 위한 SW 개발
+        en: Developed software for integration with I2V connected validation environments
+      - ko: 경로조율 모델의 신뢰성 검증을 위한 평가 시나리오 및 테스트케이스 설계
+        en: Designed evaluation scenarios and test cases to verify the reliability of route coordination models
+      - ko: 비자율차 모방학습 기반 자율차 경로제공 방안 설계
+        en: Established imitation learning–based route guidance framework for non-autonomous vehicle behavior modeling and autonomous vehicle path planning
+  - key: proj-mpc55-adas
+    title:
+      ko: MPC5.5(+) ADAS 실차 검증 기술 개발
+      en: Development of MPC5.5(+) ADAS vehicle verification technology
+    sponsor:
+      ko: LG전자
+      en: LG Electronics
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2023-02
+    end: 2024-07
+    summary:
+      - ko: 법규·표준·NCAP 및 완성차 요구사항 기반 ADAS 검증 설계 및 수행
+        en: Designed and executed ADAS validation based on global safety regulations and OEM requirements (NCAP, ISO, UNECE)
+      - ko: PG 환경에서 양산 ADAS 차량 블랙박스 시험을 위한 고정밀 계측 및 차량 센서 장비 운용
+        en: Operated high-precision measurement and in-vehicle sensor instrumentation systems for black-box testing of production ADAS vehicles under proving ground (PG) conditions
+      - ko: PG 환경 ADAS 시스템 수준 성능 평가 및 시험 수행·검증 보고서 작성 등 검증 절차 수립
+        en: Performed system-level evaluation of ADAS performance in PG environments and established structured validation procedures, including test execution and verification report generation
+  - key: proj-reading-robot
+    title:
+      ko: 인공지능 기반 어린이 독서활동 지원 로봇 및 서비스 콘텐츠 개발
+      en: Development of AI-based robot and service content to support children's reading activities
+    sponsor:
+      ko: 문화체육관광부
+      en: Ministry of Culture, Sports and Tourism
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2022-05
+    end: 2022-12
+    summary:
+      - ko: 시스템 프레임워크 설계 참여
+        en: Contributed to the design of the system framework
+publications:
+  - key: pub-access-2025
+    category: intl_journal
+    index: SCIE
+    date: 2025-05-23
+    authors:
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 강병주
+        en: Kang, B.
+      - ko: 황윤형
+        en: Hwang, Y.
+    title:
+      ko: Plausible Vehicle Trajectory Augmentation with Hybrid Machine Learning
+      en: Plausible Vehicle Trajectory Augmentation with Hybrid Machine Learning
+    venue:
+      ko: IEEE Access
+      en: IEEE Access
+    volume: vol. 13
+    doi: 10.1109/ACCESS.2025.3573191
+  - key: pub-iccad-2023
+    category: intl_conf
+    date: 2023-05-10
+    authors:
+      - ko: 곽수진
+        en: Kwag, S.
+      - ko: 강병주
+        en: Kang, B.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 황윤형
+        en: Hwang, Y.
+    title:
+      ko: Control Strategy for Cooperative Driving Automation in Traffic Incidents
+      en: Control Strategy for Cooperative Driving Automation in Traffic Incidents
+    venue:
+      ko: IEEE ICCAD
+      en: IEEE ICCAD
+    pages: pp. 1–6
+    doi: 10.1109/ICCAD57653.2023.10152444
+  - key: pub-kiise-2023
+    category: dom_journal
+    index: KCI
+    date: 2023-01
+    authors:
+      - ko: Muhammad Ishfaq Hussain
+        en: Hussain, M. I.
+      - ko: Muhammad Aasim Rafique
+        en: Rafique, M. A.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 전문구
+        en: Jeon, M.
+    title:
+      ko: 자율주행을 위한 카메라-레이더 외부 파라미터 캘리브레이션
+      en: Camera–Radar Extrinsic Calibration for Autonomous Driving
+    venue:
+      ko: 정보과학회 컴퓨팅의 실제 논문지
+      en: KIISE Transactions on Computing Practices
+    volume: vol. 29, no. 1
+    pages: pp. 38–43
+    doi: 10.5626/KTCP.2023.29.1.38
+  - key: pub-ksae-2025-edgecase
+    category: dom_conf
+    date: 2025-11-14
+    authors:
+      - ko: 강병주
+        en: Kang, B.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 곽수진
+        en: Kwag, S.
+      - ko: 황윤형
+        en: Hwang, Y.
+    title:
+      ko: "ADAS 엣지 케이스 검출 프레임워크: 위험 임계 수립과 실차 AEB 사례 적용"
+      en: "ADAS Edge Case Detection Framework: Establishing Risk Thresholds and Application to Real-World AEB Cases"
+    venue:
+      ko: 한국자동차공학회 추계학술대회
+      en: KSAE Fall Conference
+    award:
+      ko: 우수논문상
+      en: Best Paper Award
+  - key: pub-ksae-2025-canfd
+    category: dom_conf
+    date: 2025-11-13
+    authors:
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 강병주
+        en: Kang, B.
+      - ko: 곽수진
+        en: Kwag, S.
+    title:
+      ko: CAN-FD 기반 차세대 ETC 시스템 반도체의 오류 내성 평가 및 국제 표준 적합성 검증
+      en: Extended Test Framework for Fault Tolerance Verification of CAN-FD Based ETC System SoC
+    venue:
+      ko: 한국자동차공학회 추계학술대회
+      en: KSAE Fall Conference
+  - key: pub-ksae-2024-etc-req
+    category: dom_conf
+    date: 2024-11
+    authors:
+      - ko: 강병주
+        en: Kang, B.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 곽수진
+        en: Kwag, S.
+    title:
+      ko: 전동화 ETC 시스템반도체 평가를 위한 요구사항 분석에 관한 연구
+      en: Requirements Analysis for Evaluation of Electrified ETC System-on-Chip
+    venue:
+      ko: 한국자동차공학회 추계학술대회
+      en: KSAE Fall Conference
+  - key: pub-ksae-2024-coordination
+    category: dom_conf
+    date: 2024-11
+    authors:
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 강병주
+        en: Kang, B.
+      - ko: 곽수진
+        en: Kwag, S.
+    title:
+      ko: 교차로 내 돌발상황 발생 시 자율주행차량 통행조율 성능 평가 기술 개발
+      en: Autonomous Vehicle Traffic Coordination Performance Evaluation in Intersection Incident Scenarios
+    venue:
+      ko: 한국자동차공학회 추계학술대회
+      en: KSAE Fall Conference
+  - key: pub-ksae-2023-rules
+    category: dom_conf
+    date: 2023-11
+    authors:
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 강병주
+        en: Kang, B.
+      - ko: 황윤형
+        en: Hwang, Y.
+      - ko: 곽수진
+        en: Kwag, S.
+    title:
+      ko: 돌발상황 시 자율주행차량 통행지원 강화학습을 위한 통행규칙 설계
+      en: Traffic Rules for Reinforcement Learning-Based Autonomous Driving in Incident Scenarios
+    venue:
+      ko: 한국자동차공학회 추계학술대회
+      en: KSAE Fall Conference
+  - key: pub-ksae-2023-mas
+    category: dom_conf
+    date: 2023-11
+    authors:
+      - ko: 정성윤
+        en: Jeong, S.
+      - ko: 홍윤성
+        en: Hong, Y.
+      - ko: 홍석주
+        en: Hong, S.
+      - ko: 황윤형
+        en: Hwang, Y.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 곽수진
+        en: Kwag, S.
+      - ko: 강병주
+        en: Kang, B.
+    title:
+      ko: 돌발상황에서의 자율주행을 위한 다중에이전트시스템 개발
+      en: Multi-agent System for Autonomous Driving Assist in Traffic Incidents
+    venue:
+      ko: 한국자동차공학회 추계학술대회
+      en: KSAE Fall Conference
+    pages: p. 1615
+  - key: pub-ksae-2023-data
+    category: dom_conf
+    date: 2023-11
+    authors:
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 강병주
+        en: Kang, B.
+      - ko: 곽수진
+        en: Kwag, S.
+    title:
+      ko: 교차로 내 돌발 영역에서의 자율주행 차량들의 대응을 위한 학습 데이터 구축
+      en: Data Construction for Autonomous Vehicle Response in Intersection Incident Regions
+    venue:
+      ko: 한국자동차공학회 추계학술대회
+      en: KSAE Fall Conference
+  - key: pub-ksc-2021
+    category: dom_conf
+    date: 2021-12
+    authors:
+      - ko: Muhammad Ishfaq Hussain
+        en: Hussain, M. I.
+      - ko: Muhammad Aasim Rafique
+        en: Rafique, M. A.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 전문구
+        en: Jeon, M.
+    title:
+      ko: 자율주행을 위한 카메라-레이더 외부 파라미터 캘리브레이션
+      en: Camera–Radar Extrinsic Calibration for Autonomous Driving
+    venue:
+      ko: 한국소프트웨어종합학술대회 논문집
+      en: Proceedings of KSC (Korea Software Congress)
+    award:
+      ko: 우수발표논문상 (정보통신 분야)
+      en: Best Presentation Paper Award (Information & Communications)
+  - key: pub-kics-2020-helmet
+    category: dom_conf
+    date: 2020-11
+    authors:
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 김현수
+        en: Kim, H.
+      - ko: 송재민
+        en: Song, J.
+      - ko: 이지현
+        en: Lee, J.
+      - ko: 서석현
+        en: Seo, S.
+    title:
+      ko: 증강현실 기반 스마트 안전 소방 헬멧 개발
+      en: Development of Smart Safety Fire-Fighting Helmet Based on Augmented Reality
+    venue:
+      ko: 한국통신학회 추계종합학술발표회
+      en: KICS Fall Conference
+    award:
+      ko: 학부 우수논문 장려상
+      en: Encouragement Award, Undergraduate Paper
+  - key: pub-ksae-2020-filter
+    category: dom_conf
+    date: 2020-11
+    authors:
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 송재민
+        en: Song, J.
+      - ko: 김현수
+        en: Kim, H.
+      - ko: 서석현
+        en: Seo, S.
+    title:
+      ko: 자율주행 안정성 향상을 위한 인식 필터 설계 및 속도 제어 방법
+      en: Perception Filter Design and Speed Control Method for Autonomous Driving Safety Improvement
+    venue:
+      ko: 한국자동차공학회 추계학술대회
+      en: KSAE Fall Conference
+patents:
+  - key: pat-occupant-restraint
+    kind: kr_application
+    inventors:
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 강병주
+        en: Kang, B.
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 곽수진
+        en: Kwag, S.
+      - ko: 이원석
+        en: Lee, W.
+    title:
+      ko: 탑승자 구속제어 장치 및 방법
+      en: Occupant Restraint Control Apparatus and Method
+    application:
+      date: 2026-10-12
+  - key: pat-semiconductor-comm
+    kind: kr_application
+    inventors:
+      - ko: 강병주
+        en: Kang, B.
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 곽수진
+        en: Kwag, S.
+    title:
+      ko: 반도체 디바이스의 통신 성능 검증 장치 및 방법
+      en: Apparatus and Method for Verifying Communication Performance of Semiconductor Device
+    application:
+      date: 2025-12-16
+  - key: pat-avoidance-path
+    kind: kr_application
+    inventors:
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 강병주
+        en: Kang, B.
+      - ko: 곽수진
+        en: Kwag, S.
+    title:
+      ko: 자율주행 차량에서의 회피경로 생성 장치 및 그 방법
+      en: Apparatus for Generating Avoidance Path in Autonomous Vehicle and Method Thereof
+    application:
+      no: 10-2024-0161193
+      date: 2024-11-13
+    publication:
+      no: 10-2026-0072231
+      date: 2026-05-20
+  - key: pat-traffic-flow-pct
+    kind: pct
+    inventors:
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 곽수진
+        en: Kwag, S.
+      - ko: 강병주
+        en: Kang, B.
+    title:
+      ko: 교통류 학습 데이터 생성 장치 및 그 방법
+      en: Apparatus for Generating Traffic Flow Learning Data and Method Thereof
+    application:
+      no: PCT/KR2024/010723
+      date: 2024-07-24
+  - key: pat-traffic-flow-kr
+    kind: kr_registered
+    inventors:
+      - ko: 박준엽
+        en: Park, J.
+      - ko: 장현수
+        en: Jang, H.
+      - ko: 곽수진
+        en: Kwag, S.
+      - ko: 강병주
+        en: Kang, B.
+    title:
+      ko: 교통류 학습데이터 생성 장치 및 방법
+      en: Apparatus for Generating Traffic Flow Learning Data and Method Thereof
+    application:
+      no: 10-2023-0159013
+      date: 2023-11-16
+    registration:
+      no: 10-2678406
+      date: 2024-06-21
+awards:
+  - key: aw-gist-idea
+    date: 2021-09
+    title:
+      ko: 슬기로운 연구생활 아이디어 공모전 우수상
+      en: Outstanding Award, Wise Research Life Idea Contest
+    org:
+      ko: 광주과학기술원
+      en: GIST
+  - key: aw-valedictorian
+    date: 2021-02
+    title:
+      ko: 우수졸업자 표창 (학부 1,218명 중 수석)
+      en: Valedictorian Award, Ranked 1st among 1,218 undergraduate students
+    org:
+      ko: 경기도지사
+      en: Gyeonggi Province
+  - key: aw-hanium
+    date: 2020-12
+    title:
+      ko: 2020 한이음 공모전 입선
+      en: Finalist, 2020 Hanium ICT Contest
+    org:
+      ko: 한국정보산업연합회
+      en: The Federation of Korean Information Industries
+  - key: aw-essay
+    date: 2020-11
+    title:
+      ko: 비교과 프로그램 활동 수기 공모전 대상 (에세이 부문)
+      en: Grand Prize, Extracurricular Activity Essay Contest
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+  - key: aw-industry-academia
+    date: 2020-11
+    title:
+      ko: 실전문제연구단 산학협동 성과발표회 장려상
+      en: Encouragement Award, Industry–Academia Collaborative Project Presentation
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+    description:
+      ko: 증강현실 기반 스마트 안전 소방 헬멧 개발
+      en: Development of Smart Safety Fire-Fighting Helmet Based on Augmented Reality
+  - key: aw-president
+    date: 2020-10
+    title:
+      ko: 제20회 산학협력 산업기술대전 총장상
+      en: President's Award, 20th Industry–University Cooperation Technology Exhibition
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+  - key: aw-cpcop-2020
+    date: 2020-07
+    title:
+      ko: CP-CoP 창의적 프로젝트 학습동아리 최우수상 (1위)
+      en: First Prize (1st place), CP-CoP Creative Project Competition
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+    description:
+      ko: 열화상 카메라·핸즈프리 무선통신 스마트 소방헬멧
+      en: Smart fire-fighting helmet with thermal camera and hands-free wireless communication
+  - key: aw-cpcop-2019
+    date: 2019-07
+    title:
+      ko: CP-CoP 창의적 프로젝트 학습동아리 장려상
+      en: Encouragement Award, CP-CoP Creative Project Competition
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+    description:
+      ko: 고양이를 위한 실시간 웹제어 IoT 디바이스
+      en: Real-time web-controlled IoT device for cats
+  - key: aw-internship-essay
+    date: 2019-07
+    title:
+      ko: 교내 현장실습 수기 공모전 우수상 (1위)
+      en: Outstanding Award (1st place), Field Internship Essay Contest
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+scholarships:
+  - key: sc-gist
+    date: 2021-02
+    title:
+      ko: 국비장학생 (석사과정, 입학전형 선발)
+      en: Government-funded Scholarship (M.S. program, selected at admission)
+    org:
+      ko: 광주과학기술원
+      en: GIST
+  - key: sc-ibk
+    date: 2020-05
+    title:
+      ko: IBK기업은행 장학금 (학업우수)
+      en: IBK Scholarship for Academic Excellence
+    org:
+      ko: IBK기업은행
+      en: Industrial Bank of Korea
+  - key: sc-national-ste
+    date: 2019-08
+    title:
+      ko: 국가우수장학금 (이공계)
+      en: National Scholarship for Science and Engineering
+    org:
+      ko: 과학기술정보통신부
+      en: Ministry of Science and ICT
+training:
+  - key: tr-vibe-coding
+    date: 2026-09-30
+    title:
+      ko: 바이브 코딩으로 연구용 도구 개발 시작하기
+      en: Getting Started with Research Tool Development through Vibe Coding
+    org:
+      ko: 현대엔지비
+      en: Hyundai NGV
+  - key: tr-alpamayo
+    date: 2026-07-23
+    title:
+      ko: Alpamayo로 이해하는 차세대 VLA 기반 E2E 자율주행 구현 전략 세미나
+      en: Seminar on Next-Generation VLA-based End-to-End Autonomous Driving Strategies with Alpamayo
+  - key: tr-bmw-starter
+    date: 2025-06
+    title:
+      ko: BMW Starter Pack 프로그램
+      en: BMW Starter Pack Program
+    org:
+      ko: BMW
+      en: BMW
+  - key: tr-canoe
+    date: 2025-04-23
+    title:
+      ko: Vector CANoe 워크숍
+      en: Vector CANoe Workshop
+    org:
+      ko: 벡터코리아
+      en: Vector Korea
+  - key: tr-ad-verification
+    date: 2025-03-25
+    title:
+      ko: 자율주행 검증·평가·구현 기술 교육
+      en: Autonomous Driving Verification, Evaluation and Implementation Training
+skills:
+  programming:
+    - Python
+    - C
+    - C++
+    - MATLAB
+  languages:
+    - test: TEPS
+      score: 410 / 600
+      date: 2026-06

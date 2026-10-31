@@ -1,0 +1,146 @@
+# 사이트 전용 내용. cv.yaml에 없는 소개 문구, 연구 주제, 기타 활동을 여기서 관리한다.
+
+intro:
+  headline: {ko: ADAS 실차 검증과 프리크래시 통합안전을 연구합니다, en: "ADAS vehicle validation and pre-crash integrated safety research"}
+  role: {ko: 한국자동차연구원 데이터플랫폼연구센터 연구원, en: "Researcher, Data Platform R&D Center, Korea Automotive Technology Institute (KATECH)"}
+  body:
+    ko: 시험장에서 차량 데이터를 직접 취득하고, 그 데이터로 안전 기능을 평가합니다. 법규와 NCAP을 바탕으로 양산 ADAS를 검증해 왔고, 지금은 충돌 직전 상황의 차량과 탑승자 거동을 다루는 통합안전 연구를 하고 있습니다.
+    en: I collect vehicle data on the proving ground and use it to evaluate safety functions. My work has covered validation of production ADAS against regulations and NCAP protocols, and now focuses on integrated safety, studying vehicle and occupant behavior just before a crash.
+
+expertise:
+  - title: {ko: ADAS 실차 검증, en: ADAS vehicle validation}
+    text: {ko: "법규·NCAP·완성차 요구사항 기반 시험 설계와 시험장 평가", en: "Test design from regulations, NCAP and OEM requirements; proving ground evaluation"}
+  - title: {ko: 프리크래시 통합안전, en: Pre-crash integrated safety}
+    text: {ko: "충돌 특성 예측, 탑승자 거동 모니터링, 다단계 안전벨트 제어", en: "Collision prediction, occupant motion monitoring, multi-stage seat belt control"}
+  - title: {ko: 실차 데이터 취득, en: Vehicle data acquisition}
+    text: {ko: "카메라·레이더·INS·CAN-FD·인캐빈 센서의 ROS 2 기반 동기화", en: "ROS 2-based synchronization of camera, radar, INS, CAN-FD and in-cabin sensors"}
+
+research:
+  - id: adas-validation
+    title: {ko: ADAS 실차 검증, en: ADAS vehicle validation}
+    period: 2023 –
+    body:
+      ko: 양산 ADAS가 법규, 국제 표준, NCAP, 완성차 요구사항을 만족하는지 시험장에서 검증합니다. 시험 시나리오와 사양서를 설계하고, 블랙박스 시험용 고정밀 계측 장비를 구성한 뒤, 시스템 수준의 성능을 평가하고 보고서를 작성합니다. 실제 AEB 사례에서 위험 임계를 세워 엣지 케이스를 찾는 연구로도 이어졌습니다.
+      en: I validate production ADAS on the proving ground against regulations, international standards, NCAP protocols and OEM requirements. This covers designing test scenarios and specifications, setting up high-precision measurement equipment for black-box testing, evaluating system-level performance and reporting results. The work also led to research on finding edge cases by setting risk thresholds from real AEB events.
+    projects: [proj-multicore-soc, proj-pmaps, proj-mpc55-adas]
+    publications: [pub-ksae-2025-edgecase]
+    patents: []
+  - id: integrated-safety
+    title: {ko: 프리크래시 통합안전, en: Pre-crash integrated safety}
+    period: 2025 –
+    body:
+      ko: 능동안전과 수동안전을 잇는 연구입니다. 충돌 특성과 크래시 펄스를 예측하는 모델, 급제동·AEB 상황의 탑승자 거동 모니터링, 다단계 안전벨트 제어를 함께 다루고, 이를 시뮬레이션과 실차로 검증하는 체계를 설계합니다.
+      en: This research connects active and passive safety. It combines models that predict collision characteristics and crash pulses, occupant motion monitoring during sudden braking and AEB, and multi-stage seat belt control, along with frameworks to validate them in simulation and on real vehicles.
+    projects: [proj-occupant-msb, proj-precrash]
+    publications: []
+    patents: [pat-occupant-restraint]
+  - id: data-acquisition
+    title: {ko: 실차 멀티모달 데이터 취득, en: Multi-modal vehicle data acquisition}
+    period: 2025 –
+    body:
+      ko: GV70 기반 데이터 취득 플랫폼을 구축했습니다. 카메라, 레이더, INS(GPS/IMU), CAN-FD, RGB/IR 인캐빈 센서를 ROS 2로 동기화해 수집하며, 시험장에서 반복 가능한 시나리오 실험에 사용합니다.
+      en: I built a data acquisition platform on a GV70. It uses ROS 2 to synchronize camera, radar, INS (GPS/IMU), CAN-FD and RGB/IR in-cabin sensors, and supports repeatable scenario experiments on the proving ground.
+    projects: [proj-precrash]
+    publications: []
+    patents: []
+  - id: coordination
+    title: {ko: 돌발상황 경로조율과 궤적 데이터, en: Incident coordination and trajectory data}
+    period: 2023 – 2025
+    body:
+      ko: 자율주행차와 일반 차량이 섞인 교통 환경에서 돌발상황이 생겼을 때 차량의 통행을 조율하는 전략을 연구했습니다. 강화학습 기반 경로조율, 모방학습 기반 경로 제공, I2V 실증 연동, 평가 시나리오 설계를 수행했고, 하이브리드 기계학습을 이용한 차량 궤적 증강으로 이어졌습니다.
+      en: I studied how to coordinate vehicles when an incident occurs in mixed traffic of autonomous and human-driven vehicles. The work covered reinforcement learning-based route coordination, imitation learning-based route guidance, I2V field integration and evaluation scenario design, and led on to vehicle trajectory augmentation with hybrid machine learning.
+    projects: [proj-incident-control]
+    publications: [pub-access-2025, pub-iccad-2023, pub-ksae-2024-coordination, pub-ksae-2023-rules, pub-ksae-2023-mas, pub-ksae-2023-data]
+    patents: [pat-avoidance-path, pat-traffic-flow-pct, pat-traffic-flow-kr]
+  - id: semiconductor
+    title: {ko: 차량용 반도체 검증, en: Automotive semiconductor verification}
+    period: 2023 – 2025
+    body:
+      ko: 차세대 ETC 시스템반도체의 보안 기능과 통신 기능을 검증했습니다. HSM 기능 검증, NIST CAVP 기반 AES-128·SHA-256 알고리즘 검증, 검증 자동화 소프트웨어와 시험 절차서 설계, CAN-FD 오류 내성 평가를 수행했습니다.
+      en: I verified the security and communication functions of a next-generation ETC system semiconductor. This included HSM verification, AES-128 and SHA-256 validation based on NIST CAVP, automated validation software and test procedure design, and CAN-FD fault tolerance evaluation.
+    projects: [proj-etc-soc]
+    publications: [pub-ksae-2025-canfd, pub-ksae-2024-etc-req]
+    patents: [pat-semiconductor-comm]
+  - id: slam
+    title: {ko: 석사 연구 - SLAM과 센서 융합, en: "Master's research: SLAM and sensor fusion"}
+    period: 2021 – 2023
+    body:
+      ko: GIST MLV Lab에서 동시적 위치추정 및 지도작성(SLAM)을 위한 평생 학습을 연구했습니다. 3차원 LiDAR 포인트 클라우드를 깊이 지도로 변환해 RGB 영상과 결합하고, IMU 데이터를 함께 사용하며, 온라인 메타 학습과 재생 버퍼로 새로운 환경에 대한 적응 성능을 높였습니다. KITTI와 Oxford RobotCar 데이터셋으로 평가했습니다. 카메라-레이더 외부 파라미터 캘리브레이션 연구에도 참여했습니다.
+      en: At the GIST MLV Lab, I studied continual learning for simultaneous localization and mapping (SLAM). The method converts 3D LiDAR point clouds into depth maps, combines them with RGB images and IMU data, and uses online meta-learning and a replay buffer to adapt better to new environments. It was evaluated on the KITTI and Oxford RobotCar datasets. I also contributed to research on camera-radar extrinsic calibration.
+    projects: [proj-reading-robot]
+    publications: [pub-kiise-2023, pub-ksc-2021]
+    patents: []
+  - id: undergraduate
+    title: {ko: 학부 연구 - 스마트 소방 헬멧과 자율주행, en: "Undergraduate research: smart fire helmet and autonomous driving"}
+    period: 2019 – 2021
+    body:
+      ko: 한국공학대학교 AES Lab에서 열화상 카메라, 핸즈프리 무선통신, 증강현실을 적용한 스마트 소방 헬멧을 개발했고, 자율주행 안정성 향상을 위한 인식 필터와 속도 제어를 연구했습니다.
+      en: At the AES Lab, Tech University of Korea, I developed a smart fire-fighting helmet with a thermal camera, hands-free wireless communication and augmented reality, and studied perception filters and speed control for safer autonomous driving.
+    projects: []
+    publications: [pub-kics-2020-helmet, pub-ksae-2020-filter]
+    patents: []
+
+# cv.yaml에 없는 수상. 형식은 cv.yaml의 awards와 같다.
+extra_awards:
+  - key: aw-gist-literature
+    date: "2021"
+    title: {ko: 제2회 광주과기원 문학상 가작, en: "Honorable Mention, 2nd GIST Literary Award"}
+    org: {ko: 광주과학기술원, en: GIST}
+
+extra_training:
+  - key: tr-abeek
+    date: 2021-02-19
+    title: {ko: 공학교육 인증과정 이수 (전자공학전공심화), en: "Engineering Education Accreditation Program (Electronics Engineering)"}
+    org: {ko: 한국산업기술대학교, en: Tech University of Korea}
+  - key: tr-smart-factory
+    date: 2020-07-06
+    title: {ko: 스마트공장 전문인력양성 교육 (16시간), en: "Smart Factory Specialist Training (16 hours)"}
+    org: {ko: 한국산업기술대학교, en: Tech University of Korea}
+  - key: tr-human-engineer
+    date: 2018-12-18
+    title: {ko: 휴먼엔지니어세미나, en: Human Engineer Seminar}
+    org: {ko: 한국산업기술대학교, en: Tech University of Korea}
+
+# 리뷰어 활동. 항목을 추가하면 기타 페이지에 자동으로 나타난다.
+# 형식: - {date: "2022", title: {ko: 학술지명, en: Journal name}}
+reviews: []
+
+seminars:
+  - date: 2025-11-25
+    title: {ko: 2025 자율주행 전장부문 추계워크숍, en: 2025 Autonomous Driving & Electronics Division Fall Workshop}
+    org: {ko: "한국자동차공학회, 한양대학교", en: "KSAE, Hanyang University"}
+  - date: 2025-11-12
+    title: {ko: 2025 한국자동차공학회 추계학술대회 및 전시회, en: 2025 KSAE Fall Conference and Exhibition}
+    org: {ko: "한국자동차공학회, 부산", en: "KSAE, Busan"}
+  - date: 2025-10-20
+    title: {ko: K-CRASH EDGE 2025, en: K-CRASH EDGE 2025}
+    org: {ko: "한국자동차모빌리티안전학회, 대구", en: "Korean Society of Automotive and Mobility Safety, Daegu"}
+  - date: 2024-11-19
+    title: {ko: 2024 한국자동차공학회 추계학술대회 및 전시회, en: 2024 KSAE Fall Conference and Exhibition}
+    org: {ko: "한국자동차공학회, 제주", en: "KSAE, Jeju"}
+  - date: 2024-08-27
+    title: {ko: "[OSIA] 심층강화학습과 조합최적화 실전 응용 기초", en: "[OSIA] Fundamentals of Applied Deep Reinforcement Learning and Combinatorial Optimization"}
+    org: {ko: "한국컴퓨터통신연구회, 온라인", en: "Online"}
+  - date: 2024-06-24
+    title: {ko: 제32차 KRnet 2024, en: 32nd KRnet 2024}
+    org: {ko: "한국컴퓨터통신연구회, 서울", en: Seoul}
+  - date: 2023-11-15
+    title: {ko: 2023 한국자동차공학회 추계학술대회 및 전시회, en: 2023 KSAE Fall Conference and Exhibition}
+    org: {ko: "한국자동차공학회, 울산", en: "KSAE, Ulsan"}
+
+exhibitions:
+  - date: 2025-05-15
+    title: {ko: AI EXPO KOREA 2025, en: AI EXPO KOREA 2025}
+  - date: 2025-04-10
+    title: {ko: 2025 서울모빌리티쇼, en: 2025 Seoul Mobility Show}
+    org: {ko: 킨텍스, en: KINTEX}
+  - date: 2024-09-04
+    title: {ko: Automotive World 2024 Japan, en: Automotive World 2024 Japan}
+    org: {ko: 일본, en: Japan}
+  - date: 2024-05-02
+    title: {ko: AI EXPO KOREA 2024, en: AI EXPO KOREA 2024}
+    org: {ko: 코엑스, en: COEX}
+
+service:
+  - date: 2016-2019
+    title: {ko: "자원봉사 122시간 (38회)", en: "Volunteer work, 122 hours (38 sessions)"}
