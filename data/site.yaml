@@ -145,6 +145,11 @@ exhibitions:
     title: {ko: AI EXPO KOREA 2024, en: AI EXPO KOREA 2024}
     org: {ko: 코엑스, en: COEX}
 
+other_activities:
+  - date: 2021-09
+    title: {ko: 제2회 광주과기원 문학상 가작, en: "Honorable Mention, 2nd GIST Literary Award"}
+    org: {ko: 광주과학기술원, en: GIST}
+
 service:
   # period는 기간을 그대로 표시한다. 총계는 1365 자원봉사 확인서 기준이다.
   - period: 2016.10 – 2019.12

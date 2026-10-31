@@ -654,6 +654,7 @@ patents:
       date: 2024-06-21
 awards:
   - key: aw-gist-idea
+    cv: false
     date: 2021-09
     title:
       ko: 슬기로운 연구생활 아이디어 공모전 우수상
@@ -662,6 +663,7 @@ awards:
       ko: 광주과학기술원
       en: GIST
   - key: aw-valedictorian
+    cv: false
     date: 2021-02
     title:
       ko: 우수졸업자 표창 (학부 1,218명 중 수석)
@@ -678,6 +680,7 @@ awards:
       ko: 한국정보산업연합회
       en: The Federation of Korean Information Industries
   - key: aw-essay
+    cv: false
     date: 2020-11
     title:
       ko: 비교과 프로그램 활동 수기 공모전 대상 (에세이 부문)
@@ -727,6 +730,7 @@ awards:
       ko: 고양이를 위한 실시간 웹제어 IoT 디바이스
       en: Real-time web-controlled IoT device for cats
   - key: aw-internship-essay
+    cv: false
     date: 2019-07
     title:
       ko: 교내 현장실습 수기 공모전 우수상 (1위)
@@ -734,14 +738,6 @@ awards:
     org:
       ko: 한국산업기술대학교
       en: Tech University of Korea
-  - key: aw-gist-literature
-    date: 2021-09
-    title:
-      ko: 제2회 광주과기원 문학상 가작
-      en: Honorable Mention, 2nd GIST Literary Award
-    org:
-      ko: 광주과학기술원
-      en: GIST
 scholarships:
   - key: sc-gist
     date: 2021-02-24

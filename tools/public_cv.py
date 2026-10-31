@@ -13,7 +13,7 @@ import pymupdf
 PROJECT = Path(__file__).resolve().parents[1]
 BUILD_CV = PROJECT.parents[2] / "3_Resources" / "CV" / "_system" / "build_cv.py"
 OUTPUTS = {"*HyeonsooJang_EN.pdf": "CV_HyeonsooJang_EN.pdf"}
-FORBIDDEN = re.compile(r"7640|Daimler|벤츠|Benz|10-2026-0194890|10-2025-0200611|만원|KRW|증빙|evidence", re.I)
+FORBIDDEN = re.compile(r"7640|Daimler|벤츠|Benz|10-2026-0194890|10-2025-0200611|만원|KRW|증빙|evidence|Scholarship|Literary|Essay Contest|Idea Contest|Valedictorian Award|Vibe Coding|TRAINING", re.I)
 
 
 def main() -> int:

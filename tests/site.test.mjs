@@ -135,6 +135,11 @@ test('공개·등록 특허에만 도면이 있고 기술 자문이 기타에 �
   assert.ok(raw(join(SITE, 'index.html')).includes('빅데이터·AIDV연구본부'));
 });
 
+test('문학상은 수상이 아니라 그 외 활동에 나온다', () => {
+  const etc = raw(join(SITE, 'etc.html'));
+  assert.ok(etc.indexOf('문학상 가작') > etc.indexOf('그 외 활동'));
+});
+
 test('의뢰·이직 제안 문구가 없다', () => {
   for (const f of htmlFiles) assert.ok(!/의뢰|이직|채용 문의|hire me|open to/i.test(raw(f)), f);
 });
