@@ -34,11 +34,11 @@ research:
     short: {ko: 실차 데이터 취득, en: Vehicle data acquisition}
     project_links: [proj-precrash]
     title: {ko: 실차 멀티모달 데이터 취득, en: Multi-modal vehicle data acquisition}
-    period: 2025 –
+    period: 2023 –
     body:
       ko: 카메라, 레이더, INS, CAN-FD, 인캐빈 센서를 ROS 2로 동기화하는 GV70 기반 플랫폼 구축.
       en: GV70-based platform synchronizing camera, radar, INS, CAN-FD and in-cabin sensors with ROS 2.
-    projects: []
+    projects: [proj-nanoheating, proj-mixed-traffic, proj-special-road]
     publications: []
     patents: []
   - id: coordination
@@ -67,6 +67,16 @@ research:
     projects: [proj-etc-soc]
     publications: [pub-ksae-2025-canfd, pub-ksae-2024-etc-req]
     patents: [pat-semiconductor-comm]
+  - id: sdv
+    short: {ko: SDV 전자아키텍처, en: SDV architecture}
+    title: {ko: SDV 전자아키텍처, en: SDV electronic architecture}
+    period: 2025
+    body:
+      ko: SDV 전자아키텍처 검증용 차량 소프트웨어 과제 참여.
+      en: Participated in vehicle software development for SDV architecture verification.
+    projects: [proj-sdv]
+    publications: []
+    patents: []
   - id: slam
     short: {ko: "석사: SLAM, 센서 융합", en: "M.S.: SLAM, sensor fusion"}
     figures:
@@ -80,6 +90,11 @@ research:
     projects: [proj-reading-robot]
     publications: [pub-kiise-2023, pub-ksc-2021]
     patents: []
+
+# 과제 구분. national은 국가과제, contract는 수탁과제다.
+project_kinds:
+  national: [proj-occupant-msb, proj-nanoheating, proj-multicore-soc, proj-sdv, proj-mixed-traffic, proj-special-road, proj-etc-soc, proj-incident-control, proj-reading-robot]
+  contract: [proj-precrash, proj-pmaps, proj-mpc55-adas]
 
 # 공개·등록 특허의 도면. 공개 전 출원은 넣지 않는다.
 patent_figures:

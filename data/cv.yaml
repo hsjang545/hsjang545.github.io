@@ -112,6 +112,24 @@ projects:
         en: Developing occupant motion monitoring and driver emergency behavior prediction methods for critical scenarios, including sudden braking and Autonomous Emergency Braking (AEB)
       - ko: ADAS·인캐빈 모니터링·다단계 안전벨트(MSB) 제어를 아우르는 통합 안전제어 시스템의 시뮬레이션·실차 검증 프레임워크 설계
         en: Designing simulation and real-vehicle validation frameworks for integrated safety control systems encompassing ADAS, in-cabin monitoring, and multi-stage seat belt (MSB) control
+  - key: proj-nanoheating
+    title:
+      ko: 나노히팅 필름 기반 멀티모달 HMI 기술을 활용한 지능형 난방 기술 개발
+      en: Intelligent Heating Technology Using Multi-modal HMI Based on Nano-heating Film
+    sponsor:
+      ko: 산업통상부
+      en: Ministry of Trade, Industry and Resources
+    agency:
+      ko: 한국산업기술기획평가원
+      en: Korea Evaluation Institute of Industrial Technology (KEIT)
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2025-07
+    end: present
+    summary:
+      - ko: RGB·열화상·온습도·CAN 동기 데이터 취득
+        en: Synchronized acquisition of RGB, thermal, temperature, humidity and CAN data
   - key: proj-precrash
     title:
       ko: 통합안전을 위한 실차 기반 Precrash 평가법 개발
@@ -133,6 +151,22 @@ projects:
         en: Developed a ROS 2-based synchronized multi-sensor data acquisition system
       - ko: PG 환경에서 시나리오 기반 프리크래시 실험 수행 (실차 데이터 취득 및 반복 가능한 충돌 관련 시나리오용 시험 장비 운용)
         en: Conducted scenario-based pre-crash experiments in proving ground (PG) environments, including real-vehicle data acquisition and test equipment operation for repeatable crash-relevant safety scenarios
+  - key: proj-sdv
+    title:
+      ko: SDV용 전자아키텍처 검증을 위한 차량용 어플리케이션 소프트웨어 개발
+      en: Automotive Application Software for SDV Electronic Architecture Verification
+    sponsor:
+      ko: 산업통상부
+      en: Ministry of Trade, Industry and Resources
+    agency:
+      ko: 한국산업기술평가관리원
+      en: Korea Evaluation Institute of Industrial Technology (KEIT)
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2025-01
+    end: 2025-12
+    summary: []
   - key: proj-multicore-soc
     title:
       ko: 멀티코어 SoC기반 이종 기능 수행을 위한 통합제어기 및 소프트웨어 개발
@@ -167,6 +201,37 @@ projects:
         en: Performed KNCAP PMAPS (Pedal Misapplication Prevention System) validation tests
       - ko: 블랙박스 시험을 위한 고정밀 센서 구성 및 차량 데이터 취득 시스템 운용
         en: Configured high-precision sensors and operated vehicle data acquisition systems for black-box testing
+  - key: proj-mixed-traffic
+    title:
+      ko: 중고속 일반-자율주행차 혼합류 대응을 위한 미래차 주행 데이터 취득 장치 개발 및 운전행태 DB 확보
+      en: Driving Data Acquisition Device and Driving Behavior DB for Mixed Traffic of Human-driven and Autonomous Vehicles
+    sponsor:
+      ko: 산업통상부
+      en: Ministry of Trade, Industry and Resources
+    agency:
+      ko: 한국산업기술진흥원
+      en: Korea Institute for Advancement of Technology (KIAT)
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2023-11
+    end: 2024-12
+    summary: []
+  - key: proj-special-road
+    title:
+      ko: 특이 도로 환경 주행 데이터 (고도화)
+      en: Driving Data for Special Road Environments (Advanced)
+    sponsor:
+      ko: 한국지능정보사회진흥원
+      en: National Information Society Agency (NIA)
+    role:
+      ko: 참여연구원
+      en: Participating Researcher
+    start: 2023-07
+    end: 2023-12
+    summary:
+      - ko: 비포장 도로 주행 데이터 촬영 방법·절차 가이드
+        en: Guidelines on capture methods and procedures for unpaved road driving data
   - key: proj-etc-soc
     title:
       ko: 전동화 기반의 보안기능을 갖는 차세대 ETC 시스템반도체 개발

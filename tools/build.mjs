@@ -16,7 +16,7 @@ const T = {
     deck: '소개 자료', deckNote: '', prev: '이전', next: '다음', full: '전체 화면',
     projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제',
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
-    otherAct: '그 외 활동', consult: '기술 자문', award: '수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
+    national: '국가과제', contract: '수탁과제', otherAct: '그 외 활동', consult: '기술 자문', award: '수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
     cats: { intl_journal: 'SCIE', intl_conf: '국제 학술대회', dom_journal: '국내 학술지', dom_conf: '국내 학술대회' },
     kinds: { kr_registered: '국내 등록', kr_application: '국내 출원', pct: '해외 출원 (PCT)' },
@@ -29,7 +29,7 @@ const T = {
     deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
     projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related project',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
-    otherAct: 'Other activities', consult: 'Technical consulting', award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
+    national: 'Government-funded', contract: 'Contract research', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
     cats: { intl_journal: 'SCIE', intl_conf: 'International conferences', dom_journal: 'Domestic journals', dom_conf: 'Domestic conferences' },
     kinds: { kr_registered: 'KR registered', kr_application: 'KR application', pct: 'PCT application' },
@@ -55,6 +55,11 @@ const projects = [...cv.projects].sort((a, b) => String(b.start).localeCompare(S
 const awards = [...cv.awards, ...site.extra_awards].sort(byDateDesc);
 const training = [...cv.training, ...site.extra_training].sort(byDateDesc);
 const pubAwards = pubs.filter((p) => p.award);
+const kindOf = (key, t) => {
+  if (site.project_kinds.national.includes(key)) return t.national;
+  if (site.project_kinds.contract.includes(key)) return t.contract;
+  throw new Error(`site.yaml의 project_kinds에 없는 과제: ${key}`);
+};
 
 // 국제 학술지·학회와 PCT 출원은 국문 페이지에서도 제목, 저자, 학회명을 영어로 쓴다.
 const itemLang = (item, l) => (item.category?.startsWith('intl_') || item.kind === 'pct' ? 'en' : l);
@@ -135,7 +140,9 @@ ${deckViewer(l, up)}
     const t = T[l];
     const project = (k) => {
       const p = byKey(cv.projects, k, 'project');
-      return `<details class="project" id="${p.key}"><summary>${esc(p.title[l])}<small>${range(p.start, p.end, t)}, ${t.sponsor} ${esc(p.sponsor[l])}${p.agency ? `, ${esc(p.agency[l])}` : ''}, ${esc(p.role[l])}</small></summary><ul>${p.summary.map((s) => `<li>${esc(s[l])}</li>`).join('')}</ul></details>`;
+      const info = `${esc(p.title[l])}<small>${range(p.start, p.end, t)}, ${kindOf(p.key, t)}, ${esc(p.sponsor[l])}${p.agency ? `, ${esc(p.agency[l])}` : ''}, ${esc(p.role[l])}</small>`;
+      if (!p.summary.length) return `<div class="project-plain" id="${p.key}">${info}</div>`;
+      return `<details class="project" id="${p.key}"><summary>${info}</summary><ul>${p.summary.map((s) => `<li>${esc(s[l])}</li>`).join('')}</ul></details>`;
     };
     const refs = (title, items) => (items.length ? `<div class="outputs"><h3>${title}</h3><ul class="plain">${items.join('')}</ul></div>` : '');
     const toc = `<ul class="topics">${site.research.map((r) => `<li><a href="#${r.id}">${esc(r.short[l])}</a></li>`).join('')}</ul>`;
@@ -168,7 +175,7 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
 <div class="wrap sheet">
 ${row(t.edu, `<ul class="dated">${cv.education.map((e) => `<li><span class="when">${range(e.start, e.end, t)}</span><div><p class="title">${esc(e.school[l])}, ${esc(e.degree[l])}</p><p class="meta">${esc(e.major[l])}, ${t.gpa} ${esc(e.gpa)}${e.honors ? `, ${esc(e.honors[l])}` : ''}</p><p class="meta">${esc(e.lab[l])}, ${t.advisor}: ${esc(e.advisor[l])}</p><p class="meta">${t.thesis}: ${esc(e.thesis[l])}</p></div></li>`).join('')}</ul>`)}
 ${row(t.career, `<ul class="dated">${k.positions.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(k.org[l])}, ${esc(p.title[l])}</p><p class="meta">${esc(p.dept[l])}</p></div></li>`).join('')}</ul>`)}
-${row(t.projects, `<ul class="dated">${projects.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(p.title[l])}</p><p class="meta">${esc(p.sponsor[l])}</p></div></li>`).join('')}</ul>`)}
+${row(t.projects, `<ul class="dated">${projects.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(p.title[l])}</p><p class="meta">${kindOf(p.key, t)}, ${esc(p.sponsor[l])}</p></div></li>`).join('')}</ul>`)}
 ${row(t.pubTitle, `<ul class="biblio">${CAT_ORDER.flatMap((c) => pubs.filter((p) => p.category === c)).map((p) => pubItem(p, l)).join('')}</ul>`)}
 ${row(t.patTitle, `<ul class="biblio">${patents.map((p) => patentItem(p, l, null)).join('')}</ul>`)}
 ${row(t.award, simpleList(awards, l))}
