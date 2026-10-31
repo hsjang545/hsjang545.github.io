@@ -67,8 +67,8 @@ experience:
     start: 2023-02
     end: present
     summary:
-      ko: ADAS 및 통합안전 연구·검증
-      en: ADAS, Integrated Safety Research & Validation
+      ko: ADAS 및 통합안전 연구·검증, 기술애로분석 자문 1건 ((주)HRC테크놀로지, 2026)
+      en: ADAS, Integrated Safety Research & Validation; technical consulting for HRC Technology (2026)
     positions:
       - dept:
           ko: 자율주행기술연구소 빅데이터·AIDV연구본부 데이터플랫폼연구센터
@@ -169,22 +169,6 @@ projects:
         en: Developed a ROS 2-based synchronized multi-sensor data acquisition system
       - ko: PG 환경에서 시나리오 기반 프리크래시 실험 수행 (실차 데이터 취득 및 반복 가능한 충돌 관련 시나리오용 시험 장비 운용)
         en: Conducted scenario-based pre-crash experiments in proving ground (PG) environments, including real-vehicle data acquisition and test equipment operation for repeatable crash-relevant safety scenarios
-  - key: proj-sdv
-    title:
-      ko: SDV용 전자아키텍처 검증을 위한 차량용 어플리케이션 소프트웨어 개발
-      en: Automotive Application Software for SDV Electronic Architecture Verification
-    sponsor:
-      ko: 산업통상부
-      en: Ministry of Trade, Industry and Resources
-    agency:
-      ko: 한국산업기술평가관리원
-      en: Korea Evaluation Institute of Industrial Technology (KEIT)
-    role:
-      ko: 참여연구원
-      en: Participating Researcher
-    start: 2025-01
-    end: 2025-12
-    summary: []
   - key: proj-multicore-soc
     title:
       ko: 멀티코어 SoC기반 이종 기능 수행을 위한 통합제어기 및 소프트웨어 개발
@@ -219,22 +203,6 @@ projects:
         en: Performed KNCAP PMAPS (Pedal Misapplication Prevention System) validation tests
       - ko: 블랙박스 시험을 위한 고정밀 센서 구성 및 차량 데이터 취득 시스템 운용
         en: Configured high-precision sensors and operated vehicle data acquisition systems for black-box testing
-  - key: proj-mixed-traffic
-    title:
-      ko: 중고속 일반-자율주행차 혼합류 대응을 위한 미래차 주행 데이터 취득 장치 개발 및 운전행태 DB 확보
-      en: Driving Data Acquisition Device and Driving Behavior DB for Mixed Traffic of Human-driven and Autonomous Vehicles
-    sponsor:
-      ko: 산업통상부
-      en: Ministry of Trade, Industry and Resources
-    agency:
-      ko: 한국산업기술진흥원
-      en: Korea Institute for Advancement of Technology (KIAT)
-    role:
-      ko: 참여연구원
-      en: Participating Researcher
-    start: 2023-11
-    end: 2024-12
-    summary: []
   - key: proj-special-road
     title:
       ko: 특이 도로 환경 주행 데이터 (고도화)
@@ -766,6 +734,14 @@ awards:
     org:
       ko: 한국산업기술대학교
       en: Tech University of Korea
+  - key: aw-gist-literature
+    date: 2021-09
+    title:
+      ko: 제2회 광주과기원 문학상 가작
+      en: Honorable Mention, 2nd GIST Literary Award
+    org:
+      ko: 광주과학기술원
+      en: GIST
 scholarships:
   - key: sc-gist
     date: 2021-02-24
@@ -971,6 +947,30 @@ training:
     title:
       ko: 자율주행 검증·평가·구현 기술 교육
       en: Autonomous Driving Verification, Evaluation and Implementation Training
+  - key: tr-abeek
+    date: 2021-02-19
+    title:
+      ko: 공학교육 인증과정 이수 (전자공학전공심화)
+      en: Engineering Education Accreditation Program (Electronics Engineering)
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+  - key: tr-smart-factory
+    date: 2020-07-06
+    title:
+      ko: 스마트공장 전문인력양성 교육 (16시간)
+      en: Smart Factory Specialist Training (16 hours)
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
+  - key: tr-human-engineer
+    date: 2018-12-18
+    title:
+      ko: 휴먼엔지니어세미나
+      en: Human Engineer Seminar
+    org:
+      ko: 한국산업기술대학교
+      en: Tech University of Korea
 skills:
   programming:
     - Python

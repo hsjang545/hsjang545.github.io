@@ -38,7 +38,7 @@ research:
     body:
       ko: 카메라, 레이더, INS, CAN-FD, 인캐빈 센서를 ROS 2로 동기화하는 GV70 기반 플랫폼 구축.
       en: GV70-based platform synchronizing camera, radar, INS, CAN-FD and in-cabin sensors with ROS 2.
-    projects: [proj-camera-5m, proj-nanoheating, proj-mixed-traffic, proj-special-road]
+    projects: [proj-camera-5m, proj-nanoheating, proj-special-road]
     publications: []
     patents: []
   - id: coordination
@@ -67,16 +67,6 @@ research:
     projects: [proj-etc-soc]
     publications: [pub-ksae-2025-canfd, pub-ksae-2024-etc-req]
     patents: [pat-semiconductor-comm]
-  - id: sdv
-    short: {ko: SDV 전자아키텍처, en: SDV architecture}
-    title: {ko: SDV 전자아키텍처, en: SDV electronic architecture}
-    period: 2025
-    body:
-      ko: SDV 전자아키텍처 검증용 차량 소프트웨어 과제 참여.
-      en: Participated in vehicle software development for SDV architecture verification.
-    projects: [proj-sdv]
-    publications: []
-    patents: []
   - id: slam
     short: {ko: "석사: SLAM, 센서 융합", en: "M.S.: SLAM, sensor fusion"}
     figures:
@@ -93,7 +83,7 @@ research:
 
 # 과제 구분. national은 국가과제, contract는 수탁과제다.
 project_kinds:
-  national: [proj-camera-5m, proj-occupant-msb, proj-nanoheating, proj-multicore-soc, proj-sdv, proj-mixed-traffic, proj-special-road, proj-etc-soc, proj-incident-control, proj-reading-robot]
+  national: [proj-camera-5m, proj-occupant-msb, proj-nanoheating, proj-multicore-soc, proj-special-road, proj-etc-soc, proj-incident-control, proj-reading-robot]
   contract: [proj-precrash, proj-pmaps, proj-mpc55-adas]
 
 # 공개·등록 특허의 도면. 공개 전 출원은 넣지 않는다.
@@ -106,26 +96,9 @@ patent_figures:
     - {file: pat-traffic-2.jpg, caption: {ko: 도면 2, en: Drawing 2}}
     - {file: pat-traffic-3.jpg, caption: {ko: 도면 3, en: Drawing 3}}
 
-# cv.yaml에 없는 수상. 형식은 cv.yaml의 awards와 같다.
-extra_awards:
-  - key: aw-gist-literature
-    date: "2021"
-    title: {ko: 제2회 광주과기원 문학상 가작, en: "Honorable Mention, 2nd GIST Literary Award"}
-    org: {ko: 광주과학기술원, en: GIST}
-
-extra_training:
-  - key: tr-abeek
-    date: 2021-02-19
-    title: {ko: 공학교육 인증과정 이수 (전자공학전공심화), en: "Engineering Education Accreditation Program (Electronics Engineering)"}
-    org: {ko: 한국산업기술대학교, en: Tech University of Korea}
-  - key: tr-smart-factory
-    date: 2020-07-06
-    title: {ko: 스마트공장 전문인력양성 교육 (16시간), en: "Smart Factory Specialist Training (16 hours)"}
-    org: {ko: 한국산업기술대학교, en: Tech University of Korea}
-  - key: tr-human-engineer
-    date: 2018-12-18
-    title: {ko: 휴먼엔지니어세미나, en: Human Engineer Seminar}
-    org: {ko: 한국산업기술대학교, en: Tech University of Korea}
+# cv.yaml에 없는 수상과 교육. 형식은 cv.yaml과 같다.
+extra_awards: []
+extra_training: []
 
 # 리뷰어 활동. 항목을 추가하면 기타 페이지에 자동으로 나타난다.
 # 형식: - {date: "2022", title: {ko: 학술지명, en: Journal name}}

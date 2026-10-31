@@ -1,4 +1,4 @@
-"""data/cv.yaml(공개용)로 CV PDF를 만들어 assets/cv/에 저장한다. 비공개 문구가 있으면 저장하지 않는다.
+"""data/cv.yaml(공개용)로 영문 CV PDF를 만들어 assets/cv/에 저장한다. 비공개 문구가 있으면 저장하지 않는다.
 
 실행: %LOCALAPPDATA%\\cv-build\\venv\\Scripts\\python.exe tools/public_cv.py (pymupdf 필요)
 """
@@ -12,7 +12,7 @@ import pymupdf
 
 PROJECT = Path(__file__).resolve().parents[1]
 BUILD_CV = PROJECT.parents[2] / "3_Resources" / "CV" / "_system" / "build_cv.py"
-OUTPUTS = {"*장현수_KR.pdf": "CV_HyeonsooJang_KR.pdf", "*HyeonsooJang_EN.pdf": "CV_HyeonsooJang_EN.pdf"}
+OUTPUTS = {"*HyeonsooJang_EN.pdf": "CV_HyeonsooJang_EN.pdf"}
 FORBIDDEN = re.compile(r"7640|Daimler|벤츠|Benz|10-2026-0194890|10-2025-0200611|만원|KRW|증빙|evidence", re.I)
 
 
@@ -24,7 +24,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         (root / "cv.yaml").write_text(text, encoding="utf-8")
-        subprocess.run([sys.executable, str(BUILD_CV), "--root", str(root), "--lang", "all"], check=True)
+        subprocess.run([sys.executable, str(BUILD_CV), "--root", str(root), "--lang", "en"], check=True)
         target = PROJECT / "assets" / "cv"
         target.mkdir(exist_ok=True)
         for pattern, name in OUTPUTS.items():

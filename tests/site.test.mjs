@@ -45,13 +45,13 @@ test('sanitize가 내부 필드를 제거한다', () => {
 });
 
 test('공개 CV 외의 PDF가 사이트와 저장 자료에 없다', () => {
-  const allowed = /assets[\\/]cv[\\/]CV_HyeonsooJang_(KR|EN)\.pdf$/;
+  const allowed = /assets[\\/]cv[\\/]CV_HyeonsooJang_EN\.pdf$/;
   const files = [...walk(SITE), ...walk('assets'), ...walk('data')];
   for (const f of files) assert.ok(!/\.pdf$/i.test(f) || allowed.test(f), f);
   for (const f of htmlFiles) {
     for (const [, u] of raw(f).matchAll(/(?:href|src)="([^"]*\.pdf)/gi)) assert.ok(allowed.test(u), `${f}: ${u}`);
   }
-  assert.ok(raw(join(SITE, 'index.html')).includes('href="assets/cv/CV_HyeonsooJang_KR.pdf" download'));
+  assert.ok(raw(join(SITE, 'index.html')).includes('href="assets/cv/CV_HyeonsooJang_EN.pdf" download'));
   assert.ok(raw(join(SITE, 'en', 'index.html')).includes('href="../assets/cv/CV_HyeonsooJang_EN.pdf" download'));
 });
 
@@ -96,6 +96,7 @@ test('모든 공개 항목이 페이지에 나온다', () => {
   const cv = parse(raw('data/cv.yaml'));
   const pubs = raw(join(SITE, 'publications.html'));
   for (const p of [...cv.publications, ...cv.patents]) assert.ok(pubs.includes(`id="${p.key}"`), p.key);
+  for (const k of ['proj-sdv', 'proj-mixed-traffic']) assert.ok(!raw(join(SITE, 'research.html')).includes(k), k);
   const research = raw(join(SITE, 'research.html'));
   for (const p of cv.projects) assert.equal(research.split(`id="${p.key}"`).length, 2, p.key);
 });

@@ -124,7 +124,7 @@ const pages = {
     <h1>${esc(cv.profile.name[l])}</h1>
     <p class="role">${esc(site.intro.role[l])}</p>
     <p class="headline">${esc(site.intro.headline[l])}</p>
-    <p class="contact">${t.email} ${esc(cv.profile.email)}<br><a href="https://orcid.org/${cv.profile.orcid}">ORCID ${cv.profile.orcid}</a><br><a href="${up}assets/cv/CV_HyeonsooJang_${l === 'ko' ? 'KR' : 'EN'}.pdf" download>CV (PDF)</a>${site.intro.scholar ? `<br><a href="${esc(site.intro.scholar)}">Google Scholar</a>` : ''}</p>
+    <p class="contact">${t.email} ${esc(cv.profile.email)}<br><a href="https://orcid.org/${cv.profile.orcid}">ORCID ${cv.profile.orcid}</a><br><a href="${up}assets/cv/CV_HyeonsooJang_EN.pdf" download>CV (PDF)</a>${site.intro.scholar ? `<br><a href="${esc(site.intro.scholar)}">Google Scholar</a>` : ''}</p>
   </div>
   <img src="${up}assets/photo.jpg" alt="${esc(cv.profile.name[l])}" width="496" height="638">
 </div></section>
