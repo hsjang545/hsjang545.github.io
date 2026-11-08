@@ -8,8 +8,9 @@ const read = (p) => parse(readFileSync(new URL(p, root), 'utf8'));
 const cv = read('data/cv.yaml');
 const site = read('data/site.yaml');
 const OUT = new URL('_site/', root);
-// 스타일을 고치면 주소가 바뀌어 브라우저가 이전 스타일을 캐시에서 쓰지 않는다.
-const CSS_VER = createHash('sha256').update(readFileSync(new URL('assets/style.css', root))).digest('hex').slice(0, 8);
+// 스타일이나 슬라이드를 고치면 주소가 바뀌어 브라우저가 이전 파일을 캐시에서 쓰지 않는다.
+const ver = (path) => createHash('sha256').update(readFileSync(new URL(path, root))).digest('hex').slice(0, 8);
+const CSS_VER = ver('assets/style.css');
 
 const T = {
   ko: {
@@ -108,7 +109,7 @@ function deckViewer(l, up) {
   const t = T[l];
   const slides = read('data/deck.yaml');
   const n = slides.length;
-  const imgs = slides.map((s, i) => `<img src="${up}assets/deck/${esc(s.file)}" alt="${esc(`${i + 1}/${n}: ${s.title}`)}" width="1600" height="900" loading="${i < 2 ? 'eager' : 'lazy'}"${i ? ' hidden' : ''}>`).join('');
+  const imgs = slides.map((s, i) => `<img src="${up}assets/deck/${esc(s.file)}?v=${ver(`assets/deck/${s.file}`)}" alt="${esc(`${i + 1}/${n}: ${s.title}`)}" width="1600" height="900" loading="${i < 2 ? 'eager' : 'lazy'}"${i ? ' hidden' : ''}>`).join('');
   return `<section class="block" id="deck"><h2>${t.deck}</h2>${l === 'en' ? `<p class="note deck-note">${t.deckNote}</p>` : ''}
 <div class="deck" tabindex="0" role="group" aria-roledescription="${esc(t.deck)}" aria-label="${esc(t.deck)}"><div class="deck-stage">${imgs}</div>
 <div class="deck-bar"><button type="button" class="deck-prev">${t.prev}</button><span class="deck-count" aria-live="polite">1 / ${n}</span><button type="button" class="deck-next">${t.next}</button><button type="button" class="deck-full">${t.full}</button></div></div>
@@ -144,12 +145,12 @@ const pages = {
   <img src="${up}assets/photo.jpg" alt="${esc(cv.profile.name[l])}" width="496" height="638">
 </div></section>
 <div class="wrap">
-<section class="block"><h2>${t.areas}</h2><ul class="areas">${site.research.filter((r) => r.on_intro !== false).map((r) => `<li><a href="research.html#${r.id}">${esc(r.short[l])}</a><span class="when">${esc(r.period)}</span></li>`).join('')}</ul></section>
-${deckViewer(l, up)}
 <section class="block two">
   <div><h2>${t.career}</h2><ul class="dated">${k.positions.map((p, i) => { const logo = i ? '' : orgLogo(k.key, l, up); return `<li><span class="when">${range(p.start, p.end, t)}${logo}</span><div><p class="title">${esc(k.org[l])}</p><p class="meta">${esc(p.dept[l])}, ${esc(p.title[l])}</p></div></li>`; }).join('')}</ul></div>
   <div><h2>${t.edu}</h2><ul class="dated">${cv.education.map((e) => { return `<li><span class="when">${range(e.start, e.end, t)}${orgLogo(e.key, l, up)}</span><div><p class="title">${esc(e.school[l])}</p><p class="meta">${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}</p></div></li>`; }).join('')}</ul></div>
 </section>
+<section class="block"><h2>${t.areas}</h2><ul class="areas">${site.research.filter((r) => r.on_intro !== false).map((r) => `<li><a href="research.html#${r.id}">${esc(r.short[l])}</a><span class="when">${esc(r.period)}</span></li>`).join('')}</ul></section>
+${deckViewer(l, up)}
 </div>`;
   },
   research(l, up) {

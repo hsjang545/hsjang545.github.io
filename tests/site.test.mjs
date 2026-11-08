@@ -90,6 +90,7 @@ test('스타일시트 주소에 버전이 붙고 로고 크기가 HTML에 지정
   for (const f of htmlFiles.filter((x) => !raw(x).includes('http-equiv="refresh"'))) {
     assert.ok(/assets\/style\.css\?v=[0-9a-f]{8}"/.test(raw(f)), f);
   }
+  assert.ok(/assets\/deck\/slide-01\.jpg\?v=[0-9a-f]{8}"/.test(raw(join(SITE, 'index.html'))));
   for (const [, tag] of raw(join(SITE, 'projects.html')).matchAll(/(<img class="logo[^>]*>)/g)) assert.ok(/width="\d+" height="\d+"/.test(tag), tag);
 });
 
@@ -99,6 +100,14 @@ test('경력·학력에 기관 로고가 나오고 같은 기관은 한 번만 �
     for (const file of ['katech.png', 'gist.svg', 'tukorea.svg']) {
       assert.equal(page.split(`src="${up}assets/logos/${file}"`).length, 2, `${f}: ${file}`);
     }
+  }
+});
+
+test('소개 페이지는 경력·학력, 연구 분야, 소개 자료 순서다', () => {
+  for (const f of ['index.html', join('en', 'index.html')]) {
+    const page = raw(join(SITE, f));
+    const at = [page.indexOf('class="block two"'), page.indexOf('class="areas"'), page.indexOf('id="deck"')];
+    assert.ok(at.every((i) => i > 0) && at[0] < at[1] && at[1] < at[2], `${f}: ${at}`);
   }
 });
 
