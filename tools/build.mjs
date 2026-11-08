@@ -10,11 +10,11 @@ const OUT = new URL('_site/', root);
 
 const T = {
   ko: {
-    home: '소개', research: '연구·프로젝트', pubs: '논문·특허', cv: 'CV', etc: '기타',
+    home: '소개', research: '연구', projectsTab: '프로젝트', pubs: '논문·특허', cv: 'CV', etc: '기타',
     other: 'English', otherLang: 'en', email: '이메일', expertise: '전문분야', career: '경력', edu: '학력',
-    nProjects: '연구과제', nPubs: '논문', nPatents: '특허', nAwards: '수상', now: '현재',
+    now: '현재',
     deck: '소개 자료', deckNote: '', prev: '이전', next: '다음', full: '전체 화면',
-    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제',
+    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', relatedResearch: '관련 연구', areas: '연구 분야',
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
     national: '국가과제', contract: '수탁과제', misc: '기타', otherAct: '그 외 활동', consult: '기술 자문', award: '수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
@@ -23,11 +23,11 @@ const T = {
     updated: '최종 수정', titleSuffix: '장현수',
   },
   en: {
-    home: 'About', research: 'Research & Projects', pubs: 'Publications & Patents', cv: 'CV', etc: 'Other',
+    home: 'About', research: 'Research', projectsTab: 'Projects', pubs: 'Publications & Patents', cv: 'CV', etc: 'Other',
     other: '한국어', otherLang: 'ko', email: 'Email', expertise: 'Expertise', career: 'Experience', edu: 'Education',
-    nProjects: 'projects', nPubs: 'publications', nPatents: 'patents', nAwards: 'awards', now: 'Present',
+    now: 'Present',
     deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
-    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related project',
+    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', relatedResearch: 'Related research', areas: 'Research areas',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
     national: 'Government-funded', contract: 'Contract research', misc: 'Misc.', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
@@ -51,7 +51,7 @@ function byKey(list, key, kind) {
 const CAT_ORDER = ['intl_journal', 'intl_conf', 'dom_journal', 'dom_conf'];
 const pubs = [...cv.publications].sort(byDateDesc);
 const patents = [...cv.patents].sort((a, b) => b.application.date.localeCompare(a.application.date));
-const projects = [...cv.projects].sort((a, b) => String(b.start).localeCompare(String(a.start)));
+const projects = cv.projects.filter((p) => !site.hidden_projects?.includes(p.key)).sort((a, b) => String(b.start).localeCompare(String(a.start)));
 const awards = [...cv.awards, ...site.extra_awards].sort(byDateDesc);
 const training = [...cv.training, ...site.extra_training].sort(byDateDesc);
 const pubAwards = pubs.filter((p) => p.award);
@@ -117,7 +117,6 @@ const pages = {
   index(l, up) {
     const t = T[l];
     const k = cv.experience[0];
-    const stat = (n, label) => `<li><b>${n}</b>${label}</li>`;
     return `
 <section class="hero"><div class="wrap hero-grid">
   <div>
@@ -129,7 +128,7 @@ const pages = {
   <img src="${up}assets/photo.jpg" alt="${esc(cv.profile.name[l])}" width="496" height="638">
 </div></section>
 <div class="wrap">
-<section class="block"><ul class="tally">${stat(projects.length, t.nProjects)}${stat(pubs.length, t.nPubs)}${stat(patents.length, t.nPatents)}${stat(awards.length + pubAwards.length, t.nAwards)}</ul></section>
+<section class="block"><h2>${t.areas}</h2><ul class="areas">${site.research.filter((r) => r.on_intro !== false).map((r) => `<li><a href="research.html#${r.id}">${esc(r.short[l])}</a><span class="when">${esc(r.period)}</span></li>`).join('')}</ul></section>
 ${deckViewer(l, up)}
 <section class="block two">
   <div><h2>${t.career}</h2><ul class="dated">${k.positions.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(k.org[l])}</p><p class="meta">${esc(p.dept[l])}, ${esc(p.title[l])}</p></div></li>`).join('')}</ul></div>
@@ -139,26 +138,40 @@ ${deckViewer(l, up)}
   },
   research(l, up) {
     const t = T[l];
-    const project = (k) => {
-      const p = byKey(cv.projects, k, 'project');
-      const info = `${esc(p.title[l])}<small>${range(p.start, p.end, t)}, ${kindOf(p.key, t)}, ${esc(p.sponsor[l])}${p.agency ? `, ${esc(p.agency[l])}` : ''}, ${esc(p.role[l])}</small>`;
-      if (!p.summary.length) return `<div class="project-plain" id="${p.key}">${info}</div>`;
-      return `<details class="project" id="${p.key}"><summary>${info}</summary><ul>${p.summary.map((s) => `<li>${esc(s[l])}</li>`).join('')}</ul></details>`;
-    };
     const refs = (title, items) => (items.length ? `<div class="outputs"><h3>${title}</h3><ul class="plain">${items.join('')}</ul></div>` : '');
     const toc = `<ul class="topics">${site.research.map((r) => `<li><a href="#${r.id}">${esc(r.short[l])}</a></li>`).join('')}</ul>`;
     const topic = (r) => {
       const figures = r.figures ?? [];
       const text = `<div><h2>${esc(r.title[l])}</h2><p class="span">${esc(r.period)}</p><p>${esc(r.body[l])}</p>
-${r.projects.map(project).join('')}
-${refs(t.relatedProject, (r.project_links ?? []).map((k) => `<li><a href="#${k}">${esc(byKey(cv.projects, k, 'project').title[l])}</a></li>`))}
+${refs(t.relatedProject, r.projects.map((k) => { const p = byKey(cv.projects, k, 'project'); return `<li><a href="projects.html#${k}">${esc(p.title[l])}</a> <span class="by">${range(p.start, p.end, t)}</span></li>`; }))}
 ${refs(t.pubOut, r.publications.map((k) => { const p = byKey(cv.publications, k, 'publication'); return `<li><a href="publications.html#${k}">${esc(p.title[itemLang(p, l)])}</a></li>`; }))}
 ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent'); return `<li><a href="publications.html#${k}">${esc(p.title[itemLang(p, l)])}</a></li>`; }))}</div>`;
       return `<article class="topic${figures.length ? '' : ' solo'}" id="${r.id}">${text}${figures.length ? `<div>${figures.map((f) => figure(f, l, up)).join('')}</div>` : ''}</article>`;
     };
-    // 목록이나 다른 곳에서 특정 과제로 들어오면 그 과제를 펼친다.
+    // 과제가 이 페이지에 있던 때의 주소(research.html#proj-...)는 프로젝트 페이지로 보낸다.
     return `${head(t.research, '', toc)}<div class="wrap">${site.research.map(topic).join('')}</div>
-<script>function o(){var e=location.hash&&document.getElementById(location.hash.slice(1));if(e&&e.tagName==='DETAILS'){e.open=true;e.scrollIntoView()}}addEventListener('hashchange',o);o();</script>`;
+<script>if(/^#proj-/.test(location.hash))location.replace('projects.html'+location.hash);</script>`;
+  },
+  projects(l, up) {
+    const t = T[l];
+    const item = (p) => {
+      const meta = [range(p.start, p.end, t), p.sponsor[l], p.agency?.[l], p.role[l]].filter(Boolean).map(esc).join(', ');
+      const topics = site.research.filter((r) => r.projects.includes(p.key));
+      const points = p.summary.length ? `<ul class="points">${p.summary.map((s) => `<li>${esc(s[l])}</li>`).join('')}</ul>` : '';
+      const related = topics.length ? `<p class="meta">${t.relatedResearch}: ${topics.map((r) => `<a href="research.html#${r.id}">${esc(r.short[l])}</a>`).join(', ')}</p>` : '';
+      const logo = site.project_logos?.[p.key];
+      const body = `<p class="title">${esc(p.title[l])}</p><p class="meta">${meta}</p>${points}${related}`;
+      if (!logo) return `<li id="${p.key}">${body}</li>`;
+      const img = `<img class="logo${logo.mono ? ' mono' : ''}${logo.label ? ' emblem' : ''}" src="${up}assets/logos/${esc(logo.file)}" alt="${logo.label ? '' : esc(logo.name[l])}" loading="lazy">`;
+      const mark = logo.label ? `<span class="org-mark" title="${esc(logo.name[l])}">${img}<span>${esc(logo.label[l])}</span></span>` : img;
+      return `<li id="${p.key}" class="with-logo"><div>${body}</div>${mark}</li>`;
+    };
+    projects.forEach((p) => kindOf(p.key, t));
+    const groups = ['national', 'contract'].map((kind) => {
+      const g = projects.filter((p) => site.project_kinds[kind].includes(p.key));
+      return g.length ? `<div class="sheet-row"><h2>${t[kind]} (${g.length})</h2><ul class="biblio">${g.map(item).join('')}</ul></div>` : '';
+    }).join('');
+    return `${head(t.projectsTab, '')}<div class="wrap sheet">${groups}</div>`;
   },
   publications(l, up) {
     const t = T[l];
@@ -189,7 +202,7 @@ ${sec(t.award, awards)}${sec(t.pubAward, pa)}${sec(t.scholar, scholarships)}${se
 };
 
 // 이전 주소 cv.html은 소개 페이지로 이동한다. CV는 소개 페이지의 PDF로 내려받는다.
-const NAV = [['index', 'home'], ['research', 'research'], ['publications', 'pubs'], ['etc', 'etc']];
+const NAV = [['index', 'home'], ['research', 'research'], ['projects', 'projectsTab'], ['publications', 'pubs'], ['etc', 'etc']];
 
 function layout(page, l, body) {
   const t = T[l];
@@ -220,7 +233,6 @@ function layout(page, l, body) {
 `;
 }
 
-// 이전 주소로 들어와도 연구·프로젝트 페이지로 이동한다.
 const redirect = (to) => `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=${to}"><link rel="canonical" href="${to}"><title>${to}</title></head><body><a href="${to}">${to}</a></body></html>\n`;
 
 rmSync(OUT, { recursive: true, force: true });
@@ -231,7 +243,6 @@ for (const l of ['ko', 'en']) {
   for (const [page] of NAV) {
     writeFileSync(new URL(`${dir}${page}.html`, OUT), layout(page, l, pages[page](l, l === 'ko' ? '' : '../')));
   }
-  writeFileSync(new URL(`${dir}projects.html`, OUT), redirect('research.html'));
   writeFileSync(new URL(`${dir}cv.html`, OUT), redirect('index.html'));
 }
 console.log(`_site 생성: 페이지 ${NAV.length * 2}개`);

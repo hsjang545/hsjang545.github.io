@@ -13,8 +13,8 @@ const walk = (d) => readdirSync(d).flatMap((f) => {
 const htmlFiles = walk(SITE).filter((f) => f.endsWith('.html'));
 const raw = (f) => readFileSync(f, 'utf8');
 
-// 공개되면 안 되는 내용. 전화번호, 양산차 고객사, 내부 증빙 경로, 철회 논문, 장학금 금액.
-const FORBIDDEN = [/7640/, /Daimler/i, /벤츠/, /Benz/i, /증빙\b/, /evidence/i, /ICAIMLSC/, /1,048/, /1,000,000/, /100만원/, /10-2026-0194890/, /10-2025-0200611/];
+// 공개되면 안 되는 내용. 전화번호, 내부 증빙 경로, 철회 논문, 장학금 금액.
+const FORBIDDEN = [/7640/, /증빙\b/, /evidence/i, /ICAIMLSC/, /1,048/, /1,000,000/, /100만원/, /10-2026-0194890/, /10-2025-0200611/];
 
 test('공개 데이터와 페이지에 비공개 정보가 없다', () => {
   for (const f of ['data/cv.yaml', ...htmlFiles]) {
@@ -65,16 +65,55 @@ test('소개 자료를 슬라이드 이미지로 넘겨 볼 수 있고 PPT 원�
   assert.ok(!walk(SITE).some((f) => /\.pptx?$/i.test(f)));
 });
 
-test('연구와 프로젝트가 한 탭으로 합쳐지고 이전 주소는 이동한다', () => {
-  for (const f of htmlFiles.filter((x) => !/projects\.html$/.test(x))) assert.ok(!raw(f).includes('href="projects.html"'), f);
-  assert.ok(raw(join(SITE, 'projects.html')).includes('url=research.html'));
-  assert.ok(raw(join(SITE, 'en', 'projects.html')).includes('url=research.html'));
+test('연구와 프로젝트가 별도 탭이고 서로 연결된다', () => {
+  const cv = parse(raw('data/cv.yaml'));
+  const site = parse(raw('data/site.yaml'));
+  for (const l of ['', 'en/']) {
+    const research = raw(join(SITE, `${l}research.html`));
+    const projects = raw(join(SITE, `${l}projects.html`));
+    assert.ok(!projects.includes('http-equiv="refresh"'), `${l}projects.html`);
+    assert.ok(research.includes('href="projects.html"') && projects.includes('aria-current="page"'));
+    assert.ok(!/id="proj-/.test(research), `${l}research.html에 과제 본문이 없다`);
+    for (const r of site.research) {
+      for (const k of r.projects) assert.ok(research.includes(`href="projects.html#${k}"`), `${l}${r.id} -> ${k}`);
+    }
+    for (const p of cv.projects.filter((x) => !site.hidden_projects.includes(x.key))) {
+      const entry = projects.split(`<li id="${p.key}"`)[1].split('<li id="proj-')[0];
+      assert.ok(entry.includes('href="research.html#'), `${l}${p.key}`);
+    }
+  }
+  // 과제가 연구 페이지에 있던 때의 앵커는 프로젝트 페이지로 보낸다.
+  assert.ok(raw(join(SITE, 'research.html')).includes("location.replace('projects.html'+location.hash)"));
 });
 
-test('국문·영문 4개 페이지가 모두 생성되고 CV 탭은 없다', () => {
+test('소개 페이지에 실적 개수를 표시하지 않는다', () => {
+  for (const f of ['index.html', join('en', 'index.html')]) assert.ok(!raw(join(SITE, f)).includes('class="tally"'), f);
+});
+
+test('모든 과제에 정부 상징 또는 발주처 로고가 나온다', () => {
+  const site = parse(raw('data/site.yaml'));
+  for (const l of ['', 'en/']) {
+    const projects = raw(join(SITE, `${l}projects.html`));
+    for (const k of [...site.project_kinds.national, ...site.project_kinds.contract]) assert.ok(site.project_logos[k], k);
+    for (const [k, logo] of Object.entries(site.project_logos)) {
+      assert.equal(Boolean(logo.label), site.project_kinds.national.includes(k), k);
+      const entry = projects.split(`<li id="${k}"`)[1].split('<li id="proj-')[0];
+      assert.ok(entry.includes(`assets/logos/${logo.file}`), `${l}${k}`);
+    }
+  }
+});
+
+test('소개 페이지에 연구 분야가 요약되고 연구 페이지로 연결된다', () => {
+  const site = parse(raw('data/site.yaml'));
+  const index = raw(join(SITE, 'index.html'));
+  for (const r of site.research) assert.equal(index.includes(`href="research.html#${r.id}"`), r.on_intro !== false, r.id);
+  assert.ok(raw(join(SITE, 'research.html')).includes('id="slam"'));
+});
+
+test('국문·영문 5개 페이지가 모두 생성되고 CV 탭은 없다', () => {
   assert.ok(!raw(join(SITE, 'index.html')).includes('href="cv.html"'));
   assert.ok(raw(join(SITE, 'cv.html')).includes('url=index.html'));
-  for (const p of ['index', 'research', 'publications', 'etc']) {
+  for (const p of ['index', 'research', 'projects', 'publications', 'etc']) {
     assert.ok(existsSync(join(SITE, `${p}.html`)), p);
     assert.ok(existsSync(join(SITE, 'en', `${p}.html`)), `en/${p}`);
   }
@@ -96,9 +135,13 @@ test('모든 공개 항목이 페이지에 나온다', () => {
   const cv = parse(raw('data/cv.yaml'));
   const pubs = raw(join(SITE, 'publications.html'));
   for (const p of [...cv.publications, ...cv.patents]) assert.ok(pubs.includes(`id="${p.key}"`), p.key);
-  for (const k of ['proj-sdv', 'proj-mixed-traffic']) assert.ok(!raw(join(SITE, 'research.html')).includes(k), k);
-  const research = raw(join(SITE, 'research.html'));
-  for (const p of cv.projects) assert.equal(research.split(`id="${p.key}"`).length, 2, p.key);
+  for (const f of ['research.html', 'projects.html']) {
+    for (const k of ['proj-sdv', 'proj-mixed-traffic']) assert.ok(!raw(join(SITE, f)).includes(k), `${f}: ${k}`);
+  }
+  const projects = raw(join(SITE, 'projects.html'));
+  const site = parse(raw('data/site.yaml'));
+  for (const p of cv.projects) assert.equal(projects.split(`id="${p.key}"`).length, site.hidden_projects.includes(p.key) ? 1 : 2, p.key);
+  for (const k of site.hidden_projects) assert.ok(!raw(join(SITE, 'research.html')).includes(k), k);
 });
 
 test('국문 페이지도 국제 실적은 영어로, 본인 이름은 굵게 표기한다', () => {
