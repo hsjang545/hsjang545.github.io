@@ -93,6 +93,15 @@ test('스타일시트 주소에 버전이 붙고 로고 크기가 HTML에 지정
   for (const [, tag] of raw(join(SITE, 'projects.html')).matchAll(/(<img class="logo[^>]*>)/g)) assert.ok(/width="\d+" height="\d+"/.test(tag), tag);
 });
 
+test('경력·학력에 기관 로고가 나오고 같은 기관은 한 번만 나온다', () => {
+  for (const [f, up] of [['index.html', ''], [join('en', 'index.html'), '../']]) {
+    const page = raw(join(SITE, f));
+    for (const file of ['katech.png', 'gist.svg', 'tukorea.svg']) {
+      assert.equal(page.split(`src="${up}assets/logos/${file}"`).length, 2, `${f}: ${file}`);
+    }
+  }
+});
+
 test('소개 페이지에 실적 개수를 표시하지 않는다', () => {
   for (const f of ['index.html', join('en', 'index.html')]) assert.ok(!raw(join(SITE, f)).includes('class="tally"'), f);
 });
@@ -191,7 +200,8 @@ test('논문·특허 페이지는 논문과 특허 묶음 아래 세부 구분�
   assert.ok(rowOf('해외출원').includes('id="pat-traffic-flow-pct"'));
   assert.ok(rowOf('국내등록').includes('id="pat-traffic-flow-kr"'));
   assert.ok(!patents.includes('<h3>해외등록'), '빈 구분은 표시하지 않는다');
-  assert.ok(patents.indexOf('국내출원') < patents.indexOf('해외출원') && patents.indexOf('해외출원') < patents.indexOf('국내등록'));
+  // 논문처럼 중요한 것을 먼저: 등록이 출원보다, 해외가 국내보다 앞선다.
+  assert.ok(patents.indexOf('<h3>국내등록') < patents.indexOf('<h3>해외출원') && patents.indexOf('<h3>해외출원') < patents.indexOf('<h3>국내출원'));
   for (const l of ['', 'en/']) assert.ok(!/<figure|assets\/figures\/pat-/.test(raw(join(SITE, `${l}publications.html`))), l);
 });
 

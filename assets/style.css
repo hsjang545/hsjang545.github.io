@@ -23,7 +23,7 @@
     --link: #8fcbe9; --tag-bg: #4a3d12; --tag-fg: #f6dd8e;
     color-scheme: dark;
   }
-  .logo.mono { filter: brightness(0) invert(.92); }
+  .logo.mono, .org-logo.mono { filter: brightness(0) invert(.92); }
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: 20px; }
@@ -78,6 +78,8 @@ section.block { padding-block: 52px 0; }
 /* 목록 */
 ul.dated, ul.biblio, ul.plain { list-style: none; margin: 0; padding: 0; }
 ul.dated li { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 14px; padding-block: 9px; }
+.org-logo { width: 120px; height: 26px; object-fit: contain; object-position: left center; margin-top: 8px; }
+.org-logo.square { width: 44px; height: 40px; }
 .when { color: var(--muted); font-size: .92rem; font-variant-numeric: tabular-nums; padding-top: 2px; }
 .title { font-weight: 650; margin: 0; line-height: 1.5; }
 .meta { color: var(--muted); font-size: .94rem; margin: 3px 0 0; line-height: 1.55; }
@@ -147,6 +149,8 @@ footer { margin-top: 72px; padding-block: 22px 40px; color: var(--muted); font-s
   .with-logo .org-mark { justify-content: flex-start; }
   .with-logo .logo.emblem { width: 16px; height: 16px; }
   ul.dated li { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .org-logo { width: 104px; height: 22px; margin: 4px 0 6px; }
+  .org-logo.square { width: 36px; height: 32px; }
   nav .lang { margin-left: 0; }
   .deck-bar { flex-wrap: wrap; gap: 8px; }
   .deck-bar button { min-width: 0; padding: 5px 10px; white-space: nowrap; }

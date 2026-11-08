@@ -22,7 +22,7 @@ const T = {
     national: '국가과제', contract: '수탁과제', misc: '기타', otherAct: '그 외 활동', consult: '기술 자문', award: '수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
     cats: { intl_journal: 'SCIE', intl_conf: 'International conference', dom_journal: '국내 학술지', dom_conf: '국내 학술대회' },
-    patGroups: { kr_app: '국내출원', intl_app: '해외출원', kr_reg: '국내등록', intl_reg: '해외등록' },
+    patGroups: { intl_reg: '해외등록', kr_reg: '국내등록', intl_app: '해외출원', kr_app: '국내출원' },
     updated: '최종 수정', titleSuffix: '장현수',
   },
   en: {
@@ -35,7 +35,7 @@ const T = {
     national: 'Government-funded', contract: 'Contract research', misc: 'Misc.', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
     cats: { intl_journal: 'SCIE', intl_conf: 'International conferences', dom_journal: 'Domestic journals', dom_conf: 'Domestic conferences' },
-    patGroups: { kr_app: 'Domestic applications', intl_app: 'International applications', kr_reg: 'Domestic registrations', intl_reg: 'International registrations' },
+    patGroups: { intl_reg: 'International registrations', kr_reg: 'Domestic registrations', intl_app: 'International applications', kr_app: 'Domestic applications' },
     updated: 'Last updated', titleSuffix: 'Hyeonsoo Jang',
   },
 };
@@ -82,11 +82,12 @@ function pubItem(p, l) {
 }
 
 // 특허는 국내·해외와 출원·등록으로 나눈다. kr_로 시작하지 않는 종류(PCT 등)는 해외다.
+// 심사를 거친 등록을 출원보다, 같은 단계에서는 해외를 국내보다 앞에 둔다.
 const PAT_GROUPS = [
-  ['kr_app', (p) => p.kind.startsWith('kr_') && !p.registration],
-  ['intl_app', (p) => !p.kind.startsWith('kr_') && !p.registration],
-  ['kr_reg', (p) => p.kind.startsWith('kr_') && p.registration],
   ['intl_reg', (p) => !p.kind.startsWith('kr_') && p.registration],
+  ['kr_reg', (p) => p.kind.startsWith('kr_') && p.registration],
+  ['intl_app', (p) => !p.kind.startsWith('kr_') && !p.registration],
+  ['kr_app', (p) => p.kind.startsWith('kr_') && !p.registration],
 ];
 
 function patentItem(p, l) {
@@ -120,6 +121,11 @@ s.addEventListener('click',function(e){var r=s.getBoundingClientRect();go(i+(e.c
 d.querySelector('.deck-full').addEventListener('click',function(){if(document.fullscreenElement)document.exitFullscreen();else if(d.requestFullscreen)d.requestFullscreen()});go(0)})();</script></section>`;
 }
 
+// 경력·학력 기관 로고. 크기를 HTML에도 지정해 스타일이 늦게 와도 크게 보이지 않게 한다.
+const orgLogo = (key, l, up) => {
+  const o = site.org_logos?.[key];
+  return o ? `<img class="org-logo${o.mono ? ' mono' : ''}${o.square ? ' square' : ''}" src="${up}assets/logos/${esc(o.file)}" ${o.square ? 'width="44" height="40"' : 'width="120" height="26"'} alt="${esc(o.name[l])}" loading="lazy">` : '';
+};
 const figure = (f, l, up) => `<figure><img src="${up}assets/figures/${esc(f.file)}" alt="${esc(f.caption[l])}" loading="lazy"><figcaption>${esc(f.caption[l])}</figcaption></figure>`;
 const head = (title, lead, extra = '') => `<section class="page-head"><div class="wrap"><h1>${esc(title)}</h1>${lead ? `<p>${esc(lead)}</p>` : ''}${extra}</div></section>`;
 
@@ -141,8 +147,8 @@ const pages = {
 <section class="block"><h2>${t.areas}</h2><ul class="areas">${site.research.filter((r) => r.on_intro !== false).map((r) => `<li><a href="research.html#${r.id}">${esc(r.short[l])}</a><span class="when">${esc(r.period)}</span></li>`).join('')}</ul></section>
 ${deckViewer(l, up)}
 <section class="block two">
-  <div><h2>${t.career}</h2><ul class="dated">${k.positions.map((p) => `<li><span class="when">${range(p.start, p.end, t)}</span><div><p class="title">${esc(k.org[l])}</p><p class="meta">${esc(p.dept[l])}, ${esc(p.title[l])}</p></div></li>`).join('')}</ul></div>
-  <div><h2>${t.edu}</h2><ul class="dated">${cv.education.map((e) => `<li><span class="when">${range(e.start, e.end, t)}</span><div><p class="title">${esc(e.school[l])}</p><p class="meta">${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}</p></div></li>`).join('')}</ul></div>
+  <div><h2>${t.career}</h2><ul class="dated">${k.positions.map((p, i) => { const logo = i ? '' : orgLogo(k.key, l, up); return `<li><span class="when">${range(p.start, p.end, t)}${logo}</span><div><p class="title">${esc(k.org[l])}</p><p class="meta">${esc(p.dept[l])}, ${esc(p.title[l])}</p></div></li>`; }).join('')}</ul></div>
+  <div><h2>${t.edu}</h2><ul class="dated">${cv.education.map((e) => { return `<li><span class="when">${range(e.start, e.end, t)}${orgLogo(e.key, l, up)}</span><div><p class="title">${esc(e.school[l])}</p><p class="meta">${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}</p></div></li>`; }).join('')}</ul></div>
 </section>
 </div>`;
   },

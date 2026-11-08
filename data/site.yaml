@@ -83,6 +83,12 @@ research:
     publications: [pub-kiise-2023, pub-ksc-2021]
     patents: []
 
+# 경력·학력 기관 로고. 키는 cv.yaml의 education, experience 항목 key다. mono는 어두운 화면에서 밝게 바꾸고, square는 정사각형에 가까운 로고를 크게 보인다.
+org_logos:
+  katech: {file: katech.png, mono: true, name: {ko: 한국자동차연구원, en: KATECH}}
+  gist-ms: {file: gist.svg, square: true, name: {ko: 광주과학기술원, en: GIST}}
+  tuk-bs: {file: tukorea.svg, mono: true, name: {ko: 한국공학대학교, en: Tech University of Korea}}
+
 # 사이트에 싣지 않는 과제. CV 원본과 PDF에는 남아 있다.
 hidden_projects: [proj-special-road]
 
