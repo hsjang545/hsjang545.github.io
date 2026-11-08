@@ -192,13 +192,13 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
   },
   projects(l, up) {
     const t = T[l];
+    // 과제마다 제목, 기간·발주처, 관련 연구 및 개발만 싣는다. 세부 수행항목은 CV에만 둔다.
     const item = (p) => {
       const meta = [range(p.start, p.end, t), site.project_sponsor_notes?.[p.key]?.[l] ?? p.sponsor[l], p.agency?.[l], p.role[l]].filter(Boolean).map(esc).join(', ');
       const topics = site.research.filter((r) => r.projects.includes(p.key));
-      const points = p.summary.length ? `<ul class="points">${p.summary.map((s) => `<li>${esc(s[l])}</li>`).join('')}</ul>` : '';
       const related = topics.length ? `<p class="meta">${t.relatedResearch}: ${topics.map((r) => `<a href="research.html#${r.id}">${esc(r.short[l])}</a>`).join(', ')}</p>` : '';
       const logos = [site.project_logos?.[p.key] ?? []].flat();
-      const body = `<p class="title">${esc(p.title[l])}</p><p class="meta">${meta}</p>${points}${related}`;
+      const body = `<p class="title">${esc(p.title[l])}</p><p class="meta">${meta}</p>${related}`;
       if (!logos.length) return `<li id="${p.key}">${body}</li>`;
       const mark = (logo) => {
         const img = `<img class="logo${logo.mono ? ' mono' : ''}${logo.label ? ' emblem' : ''}" src="${up}assets/logos/${esc(logo.file)}" ${logo.label ? 'width="18" height="18"' : 'width="84" height="20"'} alt="${logo.label ? '' : esc(logo.name[l])}" loading="lazy">`;

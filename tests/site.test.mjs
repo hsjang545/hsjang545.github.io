@@ -298,3 +298,11 @@ test('MPC5.5 과제에 수탁처 LG전자와 OEM 다임러가 표시된다', () 
   assert.ok(item.indexOf('<span>수탁처</span>') < item.indexOf('lg.svg') && item.indexOf('<span>OEM</span>') < item.indexOf('daimler.svg') && item.indexOf('lg.svg') < item.indexOf('daimler.svg'));
   assert.ok(raw(join(SITE, 'en', 'projects.html')).includes('Client: LG Electronics, OEM: Daimler'));
 });
+
+test('프로젝트 페이지에는 과제별 세부 수행항목을 싣지 않는다', () => {
+  for (const f of ['projects.html', join('en', 'projects.html')]) {
+    const page = raw(join(SITE, f));
+    assert.ok(!page.includes('class="points"'), f);
+    assert.ok(page.includes('<li id="proj-precrash"'), f);
+  }
+});
