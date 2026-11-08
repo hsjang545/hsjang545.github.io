@@ -242,8 +242,8 @@ test('실차 데이터 취득 플랫폼 구축에 플랫폼별 계층 도식과 
   const body = topic.slice(0, topic.indexOf('</article>'));
   assert.ok(body.includes('<h2>실차 데이터 취득 플랫폼 구축</h2>') && !r.includes('실차 멀티모달 데이터 취득'));
   for (const id of ['platform-precrash', 'platform-pbv']) assert.ok(body.includes(`id="${id}"`), id);
-  for (const word of ['구현 내용', 'stack-precrash-ko.png', 'stack-pbv-ko.png', 'daq-pbv-gui.jpg']) assert.ok(body.includes(word), word);
-  for (const gone of ['daq-precrash-gui.jpg', 'daq-precrash-ko.png', 'daq-pbv-ko.png', '<dt>']) assert.ok(!body.includes(gone), gone);
+  for (const word of ['구현 내용', 'stack-precrash-ko.png', 'stack-pbv-ko.png']) assert.ok(body.includes(word), word);
+  for (const gone of ['daq-pbv-gui.jpg', 'daq-precrash-gui.jpg', 'daq-precrash-ko.png', 'daq-pbv-ko.png', '<dt>']) assert.ok(!body.includes(gone), gone);
   for (const k of ['proj-precrash', 'proj-nanoheating', 'proj-camera-5m']) assert.ok(body.includes(`projects.html#${k}`), k);
   const en = raw(join(SITE, 'en', 'research.html'));
   assert.ok(en.includes('stack-precrash-en.png') && en.includes('What I built'));
@@ -273,4 +273,12 @@ test('소개의 전문 분야에는 기간을 쓰지 않고 한 줄 설명을 �
   assert.ok(!areas.includes('class="when"') && !/20\d\d\s*–/.test(areas), areas.slice(0, 200));
   assert.ok(areas.includes('class="desc"'));
   assert.ok(raw(join(SITE, 'en', 'index.html')).includes('<h2>Expertise</h2>'));
+});
+
+test('모든 페이지의 큰 제목에 작성 중 표시가 붙는다', () => {
+  for (const f of ['index.html', 'research.html', 'projects.html', 'publications.html', 'etc.html']) {
+    assert.ok(/<h1>[^<]*<span class="wip">작성 중<\/span><\/h1>/.test(raw(join(SITE, f))), f);
+    assert.ok(raw(join(SITE, 'en', f)).includes('<span class="wip">Work in progress</span></h1>'), 'en/' + f);
+  }
+  assert.ok(!htmlFiles.some((f) => /TBD/.test(raw(f))));
 });

@@ -18,7 +18,7 @@ const T = {
     other: 'English', otherLang: 'en', email: '이메일', expertise: '전문분야', career: '경력', edu: '학력',
     now: '현재',
     deck: '소개 자료', deckNote: '', prev: '이전', next: '다음', full: '전체 화면',
-    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', platBuilt: '구현 내용', relatedResearch: '관련 연구 및 개발', areas: '전문 분야',
+    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', platBuilt: '구현 내용', relatedResearch: '관련 연구 및 개발', areas: '전문 분야', wip: '작성 중',
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
     national: '국가과제', contract: '수탁과제', misc: '기타', otherAct: '그 외 활동', consult: '기술 자문', award: '기타 수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
@@ -31,7 +31,7 @@ const T = {
     other: '한국어', otherLang: 'ko', email: 'Email', expertise: 'Expertise', career: 'Experience', edu: 'Education',
     now: 'Present',
     deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
-    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', platBuilt: 'What I built', relatedResearch: 'Related R&D', areas: 'Expertise',
+    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', platBuilt: 'What I built', relatedResearch: 'Related R&D', areas: 'Expertise', wip: 'Work in progress',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
     national: 'Government-funded', contract: 'Contract research', misc: 'Misc.', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Other awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
@@ -131,7 +131,9 @@ const orgLogo = (key, l, up) => {
 const orgBlock = (key, name, rows, l, up) => `<li class="org"><div class="org-head"><p class="title">${esc(name)}</p>${orgLogo(key, l, up)}</div><ul class="dated">${rows.map(([when, what]) => `<li><span class="when">${when}</span><p>${what}</p></li>`).join('')}</ul></li>`;
 // 그림 파일이 언어별로 다르면 file을 {ko, en}으로 쓴다.
 const figure = (f, l, up) => `<figure><img src="${up}assets/figures/${esc(typeof f.file === 'object' ? f.file[l] : f.file)}" alt="${esc(f.caption[l])}" loading="lazy"><figcaption>${esc(f.caption[l])}</figcaption></figure>`;
-const head = (title, lead, extra = '') => `<section class="page-head"><div class="wrap"><h1>${esc(title)}</h1>${lead ? `<p>${esc(lead)}</p>` : ''}${extra}</div></section>`;
+// 사이트를 만드는 동안 큰 제목 옆에 '작성 중' 표시를 붙인다. site.yaml의 wip을 false로 바꾸면 사라진다.
+const wipBadge = (t) => (site.wip ? ` <span class="wip">${t.wip}</span>` : '');
+const head = (t, title, lead, extra = '') => `<section class="page-head"><div class="wrap"><h1>${esc(title)}${wipBadge(t)}</h1>${lead ? `<p>${esc(lead)}</p>` : ''}${extra}</div></section>`;
 
 // 소개 상단의 외부 링크. 주소가 비어 있는 항목은 싣지 않는다.
 const heroLinks = (up) => [
@@ -148,7 +150,7 @@ const pages = {
     return `
 <section class="hero"><div class="wrap hero-grid">
   <div>
-    <h1>${esc(cv.profile.name[l])}</h1>
+    <h1>${esc(cv.profile.name[l])}${wipBadge(t)}</h1>
     <p class="role">${site.intro.role[l].map((line, i) => (i ? esc(line) : `<strong>${esc(line)}</strong>`)).join('<br>')}</p>
     <p class="email"><a href="mailto:${esc(cv.profile.email)}">${esc(cv.profile.email)}</a></p>
     <p class="links">${heroLinks(up).join('')}</p>
@@ -185,7 +187,7 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
       return `<article class="topic${figures.length ? '' : ' solo'}" id="${r.id}">${text}${figures.length ? `<div>${figures.map((f) => figure(f, l, up)).join('')}</div>` : ''}${platforms(r, l, up)}</article>`;
     };
     // 과제가 이 페이지에 있던 때의 주소(research.html#proj-...)는 프로젝트 페이지로 보낸다.
-    return `${head(t.research, '', toc)}<div class="wrap">${site.research.map(topic).join('')}</div>
+    return `${head(t, t.research, '', toc)}<div class="wrap">${site.research.map(topic).join('')}</div>
 <script>if(/^#proj-/.test(location.hash))location.replace('projects.html'+location.hash);</script>`;
   },
   projects(l, up) {
@@ -209,7 +211,7 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
       const g = projects.filter((p) => site.project_kinds[kind].includes(p.key));
       return g.length ? `<div class="sheet-row"><h2>${t[kind]} (${g.length})</h2><ul class="biblio">${g.map(item).join('')}</ul></div>` : '';
     }).join('');
-    return `${head(t.projectsTab, '')}<div class="wrap sheet">${groups}</div>`;
+    return `${head(t, t.projectsTab, '')}<div class="wrap sheet">${groups}</div>`;
   },
   publications(l) {
     const t = T[l];
@@ -217,7 +219,7 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
     const group = (id, title, n, rows) => `<section class="pub-group" id="${id}"><h2>${title} (${n})</h2>${rows}</section>`;
     const pubRows = CAT_ORDER.map((c) => row(t.cats[c], pubs.filter((p) => p.category === c).map((p) => pubItem(p, l)))).join('');
     const patRows = PAT_GROUPS.map(([k, test]) => row(t.patGroups[k], patents.filter(test).map((p) => patentItem(p, l)))).join('');
-    return `${head(t.pubs, '')}<div class="wrap sheet">${group('papers', t.pubTitle, pubs.length, pubRows)}${group('patents', t.patTitle, patents.length, patRows)}</div>`;
+    return `${head(t, t.pubs, '')}<div class="wrap sheet">${group('papers', t.pubTitle, pubs.length, pubRows)}${group('patents', t.patTitle, patents.length, patRows)}</div>`;
   },
   etc(l) {
     const t = T[l];
@@ -233,7 +235,7 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
       minor(t.service, site.service),
       minor(t.misc, site.other_activities),
     ].join('');
-    return `${head(t.etc, '')}<div class="wrap sheet">
+    return `${head(t, t.etc, '')}<div class="wrap sheet">
 ${sec(t.pubAward, pa)}${sec(t.award, awards)}${sec(t.scholar, scholarships)}${sec(t.review, site.reviews)}${sec(t.consult, site.consulting)}
 <div class="sheet-row"><h2>${t.otherAct}</h2><div class="minors">${others}</div></div></div>`;
   },

@@ -1,3 +1,6 @@
+# 만드는 중 표시. true이면 모든 페이지의 큰 제목 옆에 '작성 중'이 붙는다.
+wip: true
+
 # 사이트 전용 내용. cv.yaml에 없는 소개 문구, 연구 주제, 기타 활동을 여기서 관리한다.
 # research의 projects는 연구 페이지에서 프로젝트 페이지로 연결하고, 프로젝트 페이지에는 관련 연구로 되돌아 연결된다.
 
@@ -67,9 +70,6 @@ research:
         built:
           ko: ["마우스만으로 쓰는 계측 GUI (모니터링, 후처리, 설정)", "센서별 켜기·끄기와 장애 격리", "녹화 후 센서별 수신율 판정", "기준 프레임 시각 매칭으로 학습용 표본 추출", "임베디드 보드 포팅"]
           en: ["Mouse-only measurement GUI (monitoring, post-processing, settings)", "Per-sensor on/off with fault isolation", "Per-sensor receive rate check after recording", "Training sample export by reference-frame time matching", "Port to an embedded board"]
-        figures:
-          - file: daq-pbv-gui.jpg
-            caption: {ko: "난방 GUI: RGB, 열화상, 표면 온도, 온습도, CAN 신호 (사람은 흐리게 처리)", en: "Heating GUI: RGB, thermal, surface temperature, humidity and CAN signals (person blurred)"}
   - id: coordination
     short: {ko: 돌발상황 경로조율, en: Incident coordination}
     figures:
