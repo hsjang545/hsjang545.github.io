@@ -309,7 +309,7 @@ test('프로젝트 페이지에는 과제별 세부 수행항목을 싣지 않�
 
 test('학력에 연구실, 지도교수, 논문이 나온다', () => {
   const page = raw(join(SITE, 'index.html'));
-  for (const word of ['MLV Lab', '지도교수 전문구', '학위논문: 동시적 위치추정 및 지도작성을 위한 평생 학습', 'AES Lab', '지도교수 서석현', '졸업논문: 스마트 소방 헬멧']) assert.ok(page.includes(word), word);
+  for (const word of ['MLV Lab', '지도교수 전문구', '학위논문: Continual Learning for Simultaneous Localization and Mapping', 'AES Lab', '지도교수 서석현', '졸업논문: 스마트 소방 헬멧']) assert.ok(page.includes(word), word);
   const en = raw(join(SITE, 'en', 'index.html'));
   assert.ok(en.includes('Advisor: Prof. Moongu Jeon') && en.includes('Thesis: Continual Learning for Simultaneous Localization and Mapping'));
 });

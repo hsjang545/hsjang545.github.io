@@ -139,7 +139,8 @@ const eduDetail = (e, t, l) => {
   const parts = [
     e.lab && esc(e.lab[l]),
     e.advisor && `${t.advisor}${l === 'ko' ? ' ' : ': '}${esc(l === 'ko' ? e.advisor.ko.replace(/\s*교수$/, '') : e.advisor[l])}`,
-    e.thesis && `${isMaster ? t.thesisMs : t.thesisBs}: ${esc(e.thesis[l])}`,
+    // 석사 학위논문은 원제(영문)로 쓴다.
+    e.thesis && `${isMaster ? t.thesisMs : t.thesisBs}: ${esc(isMaster ? e.thesis.en : e.thesis[l])}`,
   ].filter(Boolean);
   return parts.length ? `<span class="edu-detail">${parts.join('<br>')}</span>` : '';
 };
