@@ -161,7 +161,7 @@ test('국문 페이지도 국제 실적은 영어로, 본인 이름은 굵게 �
   assert.ok(ko.includes('>SCIE (1)<') && !ko.includes('국제 학술지'));
   assert.ok(item('pub-access-2025').includes('<strong>Jang, H.</strong>') && !/[가-힣]/.test(item('pub-access-2025')));
   assert.ok(item('pub-iccad-2023').includes('<strong>Jang, H.</strong>') && !/[가-힣]/.test(item('pub-iccad-2023')));
-  assert.ok(item('pat-traffic-flow-pct').includes('Apparatus for Generating') && item('pat-traffic-flow-pct').includes('해외 출원'));
+  assert.ok(item('pat-traffic-flow-pct').includes('Apparatus for Generating'));
   assert.ok(item('pub-ksae-2023-rules').includes('<strong>장현수</strong>'));
   const cv = parse(raw('data/cv.yaml'));
   for (const l of ['', 'en/']) {
@@ -179,12 +179,23 @@ test('기타 페이지에 봉사 기간과 내역이 나온다', () => {
   }
 });
 
-test('공개·등록 특허에만 도면이 있고 기술 자문이 기타에 나온다', () => {
+test('논문·특허 페이지는 논문과 특허 묶음 아래 세부 구분을 두고 도면은 없다', () => {
   const ko = raw(join(SITE, 'publications.html'));
-  const item = (key) => ko.match(new RegExp(`<li id="${key}">.*?</li>`))[0];
-  assert.ok(item('pat-avoidance-path').includes('pat-avoidance-2.jpg'));
-  assert.ok(item('pat-traffic-flow-kr').includes('pat-traffic-3.jpg'));
-  for (const k of ['pat-occupant-restraint', 'pat-semiconductor-comm', 'pat-traffic-flow-pct']) assert.ok(!item(k).includes('<figure'), k);
+  const papers = ko.split('<section class="pub-group" id="papers">')[1].split('</section>')[0];
+  const patents = ko.split('<section class="pub-group" id="patents">')[1].split('</section>')[0];
+  assert.ok(papers.startsWith('<h2>논문 (') && patents.startsWith('<h2>특허 ('));
+  assert.ok(papers.includes('<h3>International conference (') && !ko.includes('국제 학술대회'));
+  // 세부 구분 제목 바로 뒤의 목록에 해당 특허가 들어 있다.
+  const rowOf = (title) => patents.split(`<h3>${title} (`)[1]?.split('</ul>')[0] ?? '';
+  for (const k of ['pat-occupant-restraint', 'pat-semiconductor-comm', 'pat-avoidance-path']) assert.ok(rowOf('국내출원').includes(`id="${k}"`), k);
+  assert.ok(rowOf('해외출원').includes('id="pat-traffic-flow-pct"'));
+  assert.ok(rowOf('국내등록').includes('id="pat-traffic-flow-kr"'));
+  assert.ok(!patents.includes('<h3>해외등록'), '빈 구분은 표시하지 않는다');
+  assert.ok(patents.indexOf('국내출원') < patents.indexOf('해외출원') && patents.indexOf('해외출원') < patents.indexOf('국내등록'));
+  for (const l of ['', 'en/']) assert.ok(!/<figure|assets\/figures\/pat-/.test(raw(join(SITE, `${l}publications.html`))), l);
+});
+
+test('기술 자문이 기타에, 소속이 소개에 나온다', () => {
   assert.ok(raw(join(SITE, 'etc.html')).includes('(주)HRC테크놀로지'));
   assert.ok(raw(join(SITE, 'index.html')).includes('빅데이터·AIDV연구본부'));
 });

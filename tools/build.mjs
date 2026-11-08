@@ -21,8 +21,8 @@ const T = {
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
     national: '국가과제', contract: '수탁과제', misc: '기타', otherAct: '그 외 활동', consult: '기술 자문', award: '수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
-    cats: { intl_journal: 'SCIE', intl_conf: '국제 학술대회', dom_journal: '국내 학술지', dom_conf: '국내 학술대회' },
-    kinds: { kr_registered: '국내 등록', kr_application: '국내 출원', pct: '해외 출원 (PCT)' },
+    cats: { intl_journal: 'SCIE', intl_conf: 'International conference', dom_journal: '국내 학술지', dom_conf: '국내 학술대회' },
+    patGroups: { kr_app: '국내출원', intl_app: '해외출원', kr_reg: '국내등록', intl_reg: '해외등록' },
     updated: '최종 수정', titleSuffix: '장현수',
   },
   en: {
@@ -35,7 +35,7 @@ const T = {
     national: 'Government-funded', contract: 'Contract research', misc: 'Misc.', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
     cats: { intl_journal: 'SCIE', intl_conf: 'International conferences', dom_journal: 'Domestic journals', dom_conf: 'Domestic conferences' },
-    kinds: { kr_registered: 'KR registered', kr_application: 'KR application', pct: 'PCT application' },
+    patGroups: { kr_app: 'Domestic applications', intl_app: 'International applications', kr_reg: 'Domestic registrations', intl_reg: 'International registrations' },
     updated: 'Last updated', titleSuffix: 'Hyeonsoo Jang',
   },
 };
@@ -81,16 +81,23 @@ function pubItem(p, l) {
   return `<li id="${p.key}"><p class="title">${esc(p.title[il])} ${award}</p><p class="meta">${authors(p.authors, il)}</p><p class="meta">${meta}${doi}</p></li>`;
 }
 
-function patentItem(p, l, up = '') {
+// 특허는 국내·해외와 출원·등록으로 나눈다. kr_로 시작하지 않는 종류(PCT 등)는 해외다.
+const PAT_GROUPS = [
+  ['kr_app', (p) => p.kind.startsWith('kr_') && !p.registration],
+  ['intl_app', (p) => !p.kind.startsWith('kr_') && !p.registration],
+  ['kr_reg', (p) => p.kind.startsWith('kr_') && p.registration],
+  ['intl_reg', (p) => !p.kind.startsWith('kr_') && p.registration],
+];
+
+function patentItem(p, l) {
   const t = T[l];
   const il = itemLang(p, l);
-  const figs = site.patent_figures?.[p.key] ?? [];
-  const drawings = up !== null && figs.length ? `<div class="drawings">${figs.map((f) => `<figure><img src="${up}assets/figures/${esc(f.file)}" alt="${esc(`${p.title[il]} ${f.caption[l]}`)}" loading="lazy"><figcaption>${esc(f.caption[l])}</figcaption></figure>`).join('')}</div>` : '';
   const parts = [];
   if (p.registration) parts.push(`${t.registered} ${esc(p.registration.no)} (${dot(p.registration.date)})`);
   if (p.publication) parts.push(`${t.published} ${esc(p.publication.no)} (${dot(p.publication.date)})`);
   parts.push(`${t.applied} ${p.application.no ? `${esc(p.application.no)} ` : ''}(${dot(p.application.date)})${p.application.no ? '' : `, ${t.pending}`}`);
-  return `<li id="${p.key}"><p class="title">${esc(p.title[il])} <span class="tag">${t.kinds[p.kind]}</span></p><p class="meta">${authors(p.inventors, il)}</p><p class="meta">${parts.join(', ')}</p>${drawings}</li>`;
+  const tag = p.kind === 'pct' ? ' <span class="tag">PCT</span>' : '';
+  return `<li id="${p.key}"><p class="title">${esc(p.title[il])}${tag}</p><p class="meta">${authors(p.inventors, il)}</p><p class="meta">${parts.join(', ')}</p></li>`;
 }
 
 const simpleList = (items, l) => `<ul class="dated">${items.map((a) => `<li><span class="when">${esc(a.period ?? dot(a.date).slice(0, 7))}</span><div><p class="title">${esc(a.title[l])}</p>${a.org || a.description ? `<p class="meta">${[a.org?.[l], a.description?.[l]].filter(Boolean).map(esc).join(', ')}</p>` : ''}</div></li>`).join('')}</ul>`;
@@ -178,13 +185,13 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
     }).join('');
     return `${head(t.projectsTab, '')}<div class="wrap sheet">${groups}</div>`;
   },
-  publications(l, up) {
+  publications(l) {
     const t = T[l];
-    const groups = CAT_ORDER.map((c) => {
-      const g = pubs.filter((p) => p.category === c);
-      return g.length ? `<div class="sheet-row"><h2>${t.cats[c]} (${g.length})</h2><ul class="biblio">${g.map((p) => pubItem(p, l)).join('')}</ul></div>` : '';
-    }).join('');
-    return `${head(t.pubs, '')}<div class="wrap sheet">${groups}<div class="sheet-row"><h2>${t.patTitle} (${patents.length})</h2><ul class="biblio">${patents.map((p) => patentItem(p, l, up)).join('')}</ul></div></div>`;
+    const row = (title, items) => (items.length ? `<div class="sheet-row"><h3>${title} (${items.length})</h3><ul class="biblio">${items.join('')}</ul></div>` : '');
+    const group = (id, title, n, rows) => `<section class="pub-group" id="${id}"><h2>${title} (${n})</h2>${rows}</section>`;
+    const pubRows = CAT_ORDER.map((c) => row(t.cats[c], pubs.filter((p) => p.category === c).map((p) => pubItem(p, l)))).join('');
+    const patRows = PAT_GROUPS.map(([k, test]) => row(t.patGroups[k], patents.filter(test).map((p) => patentItem(p, l)))).join('');
+    return `${head(t.pubs, '')}<div class="wrap sheet">${group('papers', t.pubTitle, pubs.length, pubRows)}${group('patents', t.patTitle, patents.length, patRows)}</div>`;
   },
   etc(l) {
     const t = T[l];
