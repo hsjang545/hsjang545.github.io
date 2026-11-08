@@ -106,7 +106,7 @@ test('경력·학력은 기관별로 묶고 기관마다 로고가 한 번 나�
 test('소개 페이지는 경력·학력, 연구 분야, 소개 자료 순서다', () => {
   for (const f of ['index.html', join('en', 'index.html')]) {
     const page = raw(join(SITE, f));
-    const at = [page.indexOf('class="block two"'), page.indexOf('class="areas"'), page.indexOf('id="deck"')];
+    const at = [page.indexOf('class="block intro-rows"'), page.indexOf('class="areas"'), page.indexOf('id="deck"')];
     assert.ok(at.every((i) => i > 0) && at[0] < at[1] && at[1] < at[2], `${f}: ${at}`);
   }
 });
@@ -252,4 +252,15 @@ test('프리크래시 통합안전 소개에 다단계 안전벨트 제어를 �
   const r = raw(join(SITE, 'research.html'));
   const topic = r.slice(r.indexOf('id="integrated-safety"'));
   assert.ok(!topic.slice(0, topic.indexOf('</p>', topic.indexOf('class="span"') + 30)).includes('안전벨트 제어'));
+});
+
+test('소개 상단은 소속을 줄 나눠 쓰고, 이메일과 CV·ORCID 링크를 함께 둔다', () => {
+  const page = raw(join(SITE, 'index.html'));
+  const hero = page.slice(page.indexOf('class="hero"'), page.indexOf('</section>', page.indexOf('class="hero"')));
+  assert.ok(hero.includes('<strong>한국자동차연구원</strong><br>자율주행기술연구소 빅데이터·AIDV연구본부<br>데이터플랫폼연구센터 연구원'));
+  assert.ok(!hero.includes('class="headline"') && !hero.includes('프리크래시 통합안전'));
+  assert.ok(/class="email"><a href="mailto:[^"]+@/.test(hero));
+  const links = hero.slice(hero.indexOf('class="links"'));
+  assert.ok(links.indexOf('CV (PDF)') < links.indexOf('>ORCID<'));
+  assert.ok(!links.includes('href=""'));
 });

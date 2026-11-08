@@ -133,6 +133,15 @@ const orgBlock = (key, name, rows, l, up) => `<li class="org"><div class="org-he
 const figure = (f, l, up) => `<figure><img src="${up}assets/figures/${esc(typeof f.file === 'object' ? f.file[l] : f.file)}" alt="${esc(f.caption[l])}" loading="lazy"><figcaption>${esc(f.caption[l])}</figcaption></figure>`;
 const head = (title, lead, extra = '') => `<section class="page-head"><div class="wrap"><h1>${esc(title)}</h1>${lead ? `<p>${esc(lead)}</p>` : ''}${extra}</div></section>`;
 
+// 소개 상단의 외부 링크. 주소가 비어 있는 항목은 싣지 않는다.
+const heroLinks = (up) => [
+  [`${up}assets/cv/CV_HyeonsooJang_EN.pdf`, 'CV (PDF)', true],
+  [`https://orcid.org/${cv.profile.orcid}`, 'ORCID'],
+  [site.intro.linkedin, 'LinkedIn'],
+  [site.intro.remember, 'Remember'],
+  [site.intro.scholar, 'Google Scholar'],
+].filter(([href]) => href).map(([href, label, dl]) => `<a href="${esc(href)}"${dl ? ' download' : ''}>${label}</a>`);
+
 const pages = {
   index(l, up) {
     const t = T[l];
@@ -140,18 +149,18 @@ const pages = {
 <section class="hero"><div class="wrap hero-grid">
   <div>
     <h1>${esc(cv.profile.name[l])}</h1>
-    <p class="role">${esc(site.intro.role[l])}</p>
-    <p class="headline">${esc(site.intro.headline[l])}</p>
-    <p class="contact">${t.email} ${esc(cv.profile.email)}<br><a href="https://orcid.org/${cv.profile.orcid}">ORCID ${cv.profile.orcid}</a><br><a href="${up}assets/cv/CV_HyeonsooJang_EN.pdf" download>CV (PDF)</a>${site.intro.scholar ? `<br><a href="${esc(site.intro.scholar)}">Google Scholar</a>` : ''}</p>
+    <p class="role">${site.intro.role[l].map((line, i) => (i ? esc(line) : `<strong>${esc(line)}</strong>`)).join('<br>')}</p>
+    <p class="email"><a href="mailto:${esc(cv.profile.email)}">${esc(cv.profile.email)}</a></p>
+    <p class="links">${heroLinks(up).join('')}</p>
   </div>
   <img src="${up}assets/photo.jpg" alt="${esc(cv.profile.name[l])}" width="496" height="638">
 </div></section>
 <div class="wrap">
-<section class="block two">
-  <div><h2>${t.career}</h2><ul class="orgs">${cv.experience.map((k) => orgBlock(k.key, k.org[l], k.positions.map((p) => [range(p.start, p.end, t), `${esc(p.dept[l])}, ${esc(p.title[l])}`]), l, up)).join('')}</ul></div>
-  <div><h2>${t.edu}</h2><ul class="orgs">${cv.education.map((e) => orgBlock(e.key, e.school[l], [[range(e.start, e.end, t), `${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}`]], l, up)).join('')}</ul></div>
+<section class="block intro-rows">
+  <div class="sheet-row"><h2>${t.career}</h2><ul class="orgs">${cv.experience.map((k) => orgBlock(k.key, k.org[l], k.positions.map((p) => [range(p.start, p.end, t), `${esc(p.dept[l])}, ${esc(p.title[l])}`]), l, up)).join('')}</ul></div>
+  <div class="sheet-row"><h2>${t.edu}</h2><ul class="orgs">${cv.education.map((e) => orgBlock(e.key, e.school[l], [[range(e.start, e.end, t), `${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}`]], l, up)).join('')}</ul></div>
+  <div class="sheet-row"><h2>${t.areas}</h2><ul class="areas">${site.research.filter((r) => r.on_intro !== false).map((r) => `<li><a href="research.html#${r.id}">${esc(r.short[l])}</a><span class="when">${esc(r.period)}</span></li>`).join('')}</ul></div>
 </section>
-<section class="block"><h2>${t.areas}</h2><ul class="areas">${site.research.filter((r) => r.on_intro !== false).map((r) => `<li><a href="research.html#${r.id}">${esc(r.short[l])}</a><span class="when">${esc(r.period)}</span></li>`).join('')}</ul></section>
 ${deckViewer(l, up)}
 </div>`;
   },

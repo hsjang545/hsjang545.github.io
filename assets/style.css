@@ -54,8 +54,14 @@ nav .lang { margin-left: auto; }
 .hero h1 { font-size: clamp(2.8rem, 7vw, 4.4rem); font-weight: 600; line-height: 1.1; letter-spacing: -.03em; }
 .hero .headline { font-size: clamp(1.2rem, 2.4vw, 1.55rem); font-weight: 600; line-height: 1.45; margin: 20px 0 14px; color: var(--paint-yellow); }
 .hero .lede { max-width: 38em; color: var(--paint-white); }
-.hero .role, .hero .contact { color: var(--on-asphalt-muted); font-size: .97rem; }
-.hero .role { margin-top: 12px; }
+.hero .role { margin-top: 16px; color: var(--on-asphalt-muted); font-size: 1rem; line-height: 1.7; }
+.hero .role strong { color: var(--paint-white); font-size: 1.12rem; font-weight: 650; }
+.hero .email { margin: 22px 0 0; font-size: 1.2rem; font-weight: 600; }
+.hero .email a { color: var(--paint-yellow); text-decoration: none; }
+.hero .email a:hover { text-decoration: underline; }
+.hero .links { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; }
+.hero .links a { padding: 5px 13px; border: 1px solid var(--on-asphalt-muted); font-size: .9rem; font-weight: 600; text-decoration: none; line-height: 1.4; }
+.hero .links a:hover { background: var(--paint-yellow); border-color: var(--paint-yellow); color: var(--asphalt-deep); }
 .hero a { color: var(--paint-white); }
 .hero img { border-radius: 2px; width: 230px; }
 
@@ -73,6 +79,11 @@ section.block { padding-block: 52px 0; }
 .deck:fullscreen { display: flex; flex-direction: column; justify-content: center; padding: 16px; }
 .deck:fullscreen .deck-stage { flex: 1; aspect-ratio: auto; min-height: 0; }
 .deck-note { margin: -8px 0 12px; }
+.intro-rows .sheet-row:first-child { border-top: 0; padding-top: 0; }
+.intro-rows .sheet-row > h2 { margin: 6px 0 0; }
+.intro-rows .areas { display: block; }
+.intro-rows .areas li { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 14px; padding: 9px 0; border-top: 0; }
+.intro-rows .areas li .when { order: -1; color: var(--muted); font-size: .95rem; font-variant-numeric: tabular-nums; }
 .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 56px; }
 
 /* 목록 */

@@ -3,9 +3,15 @@
 
 intro:
   headline: {ko: "ADAS 실차 검증, 프리크래시 통합안전", en: "ADAS vehicle validation, pre-crash integrated safety"}
-  role: {ko: "한국자동차연구원 자율주행기술연구소 빅데이터·AIDV연구본부 데이터플랫폼연구센터 연구원", en: "Researcher, Data Platform R&D Center, Big Data & AIDV R&D Division, Autonomous Driving Technology R&D Laboratory, Korea Automotive Technology Institute (KATECH)"}
+  # 소속은 명함처럼 기관, 연구소·본부, 센터·직위로 줄을 나눈다. 첫 줄이 기관명이다.
+  role:
+    ko: [한국자동차연구원, 자율주행기술연구소 빅데이터·AIDV연구본부, 데이터플랫폼연구센터 연구원]
+    en: [Korea Automotive Technology Institute (KATECH), "Autonomous Driving Technology R&D Laboratory, Big Data & AIDV R&D Division", "Researcher, Data Platform R&D Center"]
   # 구글 스칼라 프로필 주소. 값을 넣으면 소개 페이지에 표시된다.
   scholar: ""
+  # 링크드인, 리멤버 프로필 주소. 값을 넣으면 소개 상단의 CV, ORCID 옆에 표시된다.
+  linkedin: ""
+  remember: ""
 
 research:
   - id: adas-validation
