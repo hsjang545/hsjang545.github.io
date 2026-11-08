@@ -264,3 +264,12 @@ test('소개 상단은 소속을 줄 나눠 쓰고, 이메일과 CV·ORCID 링�
   assert.ok(links.indexOf('CV (PDF)') < links.indexOf('>ORCID<'));
   assert.ok(!links.includes('href=""'));
 });
+
+test('소개의 전문 분야에는 기간을 쓰지 않고 한 줄 설명을 붙인다', () => {
+  const page = raw(join(SITE, 'index.html'));
+  const areas = page.slice(page.indexOf('class="areas"'), page.indexOf('</ul>', page.indexOf('class="areas"')));
+  assert.ok(page.includes('<h2>전문 분야</h2>') && !page.includes('연구 및 개발 분야'));
+  assert.ok(!areas.includes('class="when"') && !/20\d\d\s*–/.test(areas), areas.slice(0, 200));
+  assert.ok(areas.includes('class="desc"'));
+  assert.ok(raw(join(SITE, 'en', 'index.html')).includes('<h2>Expertise</h2>'));
+});

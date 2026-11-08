@@ -42,8 +42,8 @@ research:
     title: {ko: 실차 데이터 취득 플랫폼 구축, en: Building vehicle data acquisition platforms}
     period: 2023 –
     body:
-      ko: 시험 목적에 맞게 센서를 구성하고, 시각 동기화, 녹화, 운영 GUI, 후처리까지 실차 데이터 취득 플랫폼을 직접 설계하고 구현한다.
-      en: Designing and building vehicle data acquisition platforms end to end, from sensor selection to time synchronization, recording, operator GUIs and post-processing.
+      ko: 센서 구성부터 시각 동기화, 녹화, 운영 GUI, 후처리까지 실차 데이터 취득 플랫폼 설계와 구현.
+      en: End-to-end design and build of vehicle data acquisition platforms, from sensor setup to time synchronization, recording, operator GUIs and post-processing.
     projects: [proj-precrash, proj-nanoheating, proj-camera-5m, proj-pmaps]
     publications: []
     patents: []

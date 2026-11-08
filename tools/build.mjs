@@ -18,7 +18,7 @@ const T = {
     other: 'English', otherLang: 'en', email: '이메일', expertise: '전문분야', career: '경력', edu: '학력',
     now: '현재',
     deck: '소개 자료', deckNote: '', prev: '이전', next: '다음', full: '전체 화면',
-    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', platSensors: '센서', platStack: '기술 스택', platBuilt: '구현 내용', relatedResearch: '관련 연구 및 개발', areas: '연구 및 개발 분야',
+    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', platSensors: '센서', platStack: '기술 스택', platBuilt: '구현 내용', relatedResearch: '관련 연구 및 개발', areas: '전문 분야',
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
     national: '국가과제', contract: '수탁과제', misc: '기타', otherAct: '그 외 활동', consult: '기술 자문', award: '기타 수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
@@ -31,7 +31,7 @@ const T = {
     other: '한국어', otherLang: 'ko', email: 'Email', expertise: 'Expertise', career: 'Experience', edu: 'Education',
     now: 'Present',
     deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
-    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', platSensors: 'Sensors', platStack: 'Tech stack', platBuilt: 'What I built', relatedResearch: 'Related R&D', areas: 'R&D areas',
+    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', platSensors: 'Sensors', platStack: 'Tech stack', platBuilt: 'What I built', relatedResearch: 'Related R&D', areas: 'Expertise',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
     national: 'Government-funded', contract: 'Contract research', misc: 'Misc.', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Other awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
@@ -159,7 +159,7 @@ const pages = {
 <section class="block intro-rows">
   <div class="sheet-row"><h2>${t.career}</h2><ul class="orgs">${cv.experience.map((k) => orgBlock(k.key, k.org[l], k.positions.map((p) => [range(p.start, p.end, t), `${esc(p.dept[l])}, ${esc(p.title[l])}`]), l, up)).join('')}</ul></div>
   <div class="sheet-row"><h2>${t.edu}</h2><ul class="orgs">${cv.education.map((e) => orgBlock(e.key, e.school[l], [[range(e.start, e.end, t), `${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}`]], l, up)).join('')}</ul></div>
-  <div class="sheet-row"><h2>${t.areas}</h2><ul class="areas">${site.research.filter((r) => r.on_intro !== false).map((r) => `<li><a href="research.html#${r.id}">${esc(r.short[l])}</a><span class="when">${esc(r.period)}</span></li>`).join('')}</ul></div>
+  <div class="sheet-row"><h2>${t.areas}</h2><ul class="areas">${site.research.filter((r) => r.on_intro !== false).map((r) => `<li><a href="research.html#${r.id}">${esc(r.short[l])}</a><span class="desc">${esc(r.body[l])}</span></li>`).join('')}</ul></div>
 </section>
 ${deckViewer(l, up)}
 </div>`;
