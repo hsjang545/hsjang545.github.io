@@ -282,3 +282,11 @@ test('모든 페이지의 큰 제목에 작성 중 표시가 붙는다', () => {
   }
   assert.ok(!htmlFiles.some((f) => /TBD/.test(raw(f))));
 });
+
+test('OSIA 강의는 교육에 나오고 자원봉사 확인 출처 문구는 없다', () => {
+  const etc = raw(join(SITE, 'etc.html'));
+  const at = etc.indexOf('[OSIA]');
+  const heads = [...etc.slice(0, at).matchAll(/<h[23][^>]*>([^<]*)<\/h[23]>/g)].map((m) => m[1]);
+  assert.ok(at > 0 && heads.at(-1) === '교육', heads.slice(-3).join(','));
+  assert.ok(!etc.includes('1365') && !raw(join(SITE, 'en', 'etc.html')).includes('1365'));
+});

@@ -145,7 +145,11 @@ project_logos:
 
 # cv.yaml에 없는 수상과 교육. 형식은 cv.yaml과 같다.
 extra_awards: []
-extra_training: []
+extra_training:
+  - key: tr-osia-drl
+    date: 2024-08-27
+    title: {ko: "[OSIA] 심층강화학습과 조합최적화 실전 응용 기초", en: "[OSIA] Fundamentals of Applied Deep Reinforcement Learning and Combinatorial Optimization"}
+    org: {ko: "한국컴퓨터통신연구회, 온라인", en: "Online"}
 
 # 리뷰어 활동. 항목을 추가하면 기타 페이지에 자동으로 나타난다.
 # 형식: - {date: "2022", title: {ko: 학술지명, en: Journal name}}
@@ -169,9 +173,6 @@ seminars:
   - date: 2024-11-19
     title: {ko: 2024 한국자동차공학회 추계학술대회 및 전시회, en: 2024 KSAE Fall Conference and Exhibition}
     org: {ko: "한국자동차공학회, 제주", en: "KSAE, Jeju"}
-  - date: 2024-08-27
-    title: {ko: "[OSIA] 심층강화학습과 조합최적화 실전 응용 기초", en: "[OSIA] Fundamentals of Applied Deep Reinforcement Learning and Combinatorial Optimization"}
-    org: {ko: "한국컴퓨터통신연구회, 온라인", en: "Online"}
   - date: 2024-06-24
     title: {ko: 제32차 KRnet 2024, en: 32nd KRnet 2024}
     org: {ko: "한국컴퓨터통신연구회, 서울", en: Seoul}
@@ -198,10 +199,9 @@ other_activities:
     org: {ko: 광주과학기술원, en: GIST}
 
 service:
-  # period는 기간을 그대로 표시한다. 총계는 1365 자원봉사 확인서 기준이다.
+  # period는 기간을 그대로 표시한다.
   - period: 2016.10 – 2019.12
     title: {ko: "자원봉사 총 122시간 (38회)", en: "Volunteer work, 122 hours in total (38 sessions)"}
-    org: {ko: 1365 자원봉사포털 확인 실적, en: Verified by the 1365 Volunteer Portal}
   - period: 2019.10 – 2019.12
     title: {ko: 환경 동아리 친환경 에너지 제품 제작, en: Building eco-friendly energy products with an environmental club}
     org: {ko: 시흥에코센터, en: Siheung Eco Center}
