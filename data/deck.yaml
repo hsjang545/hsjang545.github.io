@@ -12,20 +12,24 @@
 - file: slide-06.jpg
   title: "실차 AEB 데이터에서 엣지 케이스 찾기"
 - file: slide-07.jpg
-  title: "실차 멀티모달 데이터 취득 플랫폼"
+  title: "실차 데이터 취득 플랫폼 구축"
 - file: slide-08.jpg
-  title: "돌발상황 통행조율 평가"
+  title: "프리크래시 평가 DAQ 구성"
 - file: slide-09.jpg
-  title: "하이브리드 기계학습 기반 차량 궤적 증강"
+  title: "PBV 난방 실험 DAQ 구성"
 - file: slide-10.jpg
-  title: "차량용 반도체 검증"
+  title: "돌발상황 통행조율 평가"
 - file: slide-11.jpg
-  title: "석사 연구: 평생 학습 SLAM"
+  title: "하이브리드 기계학습 기반 차량 궤적 증강"
 - file: slide-12.jpg
-  title: "주요 실적"
+  title: "차량용 반도체 검증"
 - file: slide-13.jpg
-  title: "연구과제"
+  title: "석사 연구: 평생 학습 SLAM"
 - file: slide-14.jpg
-  title: "수상, 장학, 활동"
+  title: "주요 실적"
 - file: slide-15.jpg
+  title: "연구과제"
+- file: slide-16.jpg
+  title: "수상, 장학, 활동"
+- file: slide-17.jpg
   title: "감사합니다"

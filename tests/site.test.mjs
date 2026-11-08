@@ -235,3 +235,21 @@ test('문학상은 수상이 아니라 그 외 활동에 나온다', () => {
 test('의뢰·이직 제안 문구가 없다', () => {
   for (const f of htmlFiles) assert.ok(!/의뢰|이직|채용 문의|hire me|open to/i.test(raw(f)), f);
 });
+
+test('실차 데이터 취득 플랫폼 구축에 플랫폼별 센서, 기술 스택, GUI 화면, 구성도가 나온다', () => {
+  const r = raw(join(SITE, 'research.html'));
+  const topic = r.slice(r.indexOf('<article class="topic solo" id="data-acquisition"'));
+  const body = topic.slice(0, topic.indexOf('</article>'));
+  assert.ok(body.includes('<h2>실차 데이터 취득 플랫폼 구축</h2>') && !r.includes('실차 멀티모달 데이터 취득'));
+  for (const id of ['platform-precrash', 'platform-pbv']) assert.ok(body.includes(`id="${id}"`), id);
+  for (const word of ['센서', '기술 스택', '구현 내용', 'ROS 2', 'daq-precrash-gui.jpg', 'daq-pbv-gui.jpg', 'daq-precrash-ko.png', 'daq-pbv-ko.png']) assert.ok(body.includes(word), word);
+  for (const k of ['proj-precrash', 'proj-nanoheating', 'proj-camera-5m']) assert.ok(body.includes(`projects.html#${k}`), k);
+  const en = raw(join(SITE, 'en', 'research.html'));
+  assert.ok(en.includes('daq-precrash-en.png') && en.includes('Tech stack'));
+});
+
+test('프리크래시 통합안전 소개에 다단계 안전벨트 제어를 본인 업무로 적지 않는다', () => {
+  const r = raw(join(SITE, 'research.html'));
+  const topic = r.slice(r.indexOf('id="integrated-safety"'));
+  assert.ok(!topic.slice(0, topic.indexOf('</p>', topic.indexOf('class="span"') + 30)).includes('안전벨트 제어'));
+});

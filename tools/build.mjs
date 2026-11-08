@@ -18,7 +18,7 @@ const T = {
     other: 'English', otherLang: 'en', email: '이메일', expertise: '전문분야', career: '경력', edu: '학력',
     now: '현재',
     deck: '소개 자료', deckNote: '', prev: '이전', next: '다음', full: '전체 화면',
-    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', relatedResearch: '관련 연구 및 개발', areas: '연구 및 개발 분야',
+    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', platSensors: '센서', platStack: '기술 스택', platBuilt: '구현 내용', relatedResearch: '관련 연구 및 개발', areas: '연구 및 개발 분야',
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
     national: '국가과제', contract: '수탁과제', misc: '기타', otherAct: '그 외 활동', consult: '기술 자문', award: '기타 수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
@@ -31,7 +31,7 @@ const T = {
     other: '한국어', otherLang: 'ko', email: 'Email', expertise: 'Expertise', career: 'Experience', edu: 'Education',
     now: 'Present',
     deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
-    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', relatedResearch: 'Related R&D', areas: 'R&D areas',
+    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', platSensors: 'Sensors', platStack: 'Tech stack', platBuilt: 'What I built', relatedResearch: 'Related R&D', areas: 'R&D areas',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
     national: 'Government-funded', contract: 'Contract research', misc: 'Misc.', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Other awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
@@ -129,7 +129,8 @@ const orgLogo = (key, l, up) => {
 };
 // 기관마다 이름과 로고를 한 줄에 두고, 그 아래에 기간별 직위나 학위를 나열한다.
 const orgBlock = (key, name, rows, l, up) => `<li class="org"><div class="org-head"><p class="title">${esc(name)}</p>${orgLogo(key, l, up)}</div><ul class="dated">${rows.map(([when, what]) => `<li><span class="when">${when}</span><p>${what}</p></li>`).join('')}</ul></li>`;
-const figure = (f, l, up) => `<figure><img src="${up}assets/figures/${esc(f.file)}" alt="${esc(f.caption[l])}" loading="lazy"><figcaption>${esc(f.caption[l])}</figcaption></figure>`;
+// 그림 파일이 언어별로 다르면 file을 {ko, en}으로 쓴다.
+const figure = (f, l, up) => `<figure><img src="${up}assets/figures/${esc(typeof f.file === 'object' ? f.file[l] : f.file)}" alt="${esc(f.caption[l])}" loading="lazy"><figcaption>${esc(f.caption[l])}</figcaption></figure>`;
 const head = (title, lead, extra = '') => `<section class="page-head"><div class="wrap"><h1>${esc(title)}</h1>${lead ? `<p>${esc(lead)}</p>` : ''}${extra}</div></section>`;
 
 const pages = {
@@ -158,13 +159,20 @@ ${deckViewer(l, up)}
     const t = T[l];
     const refs = (title, items) => (items.length ? `<div class="outputs"><h3>${title}</h3><ul class="plain">${items.join('')}</ul></div>` : '');
     const toc = `<ul class="topics">${site.research.map((r) => `<li><a href="#${r.id}">${esc(r.short[l])}</a></li>`).join('')}</ul>`;
+    // 직접 구축한 플랫폼. 센서, 기술 스택, 구현 내용과 GUI 화면, 구성도를 함께 싣는다.
+    const platforms = (r, l, up) => (r.platforms?.length ? `<div class="platforms">${r.platforms.map((pf) => {
+      const p = byKey(cv.projects, pf.project, 'project');
+      const rows = [[t.platSensors, pf.sensors], [t.platStack, pf.stack], [t.platBuilt, pf.built]].map(([h, items]) => `<dt>${h}</dt><dd><ul class="points">${items[l].map((x) => `<li>${esc(x)}</li>`).join('')}</ul></dd>`).join('');
+      return `<section class="platform" id="${pf.id}"><h3>${esc(pf.name[l])}</h3><p class="meta">${t.relatedProject}: <a href="projects.html#${pf.project}">${esc(p.title[l])}</a> <span class="by">${range(p.start, p.end, t)}</span></p>
+<div class="platform-grid"><dl>${rows}</dl><div>${(pf.figures ?? []).map((f) => figure(f, l, up)).join('')}</div></div>${pf.diagram ? `<div class="diagram">${figure(pf.diagram, l, up)}</div>` : ''}</section>`;
+    }).join('')}</div>` : '');
     const topic = (r) => {
       const figures = r.figures ?? [];
       const text = `<div><h2>${esc(r.title[l])}</h2><p class="span">${esc(r.period)}</p><p>${esc(r.body[l])}</p>
 ${refs(t.relatedProject, r.projects.map((k) => { const p = byKey(cv.projects, k, 'project'); return `<li><a href="projects.html#${k}">${esc(p.title[l])}</a> <span class="by">${range(p.start, p.end, t)}</span></li>`; }))}
 ${refs(t.pubOut, r.publications.map((k) => { const p = byKey(cv.publications, k, 'publication'); return `<li><a href="publications.html#${k}">${esc(p.title[itemLang(p, l)])}</a></li>`; }))}
 ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent'); return `<li><a href="publications.html#${k}">${esc(p.title[itemLang(p, l)])}</a></li>`; }))}</div>`;
-      return `<article class="topic${figures.length ? '' : ' solo'}" id="${r.id}">${text}${figures.length ? `<div>${figures.map((f) => figure(f, l, up)).join('')}</div>` : ''}</article>`;
+      return `<article class="topic${figures.length ? '' : ' solo'}" id="${r.id}">${text}${figures.length ? `<div>${figures.map((f) => figure(f, l, up)).join('')}</div>` : ''}${platforms(r, l, up)}</article>`;
     };
     // 과제가 이 페이지에 있던 때의 주소(research.html#proj-...)는 프로젝트 페이지로 보낸다.
     return `${head(t.research, '', toc)}<div class="wrap">${site.research.map(topic).join('')}</div>

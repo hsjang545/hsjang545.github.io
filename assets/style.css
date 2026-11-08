@@ -106,6 +106,16 @@ ul.biblio > li:first-child { border-top: 0; padding-top: 0; }
 figure { margin: 0 0 22px; }
 figure img { width: 100%; background: var(--surface); }
 figcaption { color: var(--muted); font-size: .84rem; line-height: 1.5; margin-top: 7px; }
+.platforms { grid-column: 1 / -1; max-width: none !important; }
+.platform { margin-top: 36px; padding-top: 28px; border-top: 1px dashed var(--line); }
+.platform h3 { font-size: 1.15rem; margin: 0 0 4px; }
+.platform-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 20px 40px; margin-top: 16px; }
+.platform dl { margin: 0; }
+.platform dt { font-weight: 700; font-size: .92rem; color: var(--muted); margin-top: 10px; }
+.platform dt:first-child { margin-top: 0; }
+.platform dd { margin: 0; }
+.platform dd ul.points { margin-top: 4px; }
+.diagram figure img { background: #fff; }
 .outputs { margin-top: 18px; }
 .outputs h3 { font-size: .96rem; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
 .outputs li { padding-block: 4px; font-size: .96rem; line-height: 1.5; }
@@ -145,7 +155,7 @@ footer { margin-top: 72px; padding-block: 22px 40px; color: var(--muted); font-s
   body { font-size: 16px; }
   .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .hero img { width: 150px; grid-row: 1; }
-  .two, .topic, .sheet-row, .minors { grid-template-columns: minmax(0, 1fr); }
+  .two, .topic, .sheet-row, .minors, .platform-grid { grid-template-columns: minmax(0, 1fr); }
   .areas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .with-logo { grid-template-columns: minmax(0, 1fr); }
   .with-logo .logos { grid-row: 1; flex-direction: row; align-items: center; gap: 14px; }
