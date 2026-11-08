@@ -95,11 +95,15 @@ test('모든 과제에 정부 상징 또는 발주처 로고가 나온다', () =
   for (const l of ['', 'en/']) {
     const projects = raw(join(SITE, `${l}projects.html`));
     for (const k of [...site.project_kinds.national, ...site.project_kinds.contract]) assert.ok(site.project_logos[k], k);
-    for (const [k, logo] of Object.entries(site.project_logos)) {
-      assert.equal(Boolean(logo.label), site.project_kinds.national.includes(k), k);
+    for (const [k, value] of Object.entries(site.project_logos)) {
       const entry = projects.split(`<li id="${k}"`)[1].split('<li id="proj-')[0];
-      assert.ok(entry.includes(`assets/logos/${logo.file}`), `${l}${k}`);
+      for (const logo of [value].flat()) {
+        assert.equal(Boolean(logo.label), site.project_kinds.national.includes(k), k);
+        assert.ok(entry.includes(`assets/logos/${logo.file}`), `${l}${k}: ${logo.file}`);
+      }
     }
+    const mpc = projects.split('<li id="proj-mpc55-adas"')[1];
+    assert.ok(mpc.indexOf('lg.svg') < mpc.indexOf('daimler.svg'));
   }
 });
 

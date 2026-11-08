@@ -159,12 +159,14 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
       const topics = site.research.filter((r) => r.projects.includes(p.key));
       const points = p.summary.length ? `<ul class="points">${p.summary.map((s) => `<li>${esc(s[l])}</li>`).join('')}</ul>` : '';
       const related = topics.length ? `<p class="meta">${t.relatedResearch}: ${topics.map((r) => `<a href="research.html#${r.id}">${esc(r.short[l])}</a>`).join(', ')}</p>` : '';
-      const logo = site.project_logos?.[p.key];
+      const logos = [site.project_logos?.[p.key] ?? []].flat();
       const body = `<p class="title">${esc(p.title[l])}</p><p class="meta">${meta}</p>${points}${related}`;
-      if (!logo) return `<li id="${p.key}">${body}</li>`;
-      const img = `<img class="logo${logo.mono ? ' mono' : ''}${logo.label ? ' emblem' : ''}" src="${up}assets/logos/${esc(logo.file)}" alt="${logo.label ? '' : esc(logo.name[l])}" loading="lazy">`;
-      const mark = logo.label ? `<span class="org-mark" title="${esc(logo.name[l])}">${img}<span>${esc(logo.label[l])}</span></span>` : img;
-      return `<li id="${p.key}" class="with-logo"><div>${body}</div>${mark}</li>`;
+      if (!logos.length) return `<li id="${p.key}">${body}</li>`;
+      const mark = (logo) => {
+        const img = `<img class="logo${logo.mono ? ' mono' : ''}${logo.label ? ' emblem' : ''}" src="${up}assets/logos/${esc(logo.file)}" alt="${logo.label ? '' : esc(logo.name[l])}" loading="lazy">`;
+        return logo.label ? `<span class="org-mark" title="${esc(logo.name[l])}">${img}<span>${esc(logo.label[l])}</span></span>` : img;
+      };
+      return `<li id="${p.key}" class="with-logo"><div>${body}</div><div class="logos">${logos.map(mark).join('')}</div></li>`;
     };
     projects.forEach((p) => kindOf(p.key, t));
     const groups = ['national', 'contract'].map((kind) => {

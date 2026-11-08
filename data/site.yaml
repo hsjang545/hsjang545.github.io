@@ -103,8 +103,10 @@ project_logos:
   proj-reading-robot: {file: gov-emblem.svg, name: {ko: 문화체육관광부, en: Ministry of Culture, Sports and Tourism}, label: {ko: 문화체육관광부, en: MCST}}
   proj-precrash: {file: hyundai.svg, mono: true, name: {ko: 현대자동차, en: Hyundai Motor Company}}
   proj-pmaps: {file: hyundai.svg, mono: true, name: {ko: 현대자동차, en: Hyundai Motor Company}}
-  # 발주처는 LG전자지만 다임러 양산차에 들어가는 과제라 다임러 로고를 쓴다.
-  proj-mpc55-adas: {file: daimler.svg, mono: true, name: {ko: 다임러, en: Daimler}}
+  # 발주처 LG전자와 양산차 고객사 다임러를 함께 표시한다. 로고가 여럿이면 목록으로 쓴다.
+  proj-mpc55-adas:
+    - {file: lg.svg, name: {ko: LG전자, en: LG Electronics}}
+    - {file: daimler.svg, mono: true, name: {ko: 다임러, en: Daimler}}
 
 # 공개·등록 특허의 도면. 공개 전 출원은 넣지 않는다.
 patent_figures:
