@@ -18,7 +18,7 @@ const T = {
     other: 'English', otherLang: 'en', email: '이메일', expertise: '전문분야', career: '경력', edu: '학력',
     now: '현재',
     deck: '소개 자료', deckNote: '', prev: '이전', next: '다음', full: '전체 화면',
-    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', platBuilt: '구현 내용', relatedResearch: '관련 연구 및 개발', areas: '전문 분야', wip: '작성 중',
+    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', platBuilt: '구현 내용', relatedResearch: '관련 연구 및 개발', areas: '전문 분야', wip: '작성 중', thesisMs: '학위논문', thesisBs: '졸업논문',
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
     national: '국가과제', contract: '수탁과제', misc: '기타', otherAct: '그 외 활동', consult: '기술 자문', award: '기타 수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
@@ -31,7 +31,7 @@ const T = {
     other: '한국어', otherLang: 'ko', email: 'Email', expertise: 'Expertise', career: 'Experience', edu: 'Education',
     now: 'Present',
     deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
-    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', platBuilt: 'What I built', relatedResearch: 'Related R&D', areas: 'Expertise', wip: 'Work in progress',
+    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', platBuilt: 'What I built', relatedResearch: 'Related R&D', areas: 'Expertise', wip: 'Work in progress', thesisMs: 'Thesis', thesisBs: 'Graduation thesis',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
     national: 'Government-funded', contract: 'Contract research', misc: 'Misc.', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Other awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
@@ -133,6 +133,16 @@ const orgBlock = (key, name, rows, l, up) => `<li class="org"><div class="org-he
 const figure = (f, l, up) => `<figure><img src="${up}assets/figures/${esc(typeof f.file === 'object' ? f.file[l] : f.file)}" alt="${esc(f.caption[l])}" loading="lazy"><figcaption>${esc(f.caption[l])}</figcaption></figure>`;
 // 사이트를 만드는 동안 큰 제목 옆에 '작성 중' 표시를 붙인다. site.yaml의 wip을 false로 바꾸면 사라진다.
 const wipBadge = (t) => (site.wip ? ` <span class="wip">${t.wip}</span>` : '');
+// 학력 아래 줄: 연구실, 지도교수, 학위·졸업 논문
+const eduDetail = (e, t, l) => {
+  const isMaster = /석사/.test(e.degree.ko);
+  const parts = [
+    e.lab && esc(e.lab[l]),
+    e.advisor && `${t.advisor}${l === 'ko' ? ' ' : ': '}${esc(l === 'ko' ? e.advisor.ko.replace(/\s*교수$/, '') : e.advisor[l])}`,
+    e.thesis && `${isMaster ? t.thesisMs : t.thesisBs}: ${esc(e.thesis[l])}`,
+  ].filter(Boolean);
+  return parts.length ? `<span class="edu-detail">${parts.join('<br>')}</span>` : '';
+};
 const head = (t, title, lead, extra = '') => `<section class="page-head"><div class="wrap"><h1>${esc(title)}${wipBadge(t)}</h1>${lead ? `<p>${esc(lead)}</p>` : ''}${extra}</div></section>`;
 
 // 소개 상단의 외부 링크. 주소가 비어 있는 항목은 싣지 않는다.
@@ -160,7 +170,7 @@ const pages = {
 <div class="wrap">
 <section class="block intro-rows">
   <div class="sheet-row"><h2>${t.career}</h2><ul class="orgs">${cv.experience.map((k) => orgBlock(k.key, k.org[l], k.positions.map((p) => [range(p.start, p.end, t), `${esc(p.dept[l])}, ${esc(p.title[l])}`]), l, up)).join('')}</ul></div>
-  <div class="sheet-row"><h2>${t.edu}</h2><ul class="orgs">${cv.education.map((e) => orgBlock(e.key, e.school[l], [[range(e.start, e.end, t), `${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}`]], l, up)).join('')}</ul></div>
+  <div class="sheet-row"><h2>${t.edu}</h2><ul class="orgs">${cv.education.map((e) => orgBlock(e.key, e.school[l], [[range(e.start, e.end, t), `${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}${eduDetail(e, t, l)}`]], l, up)).join('')}</ul></div>
   <div class="sheet-row"><h2>${t.areas}</h2><ul class="areas">${site.research.filter((r) => r.on_intro !== false).map((r) => `<li><a href="research.html#${r.id}">${esc(r.short[l])}</a><span class="desc">${esc(r.body[l])}</span></li>`).join('')}</ul></div>
 </section>
 ${deckViewer(l, up)}
