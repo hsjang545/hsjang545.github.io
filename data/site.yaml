@@ -121,6 +121,10 @@ org_logos:
 # 사이트에 싣지 않는 과제. CV 원본과 PDF에는 남아 있다.
 hidden_projects: [proj-special-road]
 
+# 과제 메타 정보의 발주처 자리를 바꿔 쓸 문구. 수탁처와 최종 고객(OEM)이 다를 때 쓴다.
+project_sponsor_notes:
+  proj-mpc55-adas: {ko: "수탁처 LG전자, OEM 다임러 (LG전자가 다임러에 납품하는 ADAS 전방 카메라 검증)", en: "Client: LG Electronics, OEM: Daimler (validation of the ADAS front camera LG Electronics supplies to Daimler)"}
+
 # 과제 구분. national은 국가과제, contract는 수탁과제다.
 project_kinds:
   national: [proj-camera-5m, proj-occupant-msb, proj-nanoheating, proj-multicore-soc, proj-etc-soc, proj-incident-control, proj-reading-robot]
@@ -140,8 +144,8 @@ project_logos:
   proj-pmaps: {file: hyundai.svg, mono: true, name: {ko: 현대자동차, en: Hyundai Motor Company}}
   # 발주처 LG전자와 양산차 고객사 다임러를 함께 표시한다. 로고가 여럿이면 목록으로 쓴다.
   proj-mpc55-adas:
-    - {file: lg.svg, name: {ko: LG전자, en: LG Electronics}}
-    - {file: daimler.svg, mono: true, name: {ko: 다임러, en: Daimler}}
+    - {file: lg.svg, role: {ko: 수탁처, en: Client}, name: {ko: LG전자, en: LG Electronics}}
+    - {file: daimler.svg, mono: true, role: {ko: OEM, en: OEM}, name: {ko: 다임러, en: Daimler}}
 
 # cv.yaml에 없는 수상과 교육. 형식은 cv.yaml과 같다.
 extra_awards: []

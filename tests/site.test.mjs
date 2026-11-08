@@ -290,3 +290,11 @@ test('OSIA 강의는 교육에 나오고 자원봉사 확인 출처 문구는 �
   assert.ok(at > 0 && heads.at(-1) === '교육', heads.slice(-3).join(','));
   assert.ok(!etc.includes('1365') && !raw(join(SITE, 'en', 'etc.html')).includes('1365'));
 });
+
+test('MPC5.5 과제에 수탁처 LG전자와 OEM 다임러가 표시된다', () => {
+  const page = raw(join(SITE, 'projects.html'));
+  const item = page.slice(page.indexOf('<li id="proj-mpc55-adas"'), page.indexOf('</li>', page.indexOf('<li id="proj-mpc55-adas"') + 2000));
+  assert.ok(item.includes('수탁처 LG전자, OEM 다임러'), 'meta');
+  assert.ok(item.indexOf('<span>수탁처</span>') < item.indexOf('lg.svg') && item.indexOf('<span>OEM</span>') < item.indexOf('daimler.svg') && item.indexOf('lg.svg') < item.indexOf('daimler.svg'));
+  assert.ok(raw(join(SITE, 'en', 'projects.html')).includes('Client: LG Electronics, OEM: Daimler'));
+});

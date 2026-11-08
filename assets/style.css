@@ -135,6 +135,8 @@ figcaption { color: var(--muted); font-size: .84rem; line-height: 1.5; margin-to
 .outputs .by { color: var(--muted); font-size: .86rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .with-logo { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 8px 28px; align-items: start; }
 .logos { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.logo-role { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.logo-role > span { font-size: .72rem; font-weight: 700; color: var(--muted); letter-spacing: .02em; line-height: 1; }
 .logo { width: 84px; height: 20px; object-fit: contain; object-position: right center; margin-top: 2px; }
 .org-mark { display: flex; align-items: center; justify-content: flex-end; gap: 5px; font-weight: 600; font-size: .82rem; white-space: nowrap; line-height: 1.3; letter-spacing: -.01em; }
 .logo.emblem { width: 18px; height: 18px; margin: 0; flex: none; }
