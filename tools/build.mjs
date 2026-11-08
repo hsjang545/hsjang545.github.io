@@ -1,4 +1,5 @@
 // data/*.yaml로 _site/ 아래에 국문·영문 정적 페이지를 생성한다.
+import { createHash } from 'node:crypto';
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { parse } from 'yaml';
 
@@ -7,6 +8,8 @@ const read = (p) => parse(readFileSync(new URL(p, root), 'utf8'));
 const cv = read('data/cv.yaml');
 const site = read('data/site.yaml');
 const OUT = new URL('_site/', root);
+// 스타일을 고치면 주소가 바뀌어 브라우저가 이전 스타일을 캐시에서 쓰지 않는다.
+const CSS_VER = createHash('sha256').update(readFileSync(new URL('assets/style.css', root))).digest('hex').slice(0, 8);
 
 const T = {
   ko: {
@@ -163,7 +166,7 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
       const body = `<p class="title">${esc(p.title[l])}</p><p class="meta">${meta}</p>${points}${related}`;
       if (!logos.length) return `<li id="${p.key}">${body}</li>`;
       const mark = (logo) => {
-        const img = `<img class="logo${logo.mono ? ' mono' : ''}${logo.label ? ' emblem' : ''}" src="${up}assets/logos/${esc(logo.file)}" alt="${logo.label ? '' : esc(logo.name[l])}" loading="lazy">`;
+        const img = `<img class="logo${logo.mono ? ' mono' : ''}${logo.label ? ' emblem' : ''}" src="${up}assets/logos/${esc(logo.file)}" ${logo.label ? 'width="18" height="18"' : 'width="84" height="20"'} alt="${logo.label ? '' : esc(logo.name[l])}" loading="lazy">`;
         return logo.label ? `<span class="org-mark" title="${esc(logo.name[l])}">${img}<span>${esc(logo.label[l])}</span></span>` : img;
       };
       return `<li id="${p.key}" class="with-logo"><div>${body}</div><div class="logos">${logos.map(mark).join('')}</div></li>`;
@@ -222,7 +225,7 @@ function layout(page, l, body) {
 <link rel="icon" href="data:,">
 <link rel="alternate" hreflang="${t.otherLang}" href="${otherHref}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="${up}assets/style.css">
+<link rel="stylesheet" href="${up}assets/style.css?v=${CSS_VER}">
 </head>
 <body>
 <header class="site"><div class="wrap">

@@ -86,6 +86,13 @@ test('연구와 프로젝트가 별도 탭이고 서로 연결된다', () => {
   assert.ok(raw(join(SITE, 'research.html')).includes("location.replace('projects.html'+location.hash)"));
 });
 
+test('스타일시트 주소에 버전이 붙고 로고 크기가 HTML에 지정된다', () => {
+  for (const f of htmlFiles.filter((x) => !raw(x).includes('http-equiv="refresh"'))) {
+    assert.ok(/assets\/style\.css\?v=[0-9a-f]{8}"/.test(raw(f)), f);
+  }
+  for (const [, tag] of raw(join(SITE, 'projects.html')).matchAll(/(<img class="logo[^>]*>)/g)) assert.ok(/width="\d+" height="\d+"/.test(tag), tag);
+});
+
 test('소개 페이지에 실적 개수를 표시하지 않는다', () => {
   for (const f of ['index.html', join('en', 'index.html')]) assert.ok(!raw(join(SITE, f)).includes('class="tally"'), f);
 });
@@ -127,7 +134,7 @@ test('사이트 안의 모든 링크와 앵커가 유효하다', () => {
   for (const f of htmlFiles) {
     for (const [, attr] of raw(f).matchAll(/(?:href|src)="([^"]+)"/g)) {
       if (/^(https?:|mailto:|data:)/.test(attr)) continue;
-      const [path, hash] = attr.split('#');
+      const [path, hash] = attr.replace(/\?[^#]*/, '').split('#');
       const target = path ? resolve(dirname(f), path) : resolve(f);
       assert.ok(existsSync(target), `${f} -> ${attr}`);
       if (hash) assert.ok(raw(target).includes(`id="${hash}"`), `${f} -> ${attr}`);
