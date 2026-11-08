@@ -47,44 +47,29 @@ research:
     projects: [proj-precrash, proj-nanoheating, proj-camera-5m, proj-pmaps]
     publications: []
     patents: []
-    # 센서는 종류와 수만 적고 모델명, 설치 위치, 차량 내부 신호는 싣지 않는다. GUI 화면의 사람은 흐리게 처리했다.
+    # 센서와 기술 스택은 계층 도식(stack-*.png)으로 보여 준다. 모델명, 설치 위치, 차량 내부 신호는 싣지 않는다.
     platforms:
       - id: platform-precrash
         project: proj-precrash
         name: {ko: 프리크래시 평가용 실차 데이터 취득 플랫폼, en: Pre-crash evaluation data acquisition platform}
-        sensors:
-          ko: ["4D 이미징 레이더 3대 (Ethernet)", "전방 카메라 3대 (GMSL)", "RTK-INS (GNSS·IMU), 목표차 상대거리 참값 장비", "차량 CAN-FD 5채널", "RGB-IR 인캐빈 카메라 8채널"]
-          en: ["3 × 4D imaging radar (Ethernet)", "3 × front camera (GMSL)", "RTK-INS (GNSS/IMU) and target ground-truth unit", "5 × vehicle CAN-FD channels", "8 × RGB-IR in-cabin cameras"]
-        stack:
-          ko: ["ROS 2 Humble·Jazzy, C++ (rclcpp), Python", "PySide6 GUI, GStreamer, MCAP (rosbag2), Fast DDS", "GNSS PPS·chrony, PTP (linuxptp), SocketCAN·DBC", "x86 산업용 PC (RT 커널)와 Jetson AGX 보드"]
-          en: ["ROS 2 Humble/Jazzy, C++ (rclcpp), Python", "PySide6 GUI, GStreamer, MCAP (rosbag2), Fast DDS", "GNSS PPS with chrony, PTP (linuxptp), SocketCAN with DBC", "x86 industrial PC (RT kernel) and Jetson AGX board"]
+        diagram:
+          file: {ko: stack-precrash-ko.png, en: stack-precrash-en.png}
+          caption: {ko: "센서부터 애플리케이션까지의 계층 구성", en: "Layers from sensors to application"}
         built:
           ko: ["두 대의 컴퓨터로 나눈 분산 취득과 하나의 시간축 동기화", "모니터링, 녹화, 재생, CAN 분석, 센서 설정을 묶은 운영 GUI", "레이더–카메라와 카메라 캘리브레이션 도구", "녹화 후 토픽별 수신율 점검과 동기화 상태 기록"]
           en: ["Distributed acquisition on two computers on one time base", "Operator GUI for monitoring, recording, replay, CAN analysis and sensor setup", "Radar–camera and camera calibration tools", "Post-recording per-topic receive checks and sync state logging"]
-        figures:
-          - file: daq-precrash-gui.jpg
-            caption: {ko: "운영 GUI: 레이더 BEV, 인캐빈 8채널, 전방 카메라 (탑승자는 흐리게 처리)", en: "Operator GUI: radar BEV, 8 in-cabin channels, front camera (occupants blurred)"}
-        diagram:
-          file: {ko: daq-precrash-ko.png, en: daq-precrash-en.png}
-          caption: {ko: 플랫폼 구성도, en: Platform architecture}
       - id: platform-pbv
         project: proj-nanoheating
         name: {ko: PBV 난방 실험 데이터 취득 플랫폼, en: PBV heating experiment data acquisition platform}
-        sensors:
-          ko: ["4K RGB 카메라", "열화상 카메라", "표면 온도 로거 (다채널 열전대)", "차량 CAN (실내외 온습도, 착좌, 벨트, 가속도)"]
-          en: ["4K RGB camera", "Thermal camera", "Surface temperature logger (multi-channel thermocouple)", "Vehicle CAN (cabin temperature/humidity, seat, belt, acceleration)"]
-        stack:
-          ko: ["C++17, Qt6, CMake", "GStreamer (H.264), ROS 2 Humble MCAP", "SocketCAN·DBC", "Ubuntu 22.04 PC, i.MX8M Plus 임베디드 보드"]
-          en: ["C++17, Qt6, CMake", "GStreamer (H.264), ROS 2 Humble MCAP", "SocketCAN with DBC", "Ubuntu 22.04 PC, i.MX8M Plus embedded board"]
+        diagram:
+          file: {ko: stack-pbv-ko.png, en: stack-pbv-en.png}
+          caption: {ko: "센서부터 애플리케이션까지의 계층 구성", en: "Layers from sensors to application"}
         built:
           ko: ["마우스만으로 쓰는 계측 GUI (모니터링, 후처리, 설정)", "센서별 켜기·끄기와 장애 격리", "녹화 후 센서별 수신율 판정", "기준 프레임 시각 매칭으로 학습용 표본 추출", "임베디드 보드 포팅"]
           en: ["Mouse-only measurement GUI (monitoring, post-processing, settings)", "Per-sensor on/off with fault isolation", "Per-sensor receive rate check after recording", "Training sample export by reference-frame time matching", "Port to an embedded board"]
         figures:
           - file: daq-pbv-gui.jpg
             caption: {ko: "난방 GUI: RGB, 열화상, 표면 온도, 온습도, CAN 신호 (사람은 흐리게 처리)", en: "Heating GUI: RGB, thermal, surface temperature, humidity and CAN signals (person blurred)"}
-        diagram:
-          file: {ko: daq-pbv-ko.png, en: daq-pbv-en.png}
-          caption: {ko: 플랫폼 구성도, en: Platform architecture}
   - id: coordination
     short: {ko: 돌발상황 경로조율, en: Incident coordination}
     figures:

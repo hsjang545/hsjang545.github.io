@@ -18,7 +18,7 @@ const T = {
     other: 'English', otherLang: 'en', email: '이메일', expertise: '전문분야', career: '경력', edu: '학력',
     now: '현재',
     deck: '소개 자료', deckNote: '', prev: '이전', next: '다음', full: '전체 화면',
-    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', platSensors: '센서', platStack: '기술 스택', platBuilt: '구현 내용', relatedResearch: '관련 연구 및 개발', areas: '전문 분야',
+    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', platBuilt: '구현 내용', relatedResearch: '관련 연구 및 개발', areas: '전문 분야',
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
     national: '국가과제', contract: '수탁과제', misc: '기타', otherAct: '그 외 활동', consult: '기술 자문', award: '기타 수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
@@ -31,7 +31,7 @@ const T = {
     other: '한국어', otherLang: 'ko', email: 'Email', expertise: 'Expertise', career: 'Experience', edu: 'Education',
     now: 'Present',
     deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
-    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', platSensors: 'Sensors', platStack: 'Tech stack', platBuilt: 'What I built', relatedResearch: 'Related R&D', areas: 'Expertise',
+    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', platBuilt: 'What I built', relatedResearch: 'Related R&D', areas: 'Expertise',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
     national: 'Government-funded', contract: 'Contract research', misc: 'Misc.', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Other awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
@@ -168,12 +168,13 @@ ${deckViewer(l, up)}
     const t = T[l];
     const refs = (title, items) => (items.length ? `<div class="outputs"><h3>${title}</h3><ul class="plain">${items.join('')}</ul></div>` : '');
     const toc = `<ul class="topics">${site.research.map((r) => `<li><a href="#${r.id}">${esc(r.short[l])}</a></li>`).join('')}</ul>`;
-    // 직접 구축한 플랫폼. 센서, 기술 스택, 구현 내용과 GUI 화면, 구성도를 함께 싣는다.
+    // 직접 구축한 플랫폼. 계층 도식(센서, 기술 스택)을 먼저 두고, 구현 내용과 GUI 화면을 그 아래에 싣는다.
     const platforms = (r, l, up) => (r.platforms?.length ? `<div class="platforms">${r.platforms.map((pf) => {
       const p = byKey(cv.projects, pf.project, 'project');
-      const rows = [[t.platSensors, pf.sensors], [t.platStack, pf.stack], [t.platBuilt, pf.built]].map(([h, items]) => `<dt>${h}</dt><dd><ul class="points">${items[l].map((x) => `<li>${esc(x)}</li>`).join('')}</ul></dd>`).join('');
+      const built = `<div><h4>${t.platBuilt}</h4><ul class="points">${pf.built[l].map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
+      const figs = (pf.figures ?? []).map((f) => figure(f, l, up)).join('');
       return `<section class="platform" id="${pf.id}"><h3>${esc(pf.name[l])}</h3><p class="meta">${t.relatedProject}: <a href="projects.html#${pf.project}">${esc(p.title[l])}</a> <span class="by">${range(p.start, p.end, t)}</span></p>
-<div class="platform-grid"><dl>${rows}</dl><div>${(pf.figures ?? []).map((f) => figure(f, l, up)).join('')}</div></div>${pf.diagram ? `<div class="diagram">${figure(pf.diagram, l, up)}</div>` : ''}</section>`;
+${pf.diagram ? `<div class="diagram">${figure(pf.diagram, l, up)}</div>` : ''}<div class="platform-grid${figs ? '' : ' solo'}">${built}${figs ? `<div>${figs}</div>` : ''}</div></section>`;
     }).join('')}</div>` : '');
     const topic = (r) => {
       const figures = r.figures ?? [];

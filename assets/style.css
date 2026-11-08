@@ -121,11 +121,11 @@ figcaption { color: var(--muted); font-size: .84rem; line-height: 1.5; margin-to
 .platform { margin-top: 36px; padding-top: 28px; border-top: 1px dashed var(--line); }
 .platform h3 { font-size: 1.15rem; margin: 0 0 4px; }
 .platform-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 20px 40px; margin-top: 16px; }
-.platform dl { margin: 0; }
-.platform dt { font-weight: 700; font-size: .92rem; color: var(--muted); margin-top: 10px; }
-.platform dt:first-child { margin-top: 0; }
-.platform dd { margin: 0; }
-.platform dd ul.points { margin-top: 4px; }
+.platform-grid.solo { grid-template-columns: minmax(0, 1fr); }
+.platform h4 { font-weight: 700; font-size: .92rem; color: var(--muted); margin: 0; }
+.platform h4 + ul.points { margin-top: 4px; }
+.diagram { margin-top: 16px; }
+.diagram figure { margin-bottom: 0; }
 .diagram figure img { background: #fff; }
 .outputs { margin-top: 18px; }
 .outputs h3 { font-size: .96rem; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
