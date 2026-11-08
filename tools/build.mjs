@@ -145,14 +145,14 @@ const eduDetail = (e, t, l) => {
 };
 const head = (t, title, lead, extra = '') => `<section class="page-head"><div class="wrap"><h1>${esc(title)}${wipBadge(t)}</h1>${lead ? `<p>${esc(lead)}</p>` : ''}${extra}</div></section>`;
 
-// 소개 상단의 외부 링크. 주소가 비어 있는 항목은 싣지 않는다.
+// 소개 상단의 외부 링크. 주소가 비어 있는 항목은 싣지 않고, 외부 사이트는 새 창에서 연다.
 const heroLinks = (up) => [
   [`${up}assets/cv/CV_HyeonsooJang_EN.pdf`, 'CV (PDF)', true],
   [`https://orcid.org/${cv.profile.orcid}`, 'ORCID'],
   [site.intro.linkedin, 'LinkedIn'],
   [site.intro.remember, 'Remember'],
   [site.intro.scholar, 'Google Scholar'],
-].filter(([href]) => href).map(([href, label, dl]) => `<a href="${esc(href)}"${dl ? ' download' : ''}>${label}</a>`);
+].filter(([href]) => href).map(([href, label, dl]) => `<a href="${esc(href)}"${dl ? ' download' : ' target="_blank" rel="noopener"'}>${label}</a>`);
 
 const pages = {
   index(l, up) {

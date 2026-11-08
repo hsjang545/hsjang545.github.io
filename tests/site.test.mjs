@@ -313,3 +313,13 @@ test('학력에 연구실, 지도교수, 논문이 나온다', () => {
   const en = raw(join(SITE, 'en', 'index.html'));
   assert.ok(en.includes('Advisor: Prof. Moongu Jeon') && en.includes('Thesis: Continual Learning for Simultaneous Localization and Mapping'));
 });
+
+test('소개 상단의 외부 링크는 새 창에서 열린다', () => {
+  for (const f of ['index.html', join('en', 'index.html')]) {
+    const page = raw(join(SITE, f));
+    for (const host of ['linkedin.com', 'rememberapp.co.kr', 'orcid.org']) {
+      assert.ok(new RegExp(`<a href="https://[^"]*${host.replace('.', '\.')}[^"]*" target="_blank" rel="noopener">`).test(page), `${f}: ${host}`);
+    }
+    assert.ok(/CV_HyeonsooJang_EN\.pdf" download>/.test(page), f);
+  }
+});
