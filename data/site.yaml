@@ -10,8 +10,8 @@ intro:
   # 구글 스칼라 프로필 주소. 값을 넣으면 소개 페이지에 표시된다.
   scholar: ""
   # 링크드인, 리멤버 프로필 주소. 값을 넣으면 소개 상단의 CV, ORCID 옆에 표시된다.
-  linkedin: ""
-  remember: ""
+  linkedin: "https://www.linkedin.com/in/hyeonsoo-jang-65b38920a/"
+  remember: "https://connect.rememberapp.co.kr/profile/2183499"
 
 research:
   - id: adas-validation
