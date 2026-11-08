@@ -1,35 +1,52 @@
-# 소개 자료 슬라이드 이미지 목록. PPT에서 다시 내보낼 때 함께 갱신한다.
+# 소개 자료 슬라이드 이미지 목록. 한글판은 assets/deck/, 영문판은 assets/deck/en/에 같은 파일 이름으로 둔다. PPT에서 다시 내보낼 때 함께 갱신한다.
 - file: slide-01.jpg
   title: "장현수 | Hyeonsoo Jang"
+  title_en: "Hyeonsoo Jang"
 - file: slide-02.jpg
   title: "약력"
+  title_en: "Profile"
 - file: slide-03.jpg
   title: "세 가지 연구 분야"
+  title_en: "Three Research Areas"
 - file: slide-04.jpg
   title: "ADAS 실차 검증"
+  title_en: "ADAS Vehicle Validation"
 - file: slide-05.jpg
   title: "프리크래시 통합안전"
+  title_en: "Pre-crash Integrated Safety"
 - file: slide-06.jpg
   title: "실차 AEB 데이터에서 엣지 케이스 찾기"
+  title_en: "Finding Edge Cases in Real-Vehicle AEB Data"
 - file: slide-07.jpg
   title: "실차 데이터 취득 플랫폼 구축"
+  title_en: "Building Vehicle Data Acquisition Platforms"
 - file: slide-08.jpg
   title: "프리크래시 평가 DAQ 기술 스택"
+  title_en: "Pre-crash Evaluation DAQ Tech Stack"
 - file: slide-09.jpg
   title: "PBV 난방 실험 DAQ 기술 스택"
+  title_en: "PBV Heating Experiment DAQ Tech Stack"
 - file: slide-10.jpg
   title: "돌발상황 통행조율 평가"
+  title_en: "Incident Traffic Coordination Evaluation"
 - file: slide-11.jpg
   title: "하이브리드 기계학습 기반 차량 궤적 증강"
+  title_en: "Trajectory Augmentation with Hybrid Machine Learning"
 - file: slide-12.jpg
   title: "차량용 반도체 검증"
+  title_en: "Automotive Semiconductor Verification"
 - file: slide-13.jpg
   title: "석사 연구: 평생 학습 SLAM"
+  title_en: "M.S. Research: Continual Learning SLAM"
 - file: slide-14.jpg
   title: "주요 실적"
+  title_en: "Key Achievements"
 - file: slide-15.jpg
   title: "연구과제"
+  title_en: "Research Projects"
 - file: slide-16.jpg
   title: "수상, 장학, 활동"
+  title_en: "Awards, Scholarships, Activities"
 - file: slide-17.jpg
   title: "감사합니다"
+  title_en: "Thank You"

@@ -323,3 +323,15 @@ test('소개 상단의 외부 링크는 새 창에서 열린다', () => {
     assert.ok(/CV_HyeonsooJang_EN\.pdf" download>/.test(page), f);
   }
 });
+
+test('영문 페이지의 소개 자료는 영문 슬라이드를 쓴다', () => {
+  const slides = parse(raw('data/deck.yaml'));
+  const en = raw(join(SITE, 'en', 'index.html'));
+  assert.equal(en.split('assets/deck/en/').length - 1, slides.length);
+  for (const s of slides) {
+    assert.ok(s.title_en, s.file);
+    assert.ok(existsSync(join('assets', 'deck', 'en', s.file)), s.file);
+  }
+  assert.ok(!raw(join(SITE, 'index.html')).includes('assets/deck/en/'));
+  assert.ok(!en.includes('In Korean.'));
+});

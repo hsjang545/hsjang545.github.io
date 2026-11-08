@@ -30,7 +30,7 @@ const T = {
     home: 'About', research: 'Research & Development', projectsTab: 'Projects', pubs: 'Publications & Patents', cv: 'CV', etc: 'Other',
     other: '한국어', otherLang: 'ko', email: 'Email', expertise: 'Expertise', career: 'Experience', edu: 'Education',
     now: 'Present',
-    deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
+    deck: 'Introduction slides', deckNote: '', prev: 'Previous', next: 'Next', full: 'Full screen',
     projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', platBuilt: 'What I built', relatedResearch: 'Related R&D', areas: 'Expertise', wip: 'Work in progress', thesisMs: 'Thesis', thesisBs: 'Graduation thesis',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
     national: 'Government-funded', contract: 'Contract research', misc: 'Misc.', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Other awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
@@ -109,8 +109,10 @@ function deckViewer(l, up) {
   const t = T[l];
   const slides = read('data/deck.yaml');
   const n = slides.length;
-  const imgs = slides.map((s, i) => `<img src="${up}assets/deck/${esc(s.file)}?v=${ver(`assets/deck/${s.file}`)}" alt="${esc(`${i + 1}/${n}: ${s.title}`)}" width="1600" height="900" loading="${i < 2 ? 'eager' : 'lazy'}"${i ? ' hidden' : ''}>`).join('');
-  return `<section class="block" id="deck"><h2>${t.deck}</h2>${l === 'en' ? `<p class="note deck-note">${t.deckNote}</p>` : ''}
+  // 영문 페이지는 assets/deck/en/의 영문 슬라이드를 쓴다.
+  const dir = l === 'en' ? 'assets/deck/en/' : 'assets/deck/';
+  const imgs = slides.map((s, i) => `<img src="${up}${dir}${esc(s.file)}?v=${ver(`${dir}${s.file}`)}" alt="${esc(`${i + 1}/${n}: ${l === 'en' ? s.title_en ?? s.title : s.title}`)}" width="1600" height="900" loading="${i < 2 ? 'eager' : 'lazy'}"${i ? ' hidden' : ''}>`).join('');
+  return `<section class="block" id="deck"><h2>${t.deck}</h2>${t.deckNote ? `<p class="note deck-note">${t.deckNote}</p>` : ''}
 <div class="deck" tabindex="0" role="group" aria-roledescription="${esc(t.deck)}" aria-label="${esc(t.deck)}"><div class="deck-stage">${imgs}</div>
 <div class="deck-bar"><button type="button" class="deck-prev">${t.prev}</button><span class="deck-count" aria-live="polite">1 / ${n}</span><button type="button" class="deck-next">${t.next}</button><button type="button" class="deck-full">${t.full}</button></div></div>
 <script>(function(){var d=document.querySelector('.deck'),im=d.querySelectorAll('img'),c=d.querySelector('.deck-count'),p=d.querySelector('.deck-prev'),x=d.querySelector('.deck-next'),i=0,sx=null;
