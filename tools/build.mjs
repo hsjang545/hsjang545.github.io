@@ -14,26 +14,26 @@ const CSS_VER = ver('assets/style.css');
 
 const T = {
   ko: {
-    home: '소개', research: '연구', projectsTab: '프로젝트', pubs: '논문·특허', cv: 'CV', etc: '기타',
+    home: '소개', research: '연구 및 개발', projectsTab: '프로젝트', pubs: '논문·특허', cv: 'CV', etc: '기타',
     other: 'English', otherLang: 'en', email: '이메일', expertise: '전문분야', career: '경력', edu: '학력',
     now: '현재',
     deck: '소개 자료', deckNote: '', prev: '이전', next: '다음', full: '전체 화면',
-    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', relatedResearch: '관련 연구', areas: '연구 분야',
+    projects: '연구과제', pubOut: '관련 논문', patOut: '관련 특허', relatedProject: '관련 과제', relatedResearch: '관련 연구 및 개발', areas: '연구 및 개발 분야',
     role: '역할', sponsor: '지원', pubTitle: '논문', patTitle: '특허', advisor: '지도교수', thesis: '학위논문', gpa: '학점',
-    national: '국가과제', contract: '수탁과제', misc: '기타', otherAct: '그 외 활동', consult: '기술 자문', award: '수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
+    national: '국가과제', contract: '수탁과제', misc: '기타', otherAct: '그 외 활동', consult: '기술 자문', award: '기타 수상', scholar: '장학', train: '교육', review: '리뷰어 활동', seminar: '세미나·학회 참석', expo: '전시회 참석', service: '봉사',
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
     cats: { intl_journal: 'SCIE', intl_conf: 'International conference', dom_journal: '국내 학술지', dom_conf: '국내 학술대회' },
     patGroups: { intl_reg: '해외등록', kr_reg: '국내등록', intl_app: '해외출원', kr_app: '국내출원' },
     updated: '최종 수정', titleSuffix: '장현수',
   },
   en: {
-    home: 'About', research: 'Research', projectsTab: 'Projects', pubs: 'Publications & Patents', cv: 'CV', etc: 'Other',
+    home: 'About', research: 'Research & Development', projectsTab: 'Projects', pubs: 'Publications & Patents', cv: 'CV', etc: 'Other',
     other: '한국어', otherLang: 'ko', email: 'Email', expertise: 'Expertise', career: 'Experience', edu: 'Education',
     now: 'Present',
     deck: 'Introduction slides', deckNote: 'In Korean.', prev: 'Previous', next: 'Next', full: 'Full screen',
-    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', relatedResearch: 'Related research', areas: 'Research areas',
+    projects: 'Projects', pubOut: 'Publications', patOut: 'Patents', relatedProject: 'Related projects', relatedResearch: 'Related R&D', areas: 'R&D areas',
     role: 'Role', sponsor: 'Sponsor', pubTitle: 'Publications', patTitle: 'Patents', advisor: 'Advisor', thesis: 'Thesis', gpa: 'GPA',
-    national: 'Government-funded', contract: 'Contract research', misc: 'Misc.', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
+    national: 'Government-funded', contract: 'Contract research', misc: 'Misc.', otherAct: 'Other activities', consult: 'Technical consulting', award: 'Other awards', scholar: 'Scholarships', train: 'Training', review: 'Peer review', seminar: 'Seminars and conferences attended', expo: 'Exhibitions attended', service: 'Volunteering',
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
     cats: { intl_journal: 'SCIE', intl_conf: 'International conferences', dom_journal: 'Domestic journals', dom_conf: 'Domestic conferences' },
     patGroups: { intl_reg: 'International registrations', kr_reg: 'Domestic registrations', intl_app: 'International applications', kr_app: 'Domestic applications' },
@@ -125,15 +125,16 @@ d.querySelector('.deck-full').addEventListener('click',function(){if(document.fu
 // 경력·학력 기관 로고. 크기를 HTML에도 지정해 스타일이 늦게 와도 크게 보이지 않게 한다.
 const orgLogo = (key, l, up) => {
   const o = site.org_logos?.[key];
-  return o ? `<img class="org-logo${o.mono ? ' mono' : ''}${o.square ? ' square' : ''}" src="${up}assets/logos/${esc(o.file)}" ${o.square ? 'width="44" height="40"' : 'width="120" height="26"'} alt="${esc(o.name[l])}" loading="lazy">` : '';
+  return o ? `<img class="org-logo${o.mono ? ' mono' : ''}" src="${up}assets/logos/${esc(o.file)}" width="${o.size[0]}" height="${o.size[1]}" style="width:${o.size[0]}px" alt="${esc(o.name[l])}" loading="lazy">` : '';
 };
+// 기관마다 이름과 로고를 한 줄에 두고, 그 아래에 기간별 직위나 학위를 나열한다.
+const orgBlock = (key, name, rows, l, up) => `<li class="org"><div class="org-head"><p class="title">${esc(name)}</p>${orgLogo(key, l, up)}</div><ul class="dated">${rows.map(([when, what]) => `<li><span class="when">${when}</span><p>${what}</p></li>`).join('')}</ul></li>`;
 const figure = (f, l, up) => `<figure><img src="${up}assets/figures/${esc(f.file)}" alt="${esc(f.caption[l])}" loading="lazy"><figcaption>${esc(f.caption[l])}</figcaption></figure>`;
 const head = (title, lead, extra = '') => `<section class="page-head"><div class="wrap"><h1>${esc(title)}</h1>${lead ? `<p>${esc(lead)}</p>` : ''}${extra}</div></section>`;
 
 const pages = {
   index(l, up) {
     const t = T[l];
-    const k = cv.experience[0];
     return `
 <section class="hero"><div class="wrap hero-grid">
   <div>
@@ -146,8 +147,8 @@ const pages = {
 </div></section>
 <div class="wrap">
 <section class="block two">
-  <div><h2>${t.career}</h2><ul class="dated">${k.positions.map((p, i) => { const logo = i ? '' : orgLogo(k.key, l, up); return `<li><span class="when">${range(p.start, p.end, t)}${logo}</span><div><p class="title">${esc(k.org[l])}</p><p class="meta">${esc(p.dept[l])}, ${esc(p.title[l])}</p></div></li>`; }).join('')}</ul></div>
-  <div><h2>${t.edu}</h2><ul class="dated">${cv.education.map((e) => { return `<li><span class="when">${range(e.start, e.end, t)}${orgLogo(e.key, l, up)}</span><div><p class="title">${esc(e.school[l])}</p><p class="meta">${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}</p></div></li>`; }).join('')}</ul></div>
+  <div><h2>${t.career}</h2><ul class="orgs">${cv.experience.map((k) => orgBlock(k.key, k.org[l], k.positions.map((p) => [range(p.start, p.end, t), `${esc(p.dept[l])}, ${esc(p.title[l])}`]), l, up)).join('')}</ul></div>
+  <div><h2>${t.edu}</h2><ul class="orgs">${cv.education.map((e) => orgBlock(e.key, e.school[l], [[range(e.start, e.end, t), `${esc(e.major[l])}, ${esc(e.degree[l])}${e.honors ? `, ${esc(e.honors[l])}` : ''}`]], l, up)).join('')}</ul></div>
 </section>
 <section class="block"><h2>${t.areas}</h2><ul class="areas">${site.research.filter((r) => r.on_intro !== false).map((r) => `<li><a href="research.html#${r.id}">${esc(r.short[l])}</a><span class="when">${esc(r.period)}</span></li>`).join('')}</ul></section>
 ${deckViewer(l, up)}
@@ -215,7 +216,7 @@ ${refs(t.patOut, r.patents.map((k) => { const p = byKey(cv.patents, k, 'patent')
       minor(t.misc, site.other_activities),
     ].join('');
     return `${head(t.etc, '')}<div class="wrap sheet">
-${sec(t.award, awards)}${sec(t.pubAward, pa)}${sec(t.scholar, scholarships)}${sec(t.review, site.reviews)}${sec(t.consult, site.consulting)}
+${sec(t.pubAward, pa)}${sec(t.award, awards)}${sec(t.scholar, scholarships)}${sec(t.review, site.reviews)}${sec(t.consult, site.consulting)}
 <div class="sheet-row"><h2>${t.otherAct}</h2><div class="minors">${others}</div></div></div>`;
   },
 };

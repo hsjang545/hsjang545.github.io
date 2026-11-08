@@ -70,11 +70,11 @@ research:
   - id: slam
     # 소개 페이지의 연구 분야 목록에서는 뺀다. 연구 페이지에는 나온다.
     on_intro: false
-    short: {ko: "석사: SLAM, 센서 융합", en: "M.S.: SLAM, sensor fusion"}
+    short: {ko: "SLAM, 센서 융합", en: "SLAM, sensor fusion"}
     figures:
       - file: slam.jpg
         caption: {ko: "SLAM 시스템 구조", en: "SLAM system structure"}
-    title: {ko: 석사 연구 - SLAM과 센서 융합, en: "Master's research: SLAM and sensor fusion"}
+    title: {ko: SLAM과 센서 융합, en: SLAM and sensor fusion}
     period: 2021 – 2023
     body:
       ko: LiDAR, RGB, IMU를 융합한 평생 학습 SLAM.
@@ -83,11 +83,11 @@ research:
     publications: [pub-kiise-2023, pub-ksc-2021]
     patents: []
 
-# 경력·학력 기관 로고. 키는 cv.yaml의 education, experience 항목 key다. mono는 어두운 화면에서 밝게 바꾸고, square는 정사각형에 가까운 로고를 크게 보인다.
+# 경력·학력 기관 로고. 키는 cv.yaml의 education, experience 항목 key다. size는 표시 크기(가로, 세로 px), mono는 어두운 화면에서 밝게 바꾼다.
 org_logos:
-  katech: {file: katech.png, mono: true, name: {ko: 한국자동차연구원, en: KATECH}}
-  gist-ms: {file: gist.svg, square: true, name: {ko: 광주과학기술원, en: GIST}}
-  tuk-bs: {file: tukorea.svg, mono: true, name: {ko: 한국공학대학교, en: Tech University of Korea}}
+  katech: {file: katech.png, size: [140, 26], mono: true, name: {ko: 한국자동차연구원, en: KATECH}}
+  gist-ms: {file: gist.svg, size: [39, 36], name: {ko: 광주과학기술원, en: GIST}}
+  tuk-bs: {file: tukorea.png, size: [127, 28], mono: true, name: {ko: 한국공학대학교, en: Tech University of Korea}}
 
 # 사이트에 싣지 않는 과제. CV 원본과 PDF에는 남아 있다.
 hidden_projects: [proj-special-road]

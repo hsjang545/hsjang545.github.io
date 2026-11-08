@@ -78,8 +78,12 @@ section.block { padding-block: 52px 0; }
 /* 목록 */
 ul.dated, ul.biblio, ul.plain { list-style: none; margin: 0; padding: 0; }
 ul.dated li { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 14px; padding-block: 9px; }
-.org-logo { width: 120px; height: 26px; object-fit: contain; object-position: left center; margin-top: 8px; }
-.org-logo.square { width: 44px; height: 40px; }
+.orgs { list-style: none; margin: 0; padding: 0; }
+.org + .org { margin-top: 26px; }
+.org-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.org-logo { flex: none; object-fit: contain; }
+.org ul.dated li { padding-block: 8px 0; }
+.org ul.dated p { margin: 0; color: var(--muted); font-size: .95rem; line-height: 1.55; }
 .when { color: var(--muted); font-size: .92rem; font-variant-numeric: tabular-nums; padding-top: 2px; }
 .title { font-weight: 650; margin: 0; line-height: 1.5; }
 .meta { color: var(--muted); font-size: .94rem; margin: 3px 0 0; line-height: 1.55; }
@@ -149,8 +153,7 @@ footer { margin-top: 72px; padding-block: 22px 40px; color: var(--muted); font-s
   .with-logo .org-mark { justify-content: flex-start; }
   .with-logo .logo.emblem { width: 16px; height: 16px; }
   ul.dated li { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .org-logo { width: 104px; height: 22px; margin: 4px 0 6px; }
-  .org-logo.square { width: 36px; height: 32px; }
+  .org-logo { transform: scale(.85); transform-origin: right center; }
   nav .lang { margin-left: 0; }
   .deck-bar { flex-wrap: wrap; gap: 8px; }
   .deck-bar button { min-width: 0; padding: 5px 10px; white-space: nowrap; }

@@ -94,10 +94,10 @@ test('스타일시트 주소에 버전이 붙고 로고 크기가 HTML에 지정
   for (const [, tag] of raw(join(SITE, 'projects.html')).matchAll(/(<img class="logo[^>]*>)/g)) assert.ok(/width="\d+" height="\d+"/.test(tag), tag);
 });
 
-test('경력·학력에 기관 로고가 나오고 같은 기관은 한 번만 나온다', () => {
+test('경력·학력은 기관별로 묶고 기관마다 로고가 한 번 나온다', () => {
   for (const [f, up] of [['index.html', ''], [join('en', 'index.html'), '../']]) {
     const page = raw(join(SITE, f));
-    for (const file of ['katech.png', 'gist.svg', 'tukorea.svg']) {
+    for (const file of ['katech.png', 'gist.svg', 'tukorea.png']) {
       assert.equal(page.split(`src="${up}assets/logos/${file}"`).length, 2, `${f}: ${file}`);
     }
   }
@@ -217,6 +217,14 @@ test('논문·특허 페이지는 논문과 특허 묶음 아래 세부 구분�
 test('기술 자문이 기타에, 소속이 소개에 나온다', () => {
   assert.ok(raw(join(SITE, 'etc.html')).includes('(주)HRC테크놀로지'));
   assert.ok(raw(join(SITE, 'index.html')).includes('빅데이터·AIDV연구본부'));
+});
+
+test('기타 페이지는 논문 수상이 맨 위이고 일반 수상은 기타 수상이다', () => {
+  const etc = raw(join(SITE, 'etc.html'));
+  const heads = [...etc.matchAll(/<div class="sheet-row"><h2>([^<]*)<\/h2>/g)].map((m) => m[1]);
+  assert.equal(heads[0], '논문 수상');
+  assert.ok(heads.includes('기타 수상') && !heads.includes('수상'), heads.join(','));
+  assert.equal([...raw(join(SITE, 'en', 'etc.html')).matchAll(/<div class="sheet-row"><h2>([^<]*)<\/h2>/g)][0][1], 'Paper awards');
 });
 
 test('문학상은 수상이 아니라 그 외 활동에 나온다', () => {
