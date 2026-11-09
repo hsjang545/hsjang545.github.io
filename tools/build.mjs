@@ -24,7 +24,7 @@ const T = {
     print: '인쇄 또는 PDF 저장', skills: '기술', lang: '어학', pubAward: '논문 수상', registered: '등록', applied: '출원', published: '공개', pending: '공개 전',
     cats: { intl_journal: 'SCIE', intl_conf: 'International conference', dom_journal: '국내 학술지', dom_conf: '국내 학술대회' },
     patGroups: { intl_reg: '해외등록', kr_reg: '국내등록', intl_app: '해외출원', kr_app: '국내출원' },
-    updated: '최종 수정', titleSuffix: '장현수',
+    updated: '최종 수정', titleSuffix: '장현수', notes: '기술노트',
   },
   en: {
     home: 'About', research: 'Research & Development', projectsTab: 'Projects', pubs: 'Publications & Patents', cv: 'CV', etc: 'Other',
@@ -37,7 +37,7 @@ const T = {
     print: 'Print or save as PDF', skills: 'Skills', lang: 'Languages', pubAward: 'Paper awards', registered: 'Registered', applied: 'Filed', published: 'Published', pending: 'Unpublished',
     cats: { intl_journal: 'SCIE', intl_conf: 'International conferences', dom_journal: 'Domestic journals', dom_conf: 'Domestic conferences' },
     patGroups: { intl_reg: 'International registrations', kr_reg: 'Domestic registrations', intl_app: 'International applications', kr_app: 'Domestic applications' },
-    updated: 'Last updated', titleSuffix: 'Hyeonsoo Jang',
+    updated: 'Last updated', titleSuffix: 'Hyeonsoo Jang', notes: 'Tech notes (Korean)',
   },
 };
 
@@ -255,6 +255,10 @@ ${sec(t.pubAward, pa)}${sec(t.award, awards)}${sec(t.scholar, scholarships)}${se
   },
 };
 
+// 기술 글은 별도 저장소(hsjang545/notes)의 사이트다. 메뉴에서 바깥 링크로 연결한다.
+const NOTES_URL = 'https://hsjang545.github.io/notes/';
+const SITE_URL = 'https://hsjang545.github.io/';
+
 // 이전 주소 cv.html은 소개 페이지로 이동한다. CV는 소개 페이지의 PDF로 내려받는다.
 const NAV = [['index', 'home'], ['research', 'research'], ['projects', 'projectsTab'], ['publications', 'pubs'], ['etc', 'etc']];
 
@@ -278,7 +282,7 @@ function layout(page, l, body) {
 </head>
 <body>
 <header class="site"><div class="wrap">
-<nav aria-label="${l === 'ko' ? '주 메뉴' : 'Main'}">${NAV.map(([p, key]) => `<a href="${p}.html"${p === page ? ' aria-current="page"' : ''}>${t[key]}</a>`).join('')}<a class="lang" href="${otherHref}" lang="${t.otherLang}">${t.other}</a></nav>
+<nav aria-label="${l === 'ko' ? '주 메뉴' : 'Main'}">${NAV.map(([p, key]) => `<a href="${p}.html"${p === page ? ' aria-current="page"' : ''}>${t[key]}</a>`).join('')}<a class="notes" href="${NOTES_URL}">${t.notes}</a><a class="lang" href="${otherHref}" lang="${t.otherLang}">${t.other}</a></nav>
 </div></header>
 <main>${body}</main>
 <footer class="wrap"><p>${esc(cv.profile.name[l])}, ${t.updated} ${new Date().toISOString().slice(0, 10)}</p></footer>
@@ -299,4 +303,9 @@ for (const l of ['ko', 'en']) {
   }
   writeFileSync(new URL(`${dir}cv.html`, OUT), redirect('index.html'));
 }
+// 검색 엔진용. robots.txt는 도메인 맨 위에만 둘 수 있어 기술노트 사이트의 sitemap도 여기서 알린다.
+const urls = ['', 'en/'].flatMap((dir) => NAV.map(([p]) => `${SITE_URL}${dir}${p === 'index' ? '' : `${p}.html`}`));
+const locs = urls.map((u) => `  <url><loc>${u}</loc></url>`).join('\n');
+writeFileSync(new URL('sitemap.xml', OUT), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${locs}\n</urlset>\n`);
+writeFileSync(new URL('robots.txt', OUT), `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}sitemap.xml\nSitemap: ${NOTES_URL}sitemap.xml\n`);
 console.log(`_site 생성: 페이지 ${NAV.length * 2}개`);

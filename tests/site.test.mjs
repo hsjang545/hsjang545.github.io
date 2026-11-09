@@ -335,3 +335,13 @@ test('영문 페이지의 소개 자료는 영문 슬라이드를 쓴다', () =>
   assert.ok(!raw(join(SITE, 'index.html')).includes('assets/deck/en/'));
   assert.ok(!en.includes('In Korean.'));
 });
+
+test('모든 페이지 메뉴에 기술노트 링크가 있고 robots.txt가 두 사이트의 sitemap을 알린다', () => {
+  for (const f of htmlFiles.filter((f) => !f.endsWith('cv.html'))) assert.ok(raw(f).includes('class="notes" href="https://hsjang545.github.io/notes/"'), f);
+  const robots = raw(join(SITE, 'robots.txt'));
+  assert.ok(robots.includes('Sitemap: https://hsjang545.github.io/sitemap.xml'));
+  assert.ok(robots.includes('Sitemap: https://hsjang545.github.io/notes/sitemap.xml'));
+  const sitemap = raw(join(SITE, 'sitemap.xml'));
+  assert.equal((sitemap.match(/<loc>/g) ?? []).length, 10);
+  assert.ok(sitemap.includes('<loc>https://hsjang545.github.io/</loc>') && sitemap.includes('<loc>https://hsjang545.github.io/en/research.html</loc>'));
+});
