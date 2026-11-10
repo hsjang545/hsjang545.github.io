@@ -1,7 +1,9 @@
 """data/cv.yaml(공개용)로 영문 CV PDF를 만들어 assets/cv/에 저장한다. 비공개 문구가 있으면 저장하지 않는다.
 
 실행: %LOCALAPPDATA%\\cv-build\\venv\\Scripts\\python.exe tools/public_cv.py (pymupdf 필요)
+CV 생성 도구는 구글드라이브 3_Resources/CV/_system/build_cv.py에 있다. 다른 위치면 환경변수 CV_BUILD로 지정한다.
 """
+import os
 import re
 import subprocess
 import sys
@@ -11,7 +13,8 @@ from pathlib import Path
 import pymupdf
 
 PROJECT = Path(__file__).resolve().parents[1]
-BUILD_CV = PROJECT.parents[2] / "3_Resources" / "CV" / "_system" / "build_cv.py"
+# 사이트는 GitHub에서만 관리하므로 저장소 위치로 드라이브 경로를 추측하지 않는다.
+BUILD_CV = Path(os.environ.get("CV_BUILD", "G:/내 드라이브/3_Resources/CV/_system/build_cv.py"))
 OUTPUTS = {"*HyeonsooJang_EN.pdf": "CV_HyeonsooJang_EN.pdf"}
 FORBIDDEN = re.compile(r"7640|Daimler|벤츠|Benz|10-2026-0194890|10-2025-0200611|만원|KRW|증빙|evidence|Scholarship|Literary|Essay Contest|Idea Contest|Valedictorian Award|Vibe Coding|TRAINING", re.I)
 
