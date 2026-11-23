@@ -1,9 +1,9 @@
-// 구글드라이브의 cv.yaml에서 공개할 내용만 추려 data/cv.yaml로 저장한다.
+// HomeDrive의 cv.yaml에서 공개할 내용만 추려 data/cv.yaml로 저장한다.
 // 저장소와 사이트는 공개되므로, 원본을 그대로 복사하지 않는다.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { parse, stringify } from 'yaml';
 
-const SOURCE = process.env.CV_SOURCE ?? 'G:/내 드라이브/3_Resources/CV/cv.yaml';
+const SOURCE = process.env.CV_SOURCE ?? 'M:/HomeDrive/영역/기록/CV/cv.yaml';
 const TARGET = new URL('../data/cv.yaml', import.meta.url);
 
 // 내부 관리용 필드는 어느 깊이에 있어도 제거한다.

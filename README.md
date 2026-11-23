@@ -8,25 +8,25 @@
 
 | 고칠 내용 | 파일 |
 | --- | --- |
-| 경력, 과제, 논문, 특허, 수상, 장학, 교육 | 구글드라이브의 `3_Resources/CV/cv.yaml`을 고친 뒤 아래 "CV 반영" 절차 |
+| 경력, 과제, 논문, 특허, 수상, 장학, 교육 | HomeDrive의 `영역/기록/CV/cv.yaml`을 고친 뒤 아래 "CV 반영" 절차 |
 | 소개 문구, 연구 주제, 추가 수상·교육, 리뷰어, 세미나, 전시회, 봉사 | `data/site.yaml` |
 | 사진 | `assets/photo.jpg` |
 | 디자인 | `assets/style.css` |
-| 소개 자료 슬라이드 | 구글드라이브 `3_Resources/CV/개인페이지_소개PPT/`의 PPT를 고친 뒤 `assets/deck/slide-NN.jpg`로 다시 내보내고 `data/deck.yaml` 갱신 |
+| 소개 자료 슬라이드 | HomeDrive `영역/기록/CV/개인페이지_소개PPT/`의 PPT를 고친 뒤 `assets/deck/slide-NN.jpg`로 다시 내보내고 `data/deck.yaml` 갱신 |
 | 연구 페이지 그림 | `assets/figures/`, 설명은 `data/site.yaml`의 `figures` |
 
-`data/cv.yaml`은 자동 생성 파일이므로 직접 고치지 않는다. 논문 원문 PDF와 PPT 원본은 올리지 않으며 테스트가 이를 검사한다. 공개 PDF는 `assets/cv/`의 공개용 CV뿐이다. 증빙과 원본 CV 출력은 구글드라이브 `3_Resources/CV/개인페이지_비공개/`에 두고 이 저장소에는 올리지 않는다.
+`data/cv.yaml`은 자동 생성 파일이므로 직접 고치지 않는다. 논문 원문 PDF와 PPT 원본은 올리지 않으며 테스트가 이를 검사한다. 공개 PDF는 `assets/cv/`의 공개용 CV뿐이다. 증빙과 원본 CV 출력은 HomeDrive `영역/기록/CV/개인페이지_비공개/`에 두고 이 저장소에는 올리지 않는다.
 
 ## 작업 방식
 
-사이트 파일은 로컬(구글드라이브 포함)에 두지 않고 GitHub에서만 관리한다.
+사이트 파일은 로컬(HomeDrive 포함)에 두지 않고 GitHub에서만 관리한다.
 
 - 문구·설정·그림 수정: GitHub 웹 편집기(저장소 화면에서 `.` 키) 또는 Codespaces에서 고치고 커밋한다.
 - `main`에 올리면 GitHub Actions가 `npm test`(빌드와 검사)를 통과한 경우에만 배포한다. 실패하면 Actions 탭에서 원인을 본다.
 
 ### CV 반영
 
-원본 `cv.yaml`과 CV 생성 도구는 비공개 정보가 있어 구글드라이브(`3_Resources/CV/`)에 있다. 반영할 때만 드라이브 밖 임시 폴더에 내려받아 실행하고 지운다.
+원본 `cv.yaml`과 CV 생성 도구는 비공개 정보가 있어 HomeDrive(`영역/기록/CV/`)에 있다. 반영할 때만 드라이브 밖 임시 폴더에 내려받아 실행하고 지운다.
 
 ```bash
 gh repo clone hsjang545/hsjang545.github.io "$TEMP/site" && cd "$TEMP/site"
